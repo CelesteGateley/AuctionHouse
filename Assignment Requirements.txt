@@ -1,0 +1,38 @@
+Requirements:
+  - Anyone can Access the System
+  - Lot must contain:
+	- Short Description of the item / Image of the item (Optional)
+	- Seller details (Name, Contact info)
+	- Buy it now price (Should immediately close the auction)
+  - Anyone can scroll through the list of available auctions
+  - Anyone can get details about any specific lot (including all bids)
+  - Anyone can make a public bid against any item
+  - Anyone can make an offer to buy it now and notify the seller it has been sold
+  - The owner can withdraw the item from the sale at any time
+  - The owner can accept the highest bid at any time (notify should be used to alert the buyer
+ 
+The application must have a suitable GUI interface
+You MAY use a GUI builder, but the code must work independant of an IDE
+Registration is not mentioned, but will be required for functionality
+You may also add any other extensions you think would make the system more impressive.
+
+A compulsory require of this assignment it to assess the security of the system,
+and to make recommendations on how to improve. These features need not be implemented however.
+
+Report Requirements:
+  - Analysis and Design notes:
+	- At least one class diagram and a use case diagram
+	- Clear explanation of the space-based data structure
+  - Report (2-3 A4 Sides):
+	- Identify potential security threats and suggest countermeasures
+	- Summarise security features that have been implemented as part of the system
+  - Listings of all code developed:
+	- All code must be within the document
+	- NO MARKS WILL BE AWARDED IF IT IS NOT
+  - Explanation of Testing:
+	- Includes Test Data, Expected Results, Screenshots
+	- A brief discussion (1 A4 Side) of how you tested the multi user aspects
+	- Must make clear which requirements have and have not been implemented
+	- Must discuss how well each feature works
+	- Must discuss testing of security features
+	
