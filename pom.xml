@@ -9,8 +9,9 @@
     <version>1.0</version>
     <properties>
         <jsk.version>2.2.3</jsk.version>
+        <maven.compiler.source>1.11</maven.compiler.source>
+        <maven.compiler.target>1.11</maven.compiler.target>
     </properties>
-
 
     <dependencies>
         <dependency>

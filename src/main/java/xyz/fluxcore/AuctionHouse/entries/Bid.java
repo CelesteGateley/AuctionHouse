@@ -1,4 +1,6 @@
 package xyz.fluxcore.AuctionHouse.entries;
 
-public class Bid {
+import net.jini.core.entry.Entry;
+
+public class Bid implements Entry {
 }
