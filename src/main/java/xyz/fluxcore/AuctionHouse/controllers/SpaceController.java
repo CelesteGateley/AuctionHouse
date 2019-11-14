@@ -17,37 +17,34 @@ public class SpaceController {
     public SpaceController(String url) throws SpaceNotFoundException, SpaceException {
         this.jsURL = "jini://" + url;
         if (System.getSecurityManager() == null) { System.setSecurityManager(new SecurityManager()); }
-        javaSpace = getSpace();
-        transactionManager = getManager();
+        initialize();
 
         if (javaSpace == null) { throw new SpaceNotFoundException("A Space could not be found at the url: " + jsURL); }
+        if (transactionManager == null) { throw new SpaceException("A TransactionManager could not be created"); }
     }
 
-    private JavaSpace getSpace() throws SpaceException {
-        JavaSpace space = null;
+    private void initialize() throws SpaceException {
+        JavaSpace space;
+        TransactionManager tm;
         try {
             LookupLocator l = new LookupLocator(jsURL);
             ServiceRegistrar sr = l.getRegistrar();
 
-            Class[] classTemplate = {Class.forName("net.jini.space.JavaSpace")};
-            space = (JavaSpace) sr.lookup(new ServiceTemplate(null, classTemplate, null));
+            Class[] spaceTemplate = {Class.forName("net.jini.space.JavaSpace")};
+            space = (JavaSpace) sr.lookup(new ServiceTemplate(null, spaceTemplate, null));
+
+            Class[] tmTemplate = {Class.forName("net.jini.core.transaction.server.TransactionManager")};
+            tm = (TransactionManager) sr.lookup(new ServiceTemplate(null, tmTemplate, null));
 
         } catch (Exception e) { throw new SpaceException(e.getMessage()); }
 
-        return space;
+        this.javaSpace = space;
+        this.transactionManager = tm;
     }
 
-    private TransactionManager getManager() throws SpaceException {
-        TransactionManager tm = null;
-        try {
-            LookupLocator l = new LookupLocator(jsURL);
-            ServiceRegistrar sr = l.getRegistrar();
+    public JavaSpace getSpace() throws SpaceException { return this.javaSpace; }
 
-            Class[] classTemplate = {Class.forName("net.jini.core.transaction.server.TransactionManager")};
-            tm = (TransactionManager) sr.lookup(new ServiceTemplate(null, classTemplate, null));
-        } catch (Exception e) { throw new SpaceException(e.getMessage()); }
-        return tm;
-    }
+    public TransactionManager getManager() throws SpaceException { return this.transactionManager; }
 
 
 
