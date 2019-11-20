@@ -106,7 +106,31 @@ public class SpaceController {
         return readAll(template, transaction, ONE_SECOND*5, 10);
     }
 
+
     public Collection<Entry> readAll(Entry template, Transaction transaction, long timeout, int count) throws SpaceException {
+        Collection<Entry> templates = new ArrayList<>();
+        templates.add(template);
+        try { return (Collection<Entry>) javaSpace05.take(templates, transaction, timeout, count); }
+        catch (Exception e) { throw new SpaceException(e); }
+    }
+
+    public Collection<Entry> takeAll(Entry template) throws SpaceException {
+        return takeAll(template, null, ONE_SECOND*5, 10);
+    }
+
+    public Collection<Entry> takeAll(Entry template, int count) throws SpaceException {
+        return takeAll(template, null, ONE_SECOND*5, count);
+    }
+
+    public Collection<Entry> takeAll(Entry template, long timeout) throws SpaceException {
+        return takeAll(template, null, timeout, 10);
+    }
+
+    public Collection<Entry> takeAll(Entry template, Transaction transaction, long timeout) throws SpaceException {
+        return takeAll(template, transaction, ONE_SECOND*5, 10);
+    }
+
+    public Collection<Entry> takeAll(Entry template, Transaction transaction, long timeout, int count) throws SpaceException {
         Collection<Entry> templates = new ArrayList<>();
         templates.add(template);
         try { return (Collection<Entry>) javaSpace05.take(templates, transaction, timeout, count); }

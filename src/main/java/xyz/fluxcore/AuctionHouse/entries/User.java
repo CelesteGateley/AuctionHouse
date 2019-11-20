@@ -11,7 +11,7 @@ public class User implements Entry {
     public String username;
     public String password;
     public List<Integer> watchedLots;
-    public boolean isAdministrator;
+    public Boolean isAdministrator;
 
      public User() {}
 
