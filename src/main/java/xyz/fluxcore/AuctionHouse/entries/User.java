@@ -1,11 +1,12 @@
 package xyz.fluxcore.AuctionHouse.entries;
 
+import net.jini.core.entry.Entry;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class User {
+public class User implements Entry {
 
     public String username;
     public String password;
