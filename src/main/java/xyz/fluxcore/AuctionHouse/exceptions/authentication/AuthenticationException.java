@@ -1,4 +1,4 @@
-package xyz.fluxcore.AuctionHouse.exceptions;
+package xyz.fluxcore.AuctionHouse.exceptions.authentication;
 
 public class AuthenticationException extends Exception {
 

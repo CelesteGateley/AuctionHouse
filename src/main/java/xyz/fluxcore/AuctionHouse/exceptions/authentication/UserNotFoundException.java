@@ -1,6 +1,4 @@
-package xyz.fluxcore.AuctionHouse.exceptions;
-
-import xyz.fluxcore.AuctionHouse.entries.User;
+package xyz.fluxcore.AuctionHouse.exceptions.authentication;
 
 public class UserNotFoundException extends Exception {
 
