@@ -64,6 +64,11 @@
             <artifactId>tools</artifactId>
             <version>${jsk.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.mindrot</groupId>
+            <artifactId>jbcrypt</artifactId>
+            <version>0.4</version>
+        </dependency>
     </dependencies>
 
 </project>
