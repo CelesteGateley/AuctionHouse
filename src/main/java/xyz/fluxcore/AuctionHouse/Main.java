@@ -14,7 +14,7 @@ public class Main {
 
     public static void main(String[] args) throws SpaceNotFoundException, SpaceException, UserNotFoundException, AuthenticationException, UserExistsException {
         AuctionHouseController auctionHouseController = new AuctionHouseController("home-server");
-        auctionHouseController.register("login", "password");
+        //auctionHouseController.register("login", "password");
         auctionHouseController.login("login", "password");
     }
 }

@@ -11,6 +11,7 @@ public class User implements Entry {
     public String username;
     public String password;
     public List<Integer> watchedLots;
+    public boolean isAdministrator;
 
      public User() {}
 
@@ -18,6 +19,11 @@ public class User implements Entry {
          this.username = username;
          this.password = hashPassword(password);
          watchedLots = new ArrayList<>();
+     }
+
+     public User(String username, String password, boolean isAdministrator) {
+         this(username, password);
+         this.isAdministrator = isAdministrator;
      }
 
      private String hashPassword(String password) {

@@ -50,6 +50,14 @@ public class AuctionHouseController {
         System.out.println("Successfully registered as: " + currentUser.username);
     }
 
+    public void registerAdministrator(String username, String password) throws SpaceException, UserExistsException {
+        if (fetchUser(username) != null) { throw new UserExistsException("A user with that name already exists."); }
+        User user = new User(username, password, true);
+        this.currentUser = user;
+        spaceController.put(user, Lease.FOREVER);
+        System.out.println("Successfully registered as: " + currentUser.username);
+    }
+
     public void logout() {
         this.currentUser = null;
     }

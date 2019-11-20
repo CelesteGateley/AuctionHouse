@@ -92,7 +92,7 @@ public class SpaceController {
     }
 
     public Lease put(Entry template) throws SpaceException {
-        try { return javaSpace.write(template, null, ONE_SECOND*5); }
+        try { return javaSpace.write(template, null, ONE_HOUR); }
         catch (TransactionException | RemoteException e) { throw new SpaceException(e.getLocalizedMessage()); }
     }
 
