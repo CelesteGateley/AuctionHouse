@@ -13,7 +13,7 @@ import java.util.Collection;
 public class Main {
 
     public static void main(String[] args) throws SpaceNotFoundException, SpaceException, UserNotFoundException, AuthenticationException, UserExistsException {
-        AuctionHouseController auctionHouseController = new AuctionHouseController("home-server");
+        AuctionHouseController auctionHouseController = new AuctionHouseController("homeserver");
         //auctionHouseController.register("login", "password");
         auctionHouseController.login("login", "password");
     }
