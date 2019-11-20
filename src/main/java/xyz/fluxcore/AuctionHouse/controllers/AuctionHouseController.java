@@ -1,5 +1,6 @@
 package xyz.fluxcore.AuctionHouse.controllers;
 
+import net.jini.core.lease.Lease;
 import net.jini.core.transaction.TransactionException;
 import net.jini.entry.UnusableEntriesException;
 import net.jini.space.JavaSpace05;
@@ -13,6 +14,8 @@ import xyz.fluxcore.AuctionHouse.exceptions.authentication.UserNotFoundException
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collection;
+
+import static xyz.fluxcore.AuctionHouse.controllers.SpaceController.ONE_DAY;
 
 public class AuctionHouseController {
 
@@ -43,7 +46,7 @@ public class AuctionHouseController {
         if (fetchUser(username) != null) { throw new UserExistsException("A user with that name already exists."); }
         User user = new User(username, password);
         this.currentUser = user;
-        spaceController.put(user);
+        spaceController.put(user, ONE_DAY * 7);
         System.out.println("Successfully registered as: " + currentUser.username);
     }
 

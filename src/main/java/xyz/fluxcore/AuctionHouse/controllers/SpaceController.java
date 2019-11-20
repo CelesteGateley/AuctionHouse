@@ -10,6 +10,7 @@ import net.jini.core.transaction.Transaction;
 import net.jini.core.transaction.TransactionException;
 import net.jini.core.transaction.server.TransactionManager;
 import net.jini.space.JavaSpace;
+import net.jini.space.JavaSpace05;
 import xyz.fluxcore.AuctionHouse.exceptions.SpaceException;
 import xyz.fluxcore.AuctionHouse.exceptions.SpaceNotFoundException;
 
@@ -19,6 +20,7 @@ public class SpaceController {
 
     private String jsURL;
     private JavaSpace javaSpace;
+    private JavaSpace05 javaSpace05;
     private TransactionManager transactionManager;
 
     public static final long ONE_SECOND = 1000;
@@ -33,6 +35,7 @@ public class SpaceController {
 
         if (javaSpace == null) { throw new SpaceNotFoundException("A Space could not be found at the url: " + jsURL); }
         if (transactionManager == null) { throw new SpaceException("A TransactionManager could not be created"); }
+        this.javaSpace05 = (JavaSpace05) javaSpace;
     }
 
     private void initialize() throws SpaceException {
@@ -74,17 +77,17 @@ public class SpaceController {
     }
 
     public Entry read(Entry template) throws SpaceException {
-        try { return javaSpace.readIfExists(template, null, ONE_SECOND*5); }
+        try { return javaSpace.read(template, null, ONE_SECOND*5); }
         catch (UnusableEntryException | TransactionException | InterruptedException | RemoteException e) { throw new SpaceException(e.getLocalizedMessage()); }
     }
 
     public Entry read(Entry template, long timeout) throws SpaceException {
-        try { return javaSpace.readIfExists(template, null, timeout); }
+        try { return javaSpace.read(template, null, timeout); }
         catch (UnusableEntryException | TransactionException | InterruptedException | RemoteException e) { throw new SpaceException(e.getLocalizedMessage()); }
     }
 
     public Entry read(Entry template, Transaction transaction, long timeout) throws SpaceException {
-        try { return javaSpace.readIfExists(template, transaction, timeout); }
+        try { return javaSpace.read(template, transaction, timeout); }
         catch (UnusableEntryException | TransactionException | InterruptedException | RemoteException e) { throw new SpaceException(e.getLocalizedMessage()); }
     }
 
@@ -93,13 +96,13 @@ public class SpaceController {
         catch (TransactionException | RemoteException e) { throw new SpaceException(e.getLocalizedMessage()); }
     }
 
-    public Lease put(Entry template, long timeout) throws SpaceException {
-        try { return javaSpace.write(template, null, timeout); }
+    public Lease put(Entry template, long leaseTime) throws SpaceException {
+        try { return javaSpace.write(template, null, leaseTime); }
         catch (TransactionException | RemoteException e) { throw new SpaceException(e.getLocalizedMessage()); }
     }
 
-    public Lease put(Entry template, Transaction transaction, long timeout) throws SpaceException {
-        try { return javaSpace.write(template, transaction, timeout); }
+    public Lease put(Entry template, Transaction transaction, long leaseTime) throws SpaceException {
+        try { return javaSpace.write(template, transaction, leaseTime); }
         catch (TransactionException | RemoteException e) { throw new SpaceException(e.getLocalizedMessage()); }
     }
 
