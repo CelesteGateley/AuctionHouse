@@ -42,10 +42,8 @@ public class SpaceController {
         this.transactionManager = tm;
     }
 
-    public JavaSpace getSpace() throws SpaceException { return this.javaSpace; }
+    public JavaSpace getSpace() { return this.javaSpace; }
 
-    public TransactionManager getManager() throws SpaceException { return this.transactionManager; }
-
-
+    public TransactionManager getManager() { return this.transactionManager; }
 
 }
