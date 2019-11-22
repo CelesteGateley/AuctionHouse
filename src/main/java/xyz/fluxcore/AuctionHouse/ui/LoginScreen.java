@@ -17,10 +17,13 @@ public class LoginScreen {
 
     public LoginScreen(AuctionHouseController houseController) {
         this.auctionHouseController = houseController;
+
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(3,1));
         mainPanel.add(new JLabel("Please Login to Continue!", SwingConstants.CENTER));
+
         initializeFields();
+
         JPanel subPanel = new JPanel();
         subPanel.setLayout(new GridLayout(2, 2));
         subPanel.add(new JLabel("Username:", SwingConstants.LEFT));
@@ -28,7 +31,9 @@ public class LoginScreen {
         subPanel.add(new JLabel("Password:", SwingConstants.LEFT));
         subPanel.add(passwordField);
         mainPanel.add(subPanel);
+
         JButton submitButton = new JButton("Login");
+
         submitButton.addActionListener(e -> {
             String username = usernameField.getText();
             String password = String.copyValueOf(passwordField.getPassword());
@@ -46,6 +51,7 @@ public class LoginScreen {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }
         });
+
         mainPanel.add(submitButton);
     }
 
