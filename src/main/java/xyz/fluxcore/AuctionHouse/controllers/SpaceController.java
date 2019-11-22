@@ -36,12 +36,10 @@ public class SpaceController {
         if (System.getSecurityManager() == null) { System.setSecurityManager(new SecurityManager()); }
         initialize();
 
-        if (javaSpace == null) { throw new SpaceNotFoundException("A Space could not be found at the url: " + jsURL); }
-        if (transactionManager == null) { throw new SpaceException("A TransactionManager could not be created"); }
-        this.javaSpace05 = (JavaSpace05) javaSpace;
+
     }
 
-    private void initialize() throws SpaceException {
+    private void initialize() throws SpaceException, SpaceNotFoundException {
         JavaSpace space;
         TransactionManager tm;
         try {
@@ -58,11 +56,20 @@ public class SpaceController {
 
         this.javaSpace = space;
         this.transactionManager = tm;
+
+        if (javaSpace == null) { throw new SpaceNotFoundException("A Space could not be found at the url: " + jsURL); }
+        if (transactionManager == null) { throw new SpaceException("A TransactionManager could not be created"); }
+        this.javaSpace05 = (JavaSpace05) javaSpace;
     }
 
     public JavaSpace getSpace() { return this.javaSpace; }
 
     public TransactionManager getManager() { return this.transactionManager; }
+
+    public void changeSpaceUrl(String url) throws SpaceException, SpaceNotFoundException {
+        jsURL = url;
+        initialize();
+    }
 
     public Entry take(Entry template) throws SpaceException {
         return take(template, null, ONE_SECOND*5);
@@ -105,7 +112,6 @@ public class SpaceController {
     public Collection<Entry> readAll(Entry template, Transaction transaction, long timeout) throws SpaceException {
         return readAll(template, transaction, timeout, 10);
     }
-
 
     public Collection<Entry> readAll(Entry template, Transaction transaction, long timeout, int count) throws SpaceException {
         Collection<Entry> templates = new ArrayList<>();
