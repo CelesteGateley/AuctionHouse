@@ -8,10 +8,18 @@ import xyz.fluxcore.AuctionHouse.ui.LoginScreen;
 
 import javax.swing.*;
 
+
 public class Main {
+    //-Djava.security.policy=policy.all -Djava.rmi.server.useCodebaseOnly=false
+
+
 
     public static void main(String[] args) throws SpaceNotFoundException, SpaceException, UserExistsException {
-        AuctionHouseController auctionHouseController = new AuctionHouseController("home-server");
+        String hostname;
+        if (args.length < 1) { hostname = "localhost"; }
+        else { hostname = args[0]; }
+
+        AuctionHouseController auctionHouseController = new AuctionHouseController(hostname);
         //auctionHouseController.registerAdministrator("root", "root");
         LoginScreen loginScreen = new LoginScreen(auctionHouseController);
 
