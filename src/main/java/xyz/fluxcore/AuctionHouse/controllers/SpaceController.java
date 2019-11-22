@@ -103,7 +103,7 @@ public class SpaceController {
     }
 
     public Collection<Entry> readAll(Entry template, Transaction transaction, long timeout) throws SpaceException {
-        return readAll(template, transaction, ONE_SECOND*5, 10);
+        return readAll(template, transaction, timeout, 10);
     }
 
 
@@ -127,7 +127,7 @@ public class SpaceController {
     }
 
     public Collection<Entry> takeAll(Entry template, Transaction transaction, long timeout) throws SpaceException {
-        return takeAll(template, transaction, ONE_SECOND*5, 10);
+        return takeAll(template, transaction, timeout, 10);
     }
 
     public Collection<Entry> takeAll(Entry template, Transaction transaction, long timeout, int count) throws SpaceException {
