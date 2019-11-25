@@ -20,7 +20,10 @@ public class Main {
         String hostname = getHostName(arguments);
 
         AuctionHouseController auctionHouseController = new AuctionHouseController(hostname);
-        if (addRoot) { auctionHouseController.registerAdministrator("root", "root"); }
+        if (addRoot) {
+            try { auctionHouseController.registerAdministrator("root", "root"); }
+            catch(UserExistsException ignored) {}
+        }
         UserInterfaceController userInterfaceController = new UserInterfaceController(auctionHouseController);
         userInterfaceController.showLoginScreen();
     }
