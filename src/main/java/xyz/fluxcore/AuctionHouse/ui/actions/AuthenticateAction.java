@@ -26,6 +26,7 @@ public class AuthenticateAction implements ActionListener {
         switch (e.getActionCommand()) {
             case "logout":
                 auctionHouseController.logout();
+                break;
             case "login":
             case "register":
                 String username = usernameField.getText();
