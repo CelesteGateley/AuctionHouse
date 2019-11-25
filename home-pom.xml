@@ -14,7 +14,8 @@
     </properties>
 
     <dependencies>
-        <!--<dependency>
+        <!--
+        <dependency>
             <groupId>net.jini</groupId>
             <artifactId>jsk-platform</artifactId>
             <version>${jsk.version}</version>
