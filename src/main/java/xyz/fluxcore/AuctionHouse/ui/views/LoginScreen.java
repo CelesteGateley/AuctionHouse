@@ -14,16 +14,15 @@ public class LoginScreen {
     private JPanel mainPanel;
     private JTextField usernameField;
     private JPasswordField passwordField;
-    private AuctionHouseController auctionHouseController;
 
-    public LoginScreen(AuctionHouseController houseController) {
-        this.auctionHouseController = houseController;
-
+    public LoginScreen(LoginAction loginAction) {
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(3,1));
         mainPanel.add(new JLabel("Please Login to Continue!", SwingConstants.CENTER));
 
         initializeFields();
+        loginAction.setUsernameField(usernameField);
+        loginAction.setPasswordField(passwordField);
 
         JPanel subPanel = new JPanel();
         subPanel.setLayout(new GridLayout(2, 2));
@@ -35,7 +34,7 @@ public class LoginScreen {
 
         JButton submitButton = new JButton("Login");
 
-        submitButton.addActionListener(new LoginAction(houseController, usernameField, passwordField));
+        submitButton.addActionListener(loginAction);
 
         mainPanel.add(submitButton);
     }

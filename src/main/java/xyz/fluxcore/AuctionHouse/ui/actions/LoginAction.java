@@ -15,11 +15,10 @@ public class LoginAction implements ActionListener {
     private JPasswordField passwordField;
     private AuctionHouseController auctionHouseController;
 
-    public LoginAction(AuctionHouseController auctionHouseController, JTextField usernameField, JPasswordField passwordField) {
-        this.usernameField = usernameField;
-        this.passwordField = passwordField;
+    public LoginAction(AuctionHouseController auctionHouseController) {
         this.auctionHouseController = auctionHouseController;
     }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -38,5 +37,13 @@ public class LoginAction implements ActionListener {
         } catch (AuthenticationException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
+    }
+
+    public void setUsernameField(JTextField usernameField) {
+        this.usernameField = usernameField;
+    }
+
+    public void setPasswordField(JPasswordField passwordField) {
+        this.passwordField = passwordField;
     }
 }
