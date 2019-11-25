@@ -15,6 +15,10 @@ public class u1755082User implements Entry {
 
      public u1755082User() {}
 
+     public u1755082User(String username) {
+         this.username = username;
+     }
+
      public u1755082User(String username, String password) {
          this.username = username;
          this.password = hashPassword(password);

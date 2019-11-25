@@ -33,9 +33,13 @@ public class AuctionHouseController {
     }
 
     private u1755082User fetchUser(String username) throws SpaceException {
-        u1755082User template = new u1755082User();
-        template.username = username;
+        u1755082User template = new u1755082User(username);
         return (u1755082User) spaceController.read(template);
+    }
+
+    public u1755082User deleteUser(String username) throws SpaceException {
+        u1755082User template = new u1755082User(username);
+        return (u1755082User) spaceController.take(template);
     }
 
     public void register(String username, String password) throws SpaceException, UserExistsException {
