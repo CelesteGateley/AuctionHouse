@@ -5,9 +5,7 @@ import xyz.fluxcore.AuctionHouse.controllers.UserInterfaceController;
 import xyz.fluxcore.AuctionHouse.exceptions.SpaceException;
 import xyz.fluxcore.AuctionHouse.exceptions.SpaceNotFoundException;
 import xyz.fluxcore.AuctionHouse.exceptions.authentication.UserExistsException;
-import xyz.fluxcore.AuctionHouse.ui.views.LoginScreen;
 
-import javax.swing.*;
 import java.util.Arrays;
 import java.util.List;
 
@@ -25,7 +23,6 @@ public class Main {
         if (addRoot) { auctionHouseController.registerAdministrator("root", "root"); }
         UserInterfaceController userInterfaceController = new UserInterfaceController(auctionHouseController);
         userInterfaceController.showLoginScreen();
-
     }
 
     private static String getHostName(List<String> arguments) {
