@@ -23,23 +23,37 @@ public class AuthenticateAction implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        String username = usernameField.getText();
-        String password = String.copyValueOf(passwordField.getPassword());
-        if (username.isEmpty()) { JOptionPane.showMessageDialog(null, "No username was input!"); return; }
-        if (password.isEmpty()) { JOptionPane.showMessageDialog(null, "No password was input!"); return; }
-        try {
-            if (e.getActionCommand() == "login") {
-                auctionHouseController.login(username, password);
-                JOptionPane.showMessageDialog(null, "Logged in successfully!");
-            } else if (e.getActionCommand() == "register") {
-                auctionHouseController.register(username, password);
-                JOptionPane.showMessageDialog(null, "Registered successfully!");
-            }
-        } catch (SpaceException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage());
-            ex.printStackTrace();
-        } catch (UserNotFoundException | UserExistsException | AuthenticationException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage());
+        switch (e.getActionCommand()) {
+            case "logout":
+                auctionHouseController.logout();
+            case "login":
+            case "register":
+                String username = usernameField.getText();
+                String password = String.copyValueOf(passwordField.getPassword());
+                if (username.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "No username was input!");
+                    return;
+                }
+                if (password.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "No password was input!");
+                    return;
+                }
+                try {
+                    if (e.getActionCommand() == "login") {
+                        auctionHouseController.login(username, password);
+                        JOptionPane.showMessageDialog(null, "Logged in successfully!");
+                    } else if (e.getActionCommand() == "register") {
+                        auctionHouseController.register(username, password);
+                        JOptionPane.showMessageDialog(null, "Registered successfully!");
+                    }
+                } catch (SpaceException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage());
+                    ex.printStackTrace();
+                } catch (UserNotFoundException | UserExistsException | AuthenticationException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage());
+                }
+            default:
+                break;
         }
     }
 
