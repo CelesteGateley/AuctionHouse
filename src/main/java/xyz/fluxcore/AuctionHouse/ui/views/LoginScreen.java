@@ -1,28 +1,22 @@
 package xyz.fluxcore.AuctionHouse.ui.views;
 
-import xyz.fluxcore.AuctionHouse.controllers.AuctionHouseController;
-import xyz.fluxcore.AuctionHouse.exceptions.SpaceException;
-import xyz.fluxcore.AuctionHouse.exceptions.authentication.AuthenticationException;
-import xyz.fluxcore.AuctionHouse.exceptions.authentication.UserNotFoundException;
-import xyz.fluxcore.AuctionHouse.ui.actions.LoginAction;
+import xyz.fluxcore.AuctionHouse.ui.actions.AuthenticateAction;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class LoginScreen {
+public class LoginScreen extends Screen {
 
-    private JPanel mainPanel;
     private JTextField usernameField;
     private JPasswordField passwordField;
 
-    public LoginScreen(LoginAction loginAction) {
-        mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayout(3,1));
-        mainPanel.add(new JLabel("Please Login to Continue!", SwingConstants.CENTER));
+    public LoginScreen(AuthenticateAction authenticateAction) {
+        getPanel().setLayout(new GridLayout(3,1));
+        getPanel().add(new JLabel("Please Login to Continue!", SwingConstants.CENTER));
 
         initializeFields();
-        loginAction.setUsernameField(usernameField);
-        loginAction.setPasswordField(passwordField);
+        authenticateAction.setUsernameField(usernameField);
+        authenticateAction.setPasswordField(passwordField);
 
         JPanel subPanel = new JPanel();
         subPanel.setLayout(new GridLayout(2, 2));
@@ -30,13 +24,14 @@ public class LoginScreen {
         subPanel.add(usernameField);
         subPanel.add(new JLabel("Password:", SwingConstants.LEFT));
         subPanel.add(passwordField);
-        mainPanel.add(subPanel);
+        getPanel().add(subPanel);
 
         JButton submitButton = new JButton("Login");
 
-        submitButton.addActionListener(loginAction);
+        submitButton.addActionListener(authenticateAction);
+        submitButton.setActionCommand("login");
 
-        mainPanel.add(submitButton);
+        getPanel().add(submitButton);
     }
 
     private void initializeFields() {
@@ -44,5 +39,4 @@ public class LoginScreen {
         passwordField = new JPasswordField();
     }
 
-    public JPanel getPanel() { return mainPanel; }
 }

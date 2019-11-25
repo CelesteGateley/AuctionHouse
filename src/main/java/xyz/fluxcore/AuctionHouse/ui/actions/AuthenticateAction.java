@@ -3,19 +3,20 @@ package xyz.fluxcore.AuctionHouse.ui.actions;
 import xyz.fluxcore.AuctionHouse.controllers.AuctionHouseController;
 import xyz.fluxcore.AuctionHouse.exceptions.SpaceException;
 import xyz.fluxcore.AuctionHouse.exceptions.authentication.AuthenticationException;
+import xyz.fluxcore.AuctionHouse.exceptions.authentication.UserExistsException;
 import xyz.fluxcore.AuctionHouse.exceptions.authentication.UserNotFoundException;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class LoginAction implements ActionListener {
+public class AuthenticateAction implements ActionListener {
 
     private JTextField usernameField;
     private JPasswordField passwordField;
     private AuctionHouseController auctionHouseController;
 
-    public LoginAction(AuctionHouseController auctionHouseController) {
+    public AuthenticateAction(AuctionHouseController auctionHouseController) {
         this.auctionHouseController = auctionHouseController;
     }
 
@@ -27,14 +28,17 @@ public class LoginAction implements ActionListener {
         if (username.isEmpty()) { JOptionPane.showMessageDialog(null, "No username was input!"); return; }
         if (password.isEmpty()) { JOptionPane.showMessageDialog(null, "No password was input!"); return; }
         try {
-            auctionHouseController.login(username, password);
-            JOptionPane.showMessageDialog(null, "Logged in successfully!");
+            if (e.getActionCommand() == "login") {
+                auctionHouseController.login(username, password);
+                JOptionPane.showMessageDialog(null, "Logged in successfully!");
+            } else if (e.getActionCommand() == "register") {
+                auctionHouseController.register(username, password);
+                JOptionPane.showMessageDialog(null, "Registered successfully!");
+            }
         } catch (SpaceException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
             ex.printStackTrace();
-        } catch (UserNotFoundException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage());
-        } catch (AuthenticationException ex) {
+        } catch (UserNotFoundException | UserExistsException | AuthenticationException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
     }
