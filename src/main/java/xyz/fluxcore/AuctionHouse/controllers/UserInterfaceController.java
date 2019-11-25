@@ -57,8 +57,16 @@ public class UserInterfaceController {
         registerButton.setActionCommand("register");
         authMenu.add(registerButton);
 
-        navbar.add(authMenu);
 
+
+        authMenu.add(new JSeparator());
+
+        JMenuItem logoutButton = new JMenuItem("Logout");
+        logoutButton.addActionListener(new AuthenticateAction(auctionHouseController));
+        logoutButton.setActionCommand("logout");
+        authMenu.add(logoutButton);
+
+        navbar.add(authMenu);
     }
 
     private void clearScreen() {
