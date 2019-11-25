@@ -11,6 +11,7 @@ import net.jini.core.transaction.TransactionException;
 import net.jini.core.transaction.server.TransactionManager;
 import net.jini.space.JavaSpace;
 import net.jini.space.JavaSpace05;
+import net.jini.space.MatchSet;
 import xyz.fluxcore.AuctionHouse.exceptions.SpaceException;
 import xyz.fluxcore.AuctionHouse.exceptions.SpaceNotFoundException;
 
@@ -80,7 +81,7 @@ public class SpaceController {
     }
 
     public Entry take(Entry template, Transaction transaction, long timeout) throws SpaceException {
-        try { return javaSpace.readIfExists(template, transaction, timeout); }
+        try { return javaSpace.take(template, transaction, timeout); }
         catch (UnusableEntryException | TransactionException | InterruptedException | RemoteException e) { throw new SpaceException(e); }
     }
 
@@ -115,8 +116,19 @@ public class SpaceController {
 
     public Collection<Entry> readAll(Entry template, Transaction transaction, long timeout, int count) throws SpaceException {
         Collection<Entry> templates = new ArrayList<>();
+        Collection<Entry> results = new ArrayList<>();
         templates.add(template);
-        try { return (Collection<Entry>) javaSpace05.contents(templates, transaction, timeout, count); }
+        try {
+            MatchSet res = javaSpace05.contents(templates, transaction, timeout, count);
+
+
+            Entry result = res.next();
+            while (result != null){
+                results.add(result);
+                result = res.next();
+            }
+            return results;
+        }
         catch (Exception e) { throw new SpaceException(e); }
     }
 
