@@ -9,12 +9,11 @@ import javax.swing.*;
 
 public class UserInterfaceController {
 
-    private AuctionHouseController auctionHouseController;
+    private AuthenticationController authenticationController;
     private JFrame window;
     private JMenuBar navbar;
-
-    public UserInterfaceController(AuctionHouseController auctionHouseController) {
-        this.auctionHouseController = auctionHouseController;
+    public UserInterfaceController(AuthenticationController authenticationController) {
+        this.authenticationController = authenticationController;
         window = new JFrame();
         navbar = new JMenuBar();
         initializeNavbar();
@@ -28,14 +27,14 @@ public class UserInterfaceController {
 
     public void showLoginScreen() {
         clearScreen();
-        LoginScreen loginScreen = new LoginScreen(new AuthenticateAction(auctionHouseController));
+        LoginScreen loginScreen = new LoginScreen(new AuthenticateAction(authenticationController));
         window.setContentPane(loginScreen.getPanel());
         window.setVisible(true);
     }
 
     public void showRegisterScreen() {
         clearScreen();
-        RegisterScreen registerScreen = new RegisterScreen(new AuthenticateAction(auctionHouseController));
+        RegisterScreen registerScreen = new RegisterScreen(new AuthenticateAction(authenticationController));
         window.setContentPane(registerScreen.getPanel());
         window.setVisible(true);
     }
@@ -62,7 +61,7 @@ public class UserInterfaceController {
         authMenu.add(new JSeparator());
 
         JMenuItem logoutButton = new JMenuItem("Logout");
-        logoutButton.addActionListener(new AuthenticateAction(auctionHouseController));
+        logoutButton.addActionListener(new AuthenticateAction(authenticationController));
         logoutButton.setActionCommand("logout");
         authMenu.add(logoutButton);
 

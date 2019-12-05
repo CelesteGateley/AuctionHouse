@@ -1,6 +1,7 @@
 package xyz.fluxinc.AuctionHouse.ui.actions;
 
 import xyz.fluxinc.AuctionHouse.controllers.AuctionHouseController;
+import xyz.fluxinc.AuctionHouse.controllers.AuthenticationController;
 import xyz.fluxinc.AuctionHouse.exceptions.SpaceException;
 import xyz.fluxinc.AuctionHouse.exceptions.authentication.AuthenticationException;
 import xyz.fluxinc.AuctionHouse.exceptions.authentication.UserExistsException;
@@ -14,10 +15,10 @@ public class AuthenticateAction implements ActionListener {
 
     private JTextField usernameField;
     private JPasswordField passwordField;
-    private AuctionHouseController auctionHouseController;
+    private AuthenticationController authenticationController;
 
-    public AuthenticateAction(AuctionHouseController auctionHouseController) {
-        this.auctionHouseController = auctionHouseController;
+    public AuthenticateAction(AuthenticationController authenticationController) {
+        this.authenticationController = authenticationController;
     }
 
 
@@ -25,7 +26,7 @@ public class AuthenticateAction implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
             case "logout":
-                auctionHouseController.logout();
+                authenticationController.logout();
                 break;
             case "login":
             case "register":
@@ -41,10 +42,10 @@ public class AuthenticateAction implements ActionListener {
                 }
                 try {
                     if (e.getActionCommand() == "login") {
-                        auctionHouseController.login(username, password);
+                        authenticationController.login(username, password);
                         JOptionPane.showMessageDialog(null, "Logged in successfully!");
                     } else if (e.getActionCommand() == "register") {
-                        auctionHouseController.register(username, password);
+                        authenticationController.register(username, password);
                         JOptionPane.showMessageDialog(null, "Registered successfully!");
                     }
                 } catch (SpaceException ex) {
