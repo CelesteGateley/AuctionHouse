@@ -1,18 +1,16 @@
-package xyz.fluxcore.AuctionHouse.controllers;
+package xyz.fluxinc.AuctionHouse.controllers;
 
 import net.jini.core.entry.Entry;
 import net.jini.core.lease.Lease;
-import xyz.fluxcore.AuctionHouse.entries.u1755082User;
-import xyz.fluxcore.AuctionHouse.exceptions.SpaceException;
-import xyz.fluxcore.AuctionHouse.exceptions.SpaceNotFoundException;
-import xyz.fluxcore.AuctionHouse.exceptions.authentication.AuthenticationException;
-import xyz.fluxcore.AuctionHouse.exceptions.authentication.UserExistsException;
-import xyz.fluxcore.AuctionHouse.exceptions.authentication.UserNotFoundException;
+import xyz.fluxinc.AuctionHouse.entries.u1755082User;
+import xyz.fluxinc.AuctionHouse.exceptions.SpaceException;
+import xyz.fluxinc.AuctionHouse.exceptions.SpaceNotFoundException;
+import xyz.fluxinc.AuctionHouse.exceptions.authentication.AuthenticationException;
+import xyz.fluxinc.AuctionHouse.exceptions.authentication.UserExistsException;
+import xyz.fluxinc.AuctionHouse.exceptions.authentication.UserNotFoundException;
 
 import java.util.ArrayList;
 import java.util.Collection;
-
-import static xyz.fluxcore.AuctionHouse.controllers.SpaceController.ONE_DAY;
 
 public class AuctionHouseController {
 
@@ -46,7 +44,7 @@ public class AuctionHouseController {
         if (fetchUser(username) != null) { throw new UserExistsException("A user with that name already exists."); }
         u1755082User user = new u1755082User(username, password);
         this.currentUser = user;
-        spaceController.put(user, ONE_DAY * 7);
+        spaceController.put(user, SpaceController.ONE_DAY * 7);
     }
 
     public void registerAdministrator(String username, String password) throws SpaceException, UserExistsException {

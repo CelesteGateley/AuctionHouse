@@ -1,6 +1,6 @@
-package xyz.fluxcore.AuctionHouse.ui.actions;
+package xyz.fluxinc.AuctionHouse.ui.actions;
 
-import xyz.fluxcore.AuctionHouse.controllers.UserInterfaceController;
+import xyz.fluxinc.AuctionHouse.controllers.UserInterfaceController;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

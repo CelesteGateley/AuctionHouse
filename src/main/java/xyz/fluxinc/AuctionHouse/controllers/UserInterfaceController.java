@@ -1,9 +1,9 @@
-package xyz.fluxcore.AuctionHouse.controllers;
+package xyz.fluxinc.AuctionHouse.controllers;
 
-import xyz.fluxcore.AuctionHouse.ui.actions.AuthenticateAction;
-import xyz.fluxcore.AuctionHouse.ui.actions.NavbarAction;
-import xyz.fluxcore.AuctionHouse.ui.views.LoginScreen;
-import xyz.fluxcore.AuctionHouse.ui.views.RegisterScreen;
+import xyz.fluxinc.AuctionHouse.ui.actions.AuthenticateAction;
+import xyz.fluxinc.AuctionHouse.ui.actions.NavbarAction;
+import xyz.fluxinc.AuctionHouse.ui.views.LoginScreen;
+import xyz.fluxinc.AuctionHouse.ui.views.RegisterScreen;
 
 import javax.swing.*;
 

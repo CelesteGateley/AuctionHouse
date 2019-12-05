@@ -1,4 +1,4 @@
-package xyz.fluxcore.AuctionHouse.controllers;
+package xyz.fluxinc.AuctionHouse.controllers;
 
 import net.jini.core.discovery.LookupLocator;
 import net.jini.core.entry.Entry;
@@ -12,8 +12,8 @@ import net.jini.core.transaction.server.TransactionManager;
 import net.jini.space.JavaSpace;
 import net.jini.space.JavaSpace05;
 import net.jini.space.MatchSet;
-import xyz.fluxcore.AuctionHouse.exceptions.SpaceException;
-import xyz.fluxcore.AuctionHouse.exceptions.SpaceNotFoundException;
+import xyz.fluxinc.AuctionHouse.exceptions.SpaceException;
+import xyz.fluxinc.AuctionHouse.exceptions.SpaceNotFoundException;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;

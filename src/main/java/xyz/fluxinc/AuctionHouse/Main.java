@@ -1,10 +1,10 @@
-package xyz.fluxcore.AuctionHouse;
+package xyz.fluxinc.AuctionHouse;
 
-import xyz.fluxcore.AuctionHouse.controllers.AuctionHouseController;
-import xyz.fluxcore.AuctionHouse.controllers.UserInterfaceController;
-import xyz.fluxcore.AuctionHouse.exceptions.SpaceException;
-import xyz.fluxcore.AuctionHouse.exceptions.SpaceNotFoundException;
-import xyz.fluxcore.AuctionHouse.exceptions.authentication.UserExistsException;
+import xyz.fluxinc.AuctionHouse.controllers.AuctionHouseController;
+import xyz.fluxinc.AuctionHouse.controllers.UserInterfaceController;
+import xyz.fluxinc.AuctionHouse.exceptions.SpaceException;
+import xyz.fluxinc.AuctionHouse.exceptions.SpaceNotFoundException;
+import xyz.fluxinc.AuctionHouse.exceptions.authentication.UserExistsException;
 
 import java.util.Arrays;
 import java.util.List;

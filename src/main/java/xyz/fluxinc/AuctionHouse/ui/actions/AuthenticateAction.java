@@ -1,10 +1,10 @@
-package xyz.fluxcore.AuctionHouse.ui.actions;
+package xyz.fluxinc.AuctionHouse.ui.actions;
 
-import xyz.fluxcore.AuctionHouse.controllers.AuctionHouseController;
-import xyz.fluxcore.AuctionHouse.exceptions.SpaceException;
-import xyz.fluxcore.AuctionHouse.exceptions.authentication.AuthenticationException;
-import xyz.fluxcore.AuctionHouse.exceptions.authentication.UserExistsException;
-import xyz.fluxcore.AuctionHouse.exceptions.authentication.UserNotFoundException;
+import xyz.fluxinc.AuctionHouse.controllers.AuctionHouseController;
+import xyz.fluxinc.AuctionHouse.exceptions.SpaceException;
+import xyz.fluxinc.AuctionHouse.exceptions.authentication.AuthenticationException;
+import xyz.fluxinc.AuctionHouse.exceptions.authentication.UserExistsException;
+import xyz.fluxinc.AuctionHouse.exceptions.authentication.UserNotFoundException;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

@@ -1,4 +1,4 @@
-package xyz.fluxcore.AuctionHouse.ui.views;
+package xyz.fluxinc.AuctionHouse.ui.views;
 
 import javax.swing.*;
 import java.awt.*;

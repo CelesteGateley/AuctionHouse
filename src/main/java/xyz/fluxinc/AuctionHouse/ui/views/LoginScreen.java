@@ -1,6 +1,6 @@
-package xyz.fluxcore.AuctionHouse.ui.views;
+package xyz.fluxinc.AuctionHouse.ui.views;
 
-import xyz.fluxcore.AuctionHouse.ui.actions.AuthenticateAction;
+import xyz.fluxinc.AuctionHouse.ui.actions.AuthenticateAction;
 
 import javax.swing.*;
 import java.awt.*;

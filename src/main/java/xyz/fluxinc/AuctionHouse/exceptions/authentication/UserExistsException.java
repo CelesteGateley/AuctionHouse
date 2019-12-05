@@ -1,4 +1,4 @@
-package xyz.fluxcore.AuctionHouse.exceptions.authentication;
+package xyz.fluxinc.AuctionHouse.exceptions.authentication;
 
 public class UserExistsException extends Exception {
 
