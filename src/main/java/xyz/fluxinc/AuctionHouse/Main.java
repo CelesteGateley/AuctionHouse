@@ -1,6 +1,8 @@
 package xyz.fluxinc.AuctionHouse;
 
 import xyz.fluxinc.AuctionHouse.controllers.AuctionHouseController;
+import xyz.fluxinc.AuctionHouse.controllers.AuthenticationController;
+import xyz.fluxinc.AuctionHouse.controllers.SystemController;
 import xyz.fluxinc.AuctionHouse.controllers.UserInterfaceController;
 import xyz.fluxinc.AuctionHouse.exceptions.SpaceException;
 import xyz.fluxinc.AuctionHouse.exceptions.SpaceNotFoundException;
@@ -19,13 +21,13 @@ public class Main {
         boolean anonymous = arguments.contains("-anonymous");
         String hostname = getHostName(arguments);
 
-        AuctionHouseController auctionHouseController = new AuctionHouseController(hostname);
+        SystemController systemController = new SystemController(hostname);
         if (addRoot) {
-            try { auctionHouseController.registerAdministrator("root", "root"); }
+            try { systemController.getAuthenticationController().registerAdministrator("root", "root"); }
             catch(UserExistsException ignored) {}
         }
-        UserInterfaceController userInterfaceController = new UserInterfaceController(auctionHouseController);
-        userInterfaceController.showLoginScreen();
+
+        systemController.getUserInterfaceController().showLoginScreen();
     }
 
     private static String getHostName(List<String> arguments) {

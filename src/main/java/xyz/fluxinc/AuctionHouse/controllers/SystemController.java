@@ -19,4 +19,15 @@ public class SystemController {
     }
 
 
+    public UserInterfaceController getUserInterfaceController() {
+        return userInterfaceController;
+    }
+
+    public AuctionHouseController getAuctionHouseController() {
+        return auctionHouseController;
+    }
+
+    public AuthenticationController getAuthenticationController() {
+        return authenticationController;
+    }
 }
