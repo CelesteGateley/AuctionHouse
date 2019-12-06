@@ -1,4 +1,4 @@
-package xyz.fluxinc.AuctionHouse.exceptions;
+package xyz.fluxinc.AuctionHouse.exceptions.space;
 
 public class SpaceNotFoundException extends Exception {
 

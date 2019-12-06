@@ -1,8 +1,7 @@
 package xyz.fluxinc.AuctionHouse.ui.actions;
 
-import xyz.fluxinc.AuctionHouse.controllers.AuctionHouseController;
 import xyz.fluxinc.AuctionHouse.controllers.AuthenticationController;
-import xyz.fluxinc.AuctionHouse.exceptions.SpaceException;
+import xyz.fluxinc.AuctionHouse.exceptions.space.SpaceException;
 import xyz.fluxinc.AuctionHouse.exceptions.authentication.AuthenticationException;
 import xyz.fluxinc.AuctionHouse.exceptions.authentication.UserExistsException;
 import xyz.fluxinc.AuctionHouse.exceptions.authentication.UserNotFoundException;

@@ -5,30 +5,30 @@ import net.jini.core.entry.Entry;
 import java.util.ArrayList;
 import java.util.List;
 
-public class u1755082Auction implements Entry {
+public class Auction implements Entry {
 
     public int counterValue;
     public String name;
     public double currentPrice;
     public double buyItNowPrice;
-    public List<u1755082Bid> bids;
+    public List<Bid> bids;
 
-    public u1755082Auction() {}
+    public Auction() {}
 
-    public u1755082Auction(int counterValue, String name, double buyItNowPrice) {
+    public Auction(int counterValue, String name, double buyItNowPrice) {
         this.counterValue = counterValue;
         this.name = name;
         this.buyItNowPrice = buyItNowPrice;
         this.currentPrice = 1;
-        this.bids = new ArrayList<u1755082Bid>();
+        this.bids = new ArrayList<Bid>();
     }
 
-    public u1755082Auction(int counterValue, String name, double buyItNowPrice, double currentPrice) {
+    public Auction(int counterValue, String name, double buyItNowPrice, double currentPrice) {
         this.counterValue = counterValue;
         this.name = name;
         this.buyItNowPrice = buyItNowPrice;
         this.currentPrice = currentPrice;
-        this.bids = new ArrayList<u1755082Bid>();
+        this.bids = new ArrayList<Bid>();
     }
 
     public void addBid(int userId, double amount) {

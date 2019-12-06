@@ -12,8 +12,8 @@ import net.jini.core.transaction.server.TransactionManager;
 import net.jini.space.JavaSpace;
 import net.jini.space.JavaSpace05;
 import net.jini.space.MatchSet;
-import xyz.fluxinc.AuctionHouse.exceptions.SpaceException;
-import xyz.fluxinc.AuctionHouse.exceptions.SpaceNotFoundException;
+import xyz.fluxinc.AuctionHouse.exceptions.space.SpaceException;
+import xyz.fluxinc.AuctionHouse.exceptions.space.SpaceNotFoundException;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;

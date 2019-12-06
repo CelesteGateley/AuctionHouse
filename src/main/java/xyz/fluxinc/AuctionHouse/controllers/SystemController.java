@@ -1,7 +1,7 @@
 package xyz.fluxinc.AuctionHouse.controllers;
 
-import xyz.fluxinc.AuctionHouse.exceptions.SpaceException;
-import xyz.fluxinc.AuctionHouse.exceptions.SpaceNotFoundException;
+import xyz.fluxinc.AuctionHouse.exceptions.space.SpaceException;
+import xyz.fluxinc.AuctionHouse.exceptions.space.SpaceNotFoundException;
 
 public class SystemController {
 
@@ -17,7 +17,6 @@ public class SystemController {
         auctionHouseController = new AuctionHouseController(spaceController);
         userInterfaceController = new UserInterfaceController(authenticationController);
     }
-
 
     public UserInterfaceController getUserInterfaceController() {
         return userInterfaceController;
