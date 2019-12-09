@@ -18,15 +18,11 @@ public class SystemController {
         userInterfaceController = new UserInterfaceController(authenticationController);
     }
 
-    public UserInterfaceController getUserInterfaceController() {
-        return userInterfaceController;
-    }
+    public UserInterfaceController getUserInterfaceController() { return userInterfaceController;}
 
-    public AuctionHouseController getAuctionHouseController() {
-        return auctionHouseController;
-    }
+    public AuctionHouseController getAuctionHouseController() { return auctionHouseController; }
 
-    public AuthenticationController getAuthenticationController() {
-        return authenticationController;
-    }
+    public AuthenticationController getAuthenticationController() { return authenticationController; }
+
+    public SpaceController getSpaceController() { return spaceController; }
 }
