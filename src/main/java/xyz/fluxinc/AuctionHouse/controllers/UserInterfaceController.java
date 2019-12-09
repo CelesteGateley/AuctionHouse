@@ -12,6 +12,7 @@ public class UserInterfaceController {
     private AuthenticationController authenticationController;
     private JFrame window;
     private JMenuBar navbar;
+
     public UserInterfaceController(AuthenticationController authenticationController) {
         this.authenticationController = authenticationController;
         window = new JFrame();
@@ -21,7 +22,6 @@ public class UserInterfaceController {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setTitle("Welcome to my Auction House!");
         window.setSize(400, 400);
-        window.setVisible(true);
     }
 
 
@@ -55,8 +55,6 @@ public class UserInterfaceController {
         registerButton.addActionListener(navbarAction);
         registerButton.setActionCommand("register");
         authMenu.add(registerButton);
-
-
 
         authMenu.add(new JSeparator());
 
