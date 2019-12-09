@@ -4,7 +4,7 @@ import net.jini.core.entry.Entry;
 
 public class AuctionHouse implements Entry {
 
-    public int currentCount;
+    public Integer currentCount;
 
     public AuctionHouse() { currentCount = 0; }
 

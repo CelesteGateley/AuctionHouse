@@ -4,9 +4,9 @@ import net.jini.core.entry.Entry;
 
 public class AuctionHouseLock implements Entry {
 
-    private String lockCode;
+    private byte[] lockCode;
 
     public AuctionHouseLock() {}
 
-    public AuctionHouseLock(String lockCode) { this.lockCode = lockCode; }
+    public AuctionHouseLock(byte[] lockCode) { this.lockCode = lockCode; }
 }

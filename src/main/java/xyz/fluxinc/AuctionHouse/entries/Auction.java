@@ -7,11 +7,10 @@ import java.util.List;
 
 public class Auction implements Entry {
 
-    public int counterValue;
+    public Integer counterValue;
     public String name;
-    public double currentPrice;
-    public double buyItNowPrice;
-    public List<Bid> bids;
+    public Double currentPrice;
+    public Double buyItNowPrice;
 
     public Auction() {}
 
@@ -19,8 +18,7 @@ public class Auction implements Entry {
         this.counterValue = counterValue;
         this.name = name;
         this.buyItNowPrice = buyItNowPrice;
-        this.currentPrice = 1;
-        this.bids = new ArrayList<Bid>();
+        this.currentPrice = 1d;
     }
 
     public Auction(int counterValue, String name, double buyItNowPrice, double currentPrice) {
@@ -28,10 +26,5 @@ public class Auction implements Entry {
         this.name = name;
         this.buyItNowPrice = buyItNowPrice;
         this.currentPrice = currentPrice;
-        this.bids = new ArrayList<Bid>();
-    }
-
-    public void addBid(int userId, double amount) {
-
     }
 }

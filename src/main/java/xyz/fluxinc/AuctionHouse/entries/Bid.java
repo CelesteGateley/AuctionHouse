@@ -4,12 +4,16 @@ import net.jini.core.entry.Entry;
 
 public class Bid implements Entry {
 
-    public int userId;
-    public double bidAmount;
+    public Integer auctionCounter;
+    public Integer userId;
+    public Double bidAmount;
 
     public Bid() {}
 
-    public Bid(int userId, double bidAmount) {
+    public Bid(int auctionCounter, int userId, double bidAmount) {
+        this.auctionCounter = auctionCounter;
+        this.userId = userId;
+        this.bidAmount = bidAmount;
 
     }
 }
