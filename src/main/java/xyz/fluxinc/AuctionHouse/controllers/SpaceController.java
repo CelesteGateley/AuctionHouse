@@ -18,6 +18,7 @@ import xyz.fluxinc.AuctionHouse.exceptions.space.SpaceNotFoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @SuppressWarnings("unchecked")
 public class SpaceController {
@@ -72,87 +73,88 @@ public class SpaceController {
         initialize();
     }
 
-    public Entry take(Entry template) throws SpaceException {
+    public <T extends Entry> T take(Entry template) throws SpaceException {
         return take(template, null, ONE_SECOND*5);
     }
 
-    public Entry take(Entry template, long timeout) throws SpaceException {
+    public <T extends Entry> T take(Entry template, long timeout) throws SpaceException {
         return take(template, null, timeout);
     }
 
-    public Entry take(Entry template, Transaction transaction, long timeout) throws SpaceException {
-        try { return javaSpace.take(template, transaction, timeout); }
+    public <T extends Entry> T take(Entry template, Transaction transaction, long timeout) throws SpaceException {
+        try { return  (T) javaSpace.take(template, transaction, timeout); }
         catch (UnusableEntryException | TransactionException | InterruptedException | RemoteException e) { throw new SpaceException(e); }
     }
 
-    public Entry read(Entry template) throws SpaceException {
+    public <T extends Entry> T read(Entry template) throws SpaceException {
         return read(template, null, ONE_SECOND*5);
     }
 
-    public Entry read(Entry template, long timeout) throws SpaceException {
+    public <T extends Entry> T read(Entry template, long timeout) throws SpaceException {
         return read(template, null, timeout);
     }
 
-    public Entry read(Entry template, Transaction transaction, long timeout) throws SpaceException {
-        try { return javaSpace.read(template, transaction, timeout); }
+    public <T extends Entry> T read(Entry template, Transaction transaction, long timeout) throws SpaceException {
+        try { return (T) javaSpace.read(template, transaction, timeout); }
         catch (UnusableEntryException | TransactionException | InterruptedException | RemoteException e) { throw new SpaceException(e); }
     }
 
-    public Collection<Entry> readAll(Entry template) throws SpaceException {
+    public <T extends Entry> List<T> readAll(Entry template) throws SpaceException {
         return readAll(template, null, ONE_SECOND*5, 10);
     }
 
-    public Collection<Entry> readAll(Entry template, int count) throws SpaceException {
+    public <T extends Entry> List<T> readAll(Entry template, int count) throws SpaceException {
         return readAll(template, null, ONE_SECOND*5, count);
     }
 
-    public Collection<Entry> readAll(Entry template, long timeout) throws SpaceException {
+    public <T extends Entry> List<T> readAll(Entry template, long timeout) throws SpaceException {
         return readAll(template, null, timeout, 10);
     }
 
-    public Collection<Entry> readAll(Entry template, Transaction transaction, long timeout) throws SpaceException {
+    public <T extends Entry> List<T> readAll(Entry template, Transaction transaction, long timeout) throws SpaceException {
         return readAll(template, transaction, timeout, 10);
     }
 
-    public Collection<Entry> readAll(Entry template, Transaction transaction, long timeout, int count) throws SpaceException {
+    public <T extends Entry> List<T> readAll(Entry template, Transaction transaction, long timeout, int count) throws SpaceException {
         Collection<Entry> templates = new ArrayList<>();
-        Collection<Entry> results = new ArrayList<>();
+        List<T> results = new ArrayList<>();
         templates.add(template);
         try {
             MatchSet res = javaSpace05.contents(templates, transaction, timeout, count);
-
-
-            Entry result = res.next();
+            T result = (T) res.next();
             while (result != null){
                 results.add(result);
-                result = res.next();
+                result = (T) res.next();
             }
             return results;
         }
         catch (Exception e) { throw new SpaceException(e); }
     }
 
-    public Collection<Entry> takeAll(Entry template) throws SpaceException {
+    public <T extends Entry> List<T> takeAll(Entry template) throws SpaceException {
         return takeAll(template, null, ONE_SECOND*5, 10);
     }
 
-    public Collection<Entry> takeAll(Entry template, int count) throws SpaceException {
+    public <T extends Entry> List<T> takeAll(Entry template, int count) throws SpaceException {
         return takeAll(template, null, ONE_SECOND*5, count);
     }
 
-    public Collection<Entry> takeAll(Entry template, long timeout) throws SpaceException {
+    public <T extends Entry> List<T> takeAll(Entry template, long timeout) throws SpaceException {
         return takeAll(template, null, timeout, 10);
     }
 
-    public Collection<Entry> takeAll(Entry template, Transaction transaction, long timeout) throws SpaceException {
+    public <T extends Entry> List<T>takeAll(Entry template, Transaction transaction, long timeout) throws SpaceException {
         return takeAll(template, transaction, timeout, 10);
     }
 
-    public Collection<Entry> takeAll(Entry template, Transaction transaction, long timeout, int count) throws SpaceException {
+    public <T extends Entry> List<T> takeAll(Entry template, Transaction transaction, long timeout, int count) throws SpaceException {
         Collection<Entry> templates = new ArrayList<>();
         templates.add(template);
-        try { return (Collection<Entry>) javaSpace05.take(templates, transaction, timeout, count); }
-        catch (Exception e) { throw new SpaceException(e); }
+        try {
+            List<T> results = new ArrayList<>();
+            for (Entry entry : (Collection<Entry>) javaSpace05.take(templates, transaction, timeout, count)) { results.add((T) entry); }
+            return results;
+        } catch (Exception e) { throw new SpaceException(e); }
     }
 
     public Lease put(Entry template) throws SpaceException {

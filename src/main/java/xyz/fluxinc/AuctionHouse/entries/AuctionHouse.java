@@ -6,7 +6,9 @@ public class AuctionHouse implements Entry {
 
     public Integer currentCount;
 
-    public AuctionHouse() { currentCount = 0; }
+    public AuctionHouse() {}
+
+    public AuctionHouse(int currentCount) { this.currentCount = currentCount; }
 
     public void addAuction() { currentCount += 1;}
 

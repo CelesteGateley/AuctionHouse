@@ -10,6 +10,9 @@ import xyz.fluxinc.AuctionHouse.exceptions.authentication.UserNotFoundException;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+
+import static xyz.fluxinc.AuctionHouse.controllers.SpaceController.degenerifyCollection;
 
 public class AuthenticationController {
 
@@ -57,11 +60,13 @@ public class AuthenticationController {
         this.currentUser = null;
     }
 
-    public Collection<User> getAllUsers() throws SpaceException {
+    public List<User> getAllUsers() throws SpaceException {
         Collection<Entry> entries = spaceController.readAll(new User());
-        Collection<User> users = new ArrayList<>();
-        for (Entry entry : entries) { users.add((User) entry); }
-        return users;
+        return degenerifyCollection(entries);
+    }
+
+    public String getUsername() {
+        return currentUser == null ? "anonymous" : currentUser.username;
     }
 
 }

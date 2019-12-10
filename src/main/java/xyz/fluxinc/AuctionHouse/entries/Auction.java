@@ -2,29 +2,35 @@ package xyz.fluxinc.AuctionHouse.entries;
 
 import net.jini.core.entry.Entry;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Auction implements Entry {
 
-    public Integer counterValue;
+    public Integer auctionId;
+    public String ownerName;
     public String name;
     public Double currentPrice;
     public Double buyItNowPrice;
+    public Integer bidCount;
 
     public Auction() {}
 
-    public Auction(int counterValue, String name, double buyItNowPrice) {
-        this.counterValue = counterValue;
+    public Auction(int auctionId, String ownerName, String name, double buyItNowPrice) {
+        this.auctionId = auctionId;
+        this.ownerName = ownerName;
         this.name = name;
         this.buyItNowPrice = buyItNowPrice;
         this.currentPrice = 1d;
     }
 
-    public Auction(int counterValue, String name, double buyItNowPrice, double currentPrice) {
-        this.counterValue = counterValue;
+    public Auction(int auctionId, String ownerName, String name, double buyItNowPrice, double currentPrice) {
+        this.auctionId = auctionId;
+        this.ownerName = ownerName;
         this.name = name;
         this.buyItNowPrice = buyItNowPrice;
         this.currentPrice = currentPrice;
+        this.bidCount = 0;
+    }
+
+    public void addBid() {
+        bidCount++;
     }
 }

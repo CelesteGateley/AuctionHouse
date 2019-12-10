@@ -14,8 +14,8 @@ public class SystemController {
     public SystemController(String url) throws SpaceException, SpaceNotFoundException {
         spaceController = new SpaceController(url);
         authenticationController = new AuthenticationController(spaceController);
-        auctionHouseController = new AuctionHouseController(spaceController);
-        userInterfaceController = new UserInterfaceController(authenticationController);
+        auctionHouseController = new AuctionHouseController(spaceController, authenticationController);
+        //userInterfaceController = new UserInterfaceController(authenticationController);
     }
 
     public UserInterfaceController getUserInterfaceController() { return userInterfaceController;}
