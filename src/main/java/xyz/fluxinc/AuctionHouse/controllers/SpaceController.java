@@ -73,47 +73,37 @@ public class SpaceController {
         initialize();
     }
 
-    public <T extends Entry> T take(Entry template) throws SpaceException {
-        return take(template, null, ONE_SECOND*5);
-    }
+    public <T extends Entry> T take(Entry template) throws SpaceException { return take(template, null, ONE_SECOND*5); }
 
-    public <T extends Entry> T take(Entry template, long timeout) throws SpaceException {
-        return take(template, null, timeout);
-    }
+    public <T extends Entry> T take(Entry template, long timeout) throws SpaceException { return take(template, null, timeout); }
 
     public <T extends Entry> T take(Entry template, Transaction transaction, long timeout) throws SpaceException {
-        try { return  (T) javaSpace.take(template, transaction, timeout); }
-        catch (UnusableEntryException | TransactionException | InterruptedException | RemoteException e) { throw new SpaceException(e); }
+        try {
+            return  (T) javaSpace.take(template, transaction, timeout);
+        } catch (UnusableEntryException | TransactionException | InterruptedException | RemoteException e) {
+            throw new SpaceException(e);
+        }
     }
 
-    public <T extends Entry> T read(Entry template) throws SpaceException {
-        return read(template, null, ONE_SECOND*5);
-    }
+    public <T extends Entry> T read(Entry template) throws SpaceException { return read(template, null, ONE_SECOND*5); }
 
-    public <T extends Entry> T read(Entry template, long timeout) throws SpaceException {
-        return read(template, null, timeout);
-    }
+    public <T extends Entry> T read(Entry template, long timeout) throws SpaceException { return read(template, null, timeout); }
 
     public <T extends Entry> T read(Entry template, Transaction transaction, long timeout) throws SpaceException {
-        try { return (T) javaSpace.read(template, transaction, timeout); }
-        catch (UnusableEntryException | TransactionException | InterruptedException | RemoteException e) { throw new SpaceException(e); }
+        try {
+            return (T) javaSpace.read(template, transaction, timeout);
+        } catch (UnusableEntryException | TransactionException | InterruptedException | RemoteException e) {
+            throw new SpaceException(e);
+        }
     }
 
-    public <T extends Entry> List<T> readAll(Entry template) throws SpaceException {
-        return readAll(template, null, ONE_SECOND*5, 10);
-    }
+    public <T extends Entry> List<T> readAll(Entry template) throws SpaceException { return readAll(template, null, ONE_SECOND*5, 10); }
 
-    public <T extends Entry> List<T> readAll(Entry template, int count) throws SpaceException {
-        return readAll(template, null, ONE_SECOND*5, count);
-    }
+    public <T extends Entry> List<T> readAll(Entry template, int count) throws SpaceException { return readAll(template, null, ONE_SECOND*5, count); }
 
-    public <T extends Entry> List<T> readAll(Entry template, long timeout) throws SpaceException {
-        return readAll(template, null, timeout, 10);
-    }
+    public <T extends Entry> List<T> readAll(Entry template, long timeout) throws SpaceException { return readAll(template, null, timeout, 10); }
 
-    public <T extends Entry> List<T> readAll(Entry template, Transaction transaction, long timeout) throws SpaceException {
-        return readAll(template, transaction, timeout, 10);
-    }
+    public <T extends Entry> List<T> readAll(Entry template, Transaction transaction, long timeout) throws SpaceException { return readAll(template, transaction, timeout, 10); }
 
     public <T extends Entry> List<T> readAll(Entry template, Transaction transaction, long timeout, int count) throws SpaceException {
         Collection<Entry> templates = new ArrayList<>();
@@ -131,21 +121,13 @@ public class SpaceController {
         catch (Exception e) { throw new SpaceException(e); }
     }
 
-    public <T extends Entry> List<T> takeAll(Entry template) throws SpaceException {
-        return takeAll(template, null, ONE_SECOND*5, 10);
-    }
+    public <T extends Entry> List<T> takeAll(Entry template) throws SpaceException { return takeAll(template, null, ONE_SECOND*5, 10); }
 
-    public <T extends Entry> List<T> takeAll(Entry template, int count) throws SpaceException {
-        return takeAll(template, null, ONE_SECOND*5, count);
-    }
+    public <T extends Entry> List<T> takeAll(Entry template, int count) throws SpaceException { return takeAll(template, null, ONE_SECOND*5, count); }
 
-    public <T extends Entry> List<T> takeAll(Entry template, long timeout) throws SpaceException {
-        return takeAll(template, null, timeout, 10);
-    }
+    public <T extends Entry> List<T> takeAll(Entry template, long timeout) throws SpaceException { return takeAll(template, null, timeout, 10); }
 
-    public <T extends Entry> List<T>takeAll(Entry template, Transaction transaction, long timeout) throws SpaceException {
-        return takeAll(template, transaction, timeout, 10);
-    }
+    public <T extends Entry> List<T>takeAll(Entry template, Transaction transaction, long timeout) throws SpaceException { return takeAll(template, transaction, timeout, 10); }
 
     public <T extends Entry> List<T> takeAll(Entry template, Transaction transaction, long timeout, int count) throws SpaceException {
         Collection<Entry> templates = new ArrayList<>();
@@ -157,17 +139,16 @@ public class SpaceController {
         } catch (Exception e) { throw new SpaceException(e); }
     }
 
-    public Lease put(Entry template) throws SpaceException {
-        return put(template, null, ONE_HOUR);
-    }
+    public Lease put(Entry template) throws SpaceException { return put(template, null, ONE_HOUR); }
 
-    public Lease put(Entry template, long leaseTime) throws SpaceException {
-        return put(template, null, leaseTime);
-    }
+    public Lease put(Entry template, long leaseTime) throws SpaceException { return put(template, null, leaseTime); }
 
     public Lease put(Entry template, Transaction transaction, long leaseTime) throws SpaceException {
-        try { return javaSpace.write(template, transaction, leaseTime); }
-        catch (TransactionException | RemoteException e) { throw new SpaceException(e); }
+        try {
+            return javaSpace.write(template, transaction, leaseTime);
+        } catch (TransactionException | RemoteException e) {
+            throw new SpaceException(e);
+        }
     }
 
 }
