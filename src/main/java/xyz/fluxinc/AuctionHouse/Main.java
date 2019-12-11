@@ -4,6 +4,8 @@ import xyz.fluxinc.AuctionHouse.controllers.SpaceController;
 import xyz.fluxinc.AuctionHouse.controllers.SystemController;
 import xyz.fluxinc.AuctionHouse.entries.Auction;
 import xyz.fluxinc.AuctionHouse.entries.AuctionHouse;
+import xyz.fluxinc.AuctionHouse.entries.Bid;
+import xyz.fluxinc.AuctionHouse.exceptions.auction.AuctionNotFoundException;
 import xyz.fluxinc.AuctionHouse.exceptions.authentication.AuthenticationException;
 import xyz.fluxinc.AuctionHouse.exceptions.authentication.UserNotFoundException;
 import xyz.fluxinc.AuctionHouse.exceptions.space.SpaceException;
@@ -18,7 +20,7 @@ import java.util.List;
 public class Main {
     //-Djava.security.policy=policy.all -Djava.rmi.server.useCodebaseOnly=false
 
-    public static void main(String[] args) throws SpaceNotFoundException, SpaceException, UserExistsException, UserNotFoundException, AuthenticationException {
+    public static void main(String[] args) throws SpaceNotFoundException, SpaceException, UserExistsException, UserNotFoundException, AuthenticationException, AuctionNotFoundException {
         List<String> arguments = Arrays.asList(args);
         boolean addRoot = arguments.contains("-add-root");
         boolean anonymous = arguments.contains("-anonymous");
@@ -33,24 +35,20 @@ public class Main {
             catch(UserExistsException ignored) {}
         }
 
-        //systemController.getUserInterfaceController().showLoginScreen();
-
         systemController.getAuthenticationController().login("root", "root");
 
         systemController.getAuctionHouseController().placeAuction("Test 1", 1, 1);
-        systemController.getAuctionHouseController().placeAuction("Test 2", 1, 1);
-        systemController.getAuctionHouseController().placeAuction("Test 3", 1, 1);
-        systemController.getAuctionHouseController().placeAuction("Test 4", 1, 1);
-        systemController.getAuctionHouseController().placeAuction("Test 5", 1, 1);
-        systemController.getAuctionHouseController().placeAuction("Test 6", 1, 1);
 
-        Collection<Auction> auctions = systemController.getAuctionHouseController().readAllAuctions();
-        systemController.getSpaceController().takeAll(new Auction());
-
-        for (Auction auction : auctions) {
-            System.out.println(auction.auctionId + ": " + auction.name);
+        for (int i = 0; i < 10; i++) {
+            systemController.getAuctionHouseController().placeBid(0, i);
         }
 
+        List<Bid> bids = systemController.getAuctionHouseController().getBids(0);
+        for (Bid bid : bids) {
+            System.out.println(bid.bidAmount);
+        }
+
+        System.exit(0);
 
     }
 

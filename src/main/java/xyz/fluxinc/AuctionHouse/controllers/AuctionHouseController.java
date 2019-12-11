@@ -92,9 +92,15 @@ public class AuctionHouseController {
         return spaceController.readAll(new Bid(auctionId), auction.bidCount);
     }
 
-    public Bid placeBid(int auctionId, double amount) throws SpaceException {
+    public Bid placeBid(int auctionId, double amount) throws SpaceException, AuctionNotFoundException {
+        Auction template = new Auction();
+        template.auctionId = auctionId;
+        Auction auction = spaceController.take(template);
+        if (auction == null) { throw new AuctionNotFoundException("An Auction with the ID " + auctionId + " was not found within the system"); }
         Bid bid = new Bid(auctionId, authenticationController.getUsername(), amount);
         spaceController.put(bid, BID_VALIDITY_PERIOD);
+        auction.addBid();
+        spaceController.put(auction, AUCTION_VALIDITY_PERIOD);
         return bid;
     }
 }
