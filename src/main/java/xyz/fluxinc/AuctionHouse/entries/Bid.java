@@ -2,7 +2,7 @@ package xyz.fluxinc.AuctionHouse.entries;
 
 import net.jini.core.entry.Entry;
 
-public class Bid implements Entry {
+public class Bid implements Entry, Comparable<Bid> {
 
     public Integer auctionId;
     public String username;
@@ -16,5 +16,10 @@ public class Bid implements Entry {
         this.auctionId = auctionId;
         this.username = username;
         this.bidAmount = bidAmount;
+    }
+
+    @Override
+    public int compareTo(Bid other) {
+        return bidAmount.compareTo(other.bidAmount);
     }
 }
