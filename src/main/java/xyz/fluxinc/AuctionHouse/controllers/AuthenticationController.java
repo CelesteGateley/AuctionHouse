@@ -1,18 +1,12 @@
 package xyz.fluxinc.AuctionHouse.controllers;
 
-import net.jini.core.entry.Entry;
 import net.jini.core.lease.Lease;
 import xyz.fluxinc.AuctionHouse.entries.User;
-import xyz.fluxinc.AuctionHouse.exceptions.space.SpaceException;
 import xyz.fluxinc.AuctionHouse.exceptions.authentication.AuthenticationException;
 import xyz.fluxinc.AuctionHouse.exceptions.authentication.UserExistsException;
 import xyz.fluxinc.AuctionHouse.exceptions.authentication.UserNotFoundException;
-
-import java.util.ArrayList;
-import java.util.Collection;
+import xyz.fluxinc.AuctionHouse.exceptions.space.SpaceException;
 import java.util.List;
-
-import static xyz.fluxinc.AuctionHouse.controllers.SpaceController.degenerifyCollection;
 
 public class AuthenticationController {
 
@@ -33,12 +27,12 @@ public class AuthenticationController {
 
     private User fetchUser(String username) throws SpaceException {
         User template = new User(username);
-        return (User) spaceController.read(template);
+        return spaceController.read(template);
     }
 
     public User deleteUser(String username) throws SpaceException {
         User template = new User(username);
-        return (User) spaceController.take(template);
+        return spaceController.take(template);
     }
 
     public void register(String username, String password) throws SpaceException, UserExistsException {
@@ -61,8 +55,7 @@ public class AuthenticationController {
     }
 
     public List<User> getAllUsers() throws SpaceException {
-        Collection<Entry> entries = spaceController.readAll(new User());
-        return degenerifyCollection(entries);
+        return spaceController.readAll(new User());
     }
 
     public String getUsername() {

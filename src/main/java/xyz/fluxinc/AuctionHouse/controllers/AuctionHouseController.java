@@ -15,6 +15,7 @@ public class AuctionHouseController {
     private static final long AUCTION_HOUSE_VALIDITY_PERIOD = SpaceController.ONE_DAY;
     private static final long AUCTION_HOUSE_LOOKUP_TIMEOUT = SpaceController.ONE_SECOND * 30;
     private static final long AUCTION_VALIDITY_PERIOD = SpaceController.ONE_DAY;
+    private static final long BID_VALIDITY_PERIOD = SpaceController.ONE_DAY;
 
     private AuthenticationController authenticationController;
     private SpaceController spaceController;
@@ -89,5 +90,11 @@ public class AuctionHouseController {
         Auction auction = spaceController.read(templateAuction);
         if (auction == null) { throw new AuctionNotFoundException("An Auction with the ID " + auctionId + " was not found within the system"); }
         return spaceController.readAll(new Bid(auctionId), auction.bidCount);
+    }
+
+    public Bid placeBid(int auctionId, double amount) throws SpaceException {
+        Bid bid = new Bid(auctionId, authenticationController.getUsername(), amount);
+        spaceController.put(bid, BID_VALIDITY_PERIOD);
+        return bid;
     }
 }
