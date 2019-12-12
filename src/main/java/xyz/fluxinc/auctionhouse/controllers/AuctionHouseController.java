@@ -1,9 +1,11 @@
 package xyz.fluxinc.auctionhouse.controllers;
 
-import xyz.fluxinc.auctionhouse.entries.Auction1755082;
-import xyz.fluxinc.auctionhouse.entries.AuctionHouse1755082;
-import xyz.fluxinc.auctionhouse.entries.AuctionHouseLock1755082;
-import xyz.fluxinc.auctionhouse.entries.Bid1755082;
+import xyz.fluxinc.auctionhouse.entries.auction.Auction1755082;
+import xyz.fluxinc.auctionhouse.entries.auction.Bid1755082;
+import xyz.fluxinc.auctionhouse.entries.auctionhouse.AuctionHouse1755082;
+import xyz.fluxinc.auctionhouse.entries.auctionhouse.AuctionHouseLock1755082;
+import xyz.fluxinc.auctionhouse.entries.notifications.Notification;
+import xyz.fluxinc.auctionhouse.entries.notifications.NotificationType;
 import xyz.fluxinc.auctionhouse.exceptions.auction.AuctionNotFoundException;
 import xyz.fluxinc.auctionhouse.exceptions.authentication.AuthenticationException;
 import xyz.fluxinc.auctionhouse.exceptions.space.SpaceException;
@@ -20,6 +22,8 @@ public class AuctionHouseController {
 
     private AuthenticationController authenticationController;
     private SpaceController spaceController;
+
+    private List<Notification> notifications;
 
     public AuctionHouseController(SpaceController spaceController, AuthenticationController authenticationController) throws SpaceException {
         this.spaceController = spaceController;
@@ -105,4 +109,10 @@ public class AuctionHouseController {
         spaceController.put(auction, AUCTION_VALIDITY_PERIOD);
         return bid;
     }
+
+    public List<Notification> getNotifications() { return notifications; }
+
+    public void addNotification(Bid1755082 bid, NotificationType type) { notifications.add(new Notification(type, bid)); }
+
+    public void addNotification(Auction1755082 auction, NotificationType type) { notifications.add(new Notification(type, auction)); }
 }

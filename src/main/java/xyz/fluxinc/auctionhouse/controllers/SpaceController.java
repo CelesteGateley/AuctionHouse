@@ -3,6 +3,8 @@ package xyz.fluxinc.auctionhouse.controllers;
 import net.jini.core.discovery.LookupLocator;
 import net.jini.core.entry.Entry;
 import net.jini.core.entry.UnusableEntryException;
+import net.jini.core.event.EventRegistration;
+import net.jini.core.event.RemoteEventListener;
 import net.jini.core.lease.Lease;
 import net.jini.core.lookup.ServiceRegistrar;
 import net.jini.core.lookup.ServiceTemplate;
@@ -144,6 +146,20 @@ public class SpaceController {
     public Lease put(Entry template, Transaction transaction, long leaseTime) throws SpaceException {
         try {
             return javaSpace.write(template, transaction, leaseTime);
+        } catch (TransactionException | RemoteException e) {
+            throw new SpaceException(e);
+        }
+    }
+
+    public EventRegistration notify(RemoteEventListener stub, Entry template) throws SpaceException { return notify(stub, template, null, Lease.FOREVER); }
+
+    public EventRegistration notify(RemoteEventListener stub, Entry template, long leaseTime) throws SpaceException { return notify(stub, template, null, leaseTime); }
+
+    public EventRegistration notify(RemoteEventListener stub, Entry template, Transaction transaction) throws SpaceException{ return notify(stub, template, transaction, Lease.FOREVER); }
+
+    public EventRegistration notify(RemoteEventListener stub, Entry template, Transaction transaction, long leaseTime) throws SpaceException {
+        try {
+            return javaSpace.notify(template, null, stub, leaseTime, null);
         } catch (TransactionException | RemoteException e) {
             throw new SpaceException(e);
         }

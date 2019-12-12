@@ -1,4 +1,4 @@
-package xyz.fluxinc.auctionhouse.entries;
+package xyz.fluxinc.auctionhouse.entries.auction;
 
 import net.jini.core.entry.Entry;
 
@@ -7,6 +7,7 @@ public class Bid1755082 implements Entry, Comparable<Bid1755082> {
     public Integer auctionId;
     public String username;
     public Double bidAmount;
+    public Boolean isAccepted;
 
     public Bid1755082() {}
 

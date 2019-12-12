@@ -1,4 +1,4 @@
-package xyz.fluxinc.auctionhouse.entries;
+package xyz.fluxinc.auctionhouse.entries.auction;
 
 import net.jini.core.entry.Entry;
 
@@ -10,6 +10,7 @@ public class Auction1755082 implements Entry {
     public Double currentPrice;
     public Double buyItNowPrice;
     public Integer bidCount;
+    public Boolean isClosed;
 
     public Auction1755082() {}
 
@@ -19,6 +20,7 @@ public class Auction1755082 implements Entry {
         this.name = name;
         this.buyItNowPrice = buyItNowPrice;
         this.currentPrice = 1d;
+        this.isClosed = false;
     }
 
     public Auction1755082(int auctionId, String ownerName, String name, double buyItNowPrice, double currentPrice) {
@@ -30,7 +32,7 @@ public class Auction1755082 implements Entry {
         this.bidCount = 0;
     }
 
-    public void addBid() {
-        bidCount++;
-    }
+    public void addBid() { bidCount++; }
+
+    public void close() { isClosed = false; }
 }

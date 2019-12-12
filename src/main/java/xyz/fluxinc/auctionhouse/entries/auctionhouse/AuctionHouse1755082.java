@@ -1,4 +1,4 @@
-package xyz.fluxinc.auctionhouse.entries;
+package xyz.fluxinc.auctionhouse.entries.auctionhouse;
 
 import net.jini.core.entry.Entry;
 
