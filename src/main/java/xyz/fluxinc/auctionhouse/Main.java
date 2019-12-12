@@ -44,14 +44,13 @@ public class Main {
                 System.exit(0);
             } catch (SpaceException ignored) { System.exit(0); }
 
+
+
             if (addRoot) {
                 try { systemController.getAuthenticationController().registerAdministrator("root", "root"); }
                 catch(UserExistsException | SpaceException ignored) {}
             }
         }
-
-
-
 
         System.exit(0);
 

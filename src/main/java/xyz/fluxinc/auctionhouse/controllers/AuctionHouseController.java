@@ -5,6 +5,7 @@ import xyz.fluxinc.auctionhouse.entries.AuctionHouse1755082;
 import xyz.fluxinc.auctionhouse.entries.AuctionHouseLock1755082;
 import xyz.fluxinc.auctionhouse.entries.Bid1755082;
 import xyz.fluxinc.auctionhouse.exceptions.auction.AuctionNotFoundException;
+import xyz.fluxinc.auctionhouse.exceptions.authentication.AuthenticationException;
 import xyz.fluxinc.auctionhouse.exceptions.space.SpaceException;
 
 import java.util.List;
@@ -52,11 +53,12 @@ public class AuctionHouseController {
         return spaceController.read(new AuctionHouseLock1755082()) == null;
     }
 
-    public Auction1755082 placeAuction(String name, double buyItNowPrice) throws SpaceException {
+    public Auction1755082 placeAuction(String name, double buyItNowPrice) throws SpaceException, AuthenticationException {
         return placeAuction(name, buyItNowPrice, 1);
     }
 
-    public Auction1755082 placeAuction(String name, double buyItNowPrice, double currentBid) throws SpaceException {
+    public Auction1755082 placeAuction(String name, double buyItNowPrice, double currentBid) throws SpaceException, AuthenticationException {
+        if (!authenticationController.isLoggedIn())  { throw new AuthenticationException("You must be logged in to perform this action"); }
         byte[] key = new byte[7];
         new Random().nextBytes(key);
         AuctionHouseLock1755082 lock = new AuctionHouseLock1755082(key);
@@ -91,7 +93,8 @@ public class AuctionHouseController {
         return spaceController.readAll(new Bid1755082(auctionId), auction.bidCount);
     }
 
-    public Bid1755082 placeBid(int auctionId, double amount) throws SpaceException, AuctionNotFoundException {
+    public Bid1755082 placeBid(int auctionId, double amount) throws SpaceException, AuctionNotFoundException, AuthenticationException {
+        if (!authenticationController.isLoggedIn())  { throw new AuthenticationException("You must be logged in to perform this action"); }
         Auction1755082 template = new Auction1755082();
         template.auctionId = auctionId;
         Auction1755082 auction = spaceController.take(template);

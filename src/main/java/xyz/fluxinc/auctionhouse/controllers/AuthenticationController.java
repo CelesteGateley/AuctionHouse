@@ -20,20 +20,13 @@ public class AuthenticationController {
     public void login(String username, String password) throws SpaceException, UserNotFoundException, AuthenticationException {
         User1755082 expectedUser = fetchUser(username);
         if (expectedUser == null) { throw new UserNotFoundException("A User with that name was not found on the system."); }
-        if (expectedUser.checkPassword(password)) {
-            this.currentUser = expectedUser;
-        } else { throw new AuthenticationException("The password specified does not match the expected password"); }
+        if (expectedUser.checkPassword(password)) { this.currentUser = expectedUser; }
+        else { throw new AuthenticationException("The password specified does not match the expected password"); }
     }
 
-    private User1755082 fetchUser(String username) throws SpaceException {
-        User1755082 template = new User1755082(username);
-        return spaceController.read(template);
-    }
+    private User1755082 fetchUser(String username) throws SpaceException { return spaceController.read(new User1755082(username)); }
 
-    public User1755082 deleteUser(String username) throws SpaceException {
-        User1755082 template = new User1755082(username);
-        return spaceController.take(template);
-    }
+    public User1755082 deleteUser(String username) throws SpaceException { return spaceController.take(new User1755082(username)); }
 
     public void register(String username, String password) throws SpaceException, UserExistsException {
         if (fetchUser(username) != null) { throw new UserExistsException("A user with that name already exists."); }
@@ -50,16 +43,12 @@ public class AuthenticationController {
         System.out.println("Successfully registered as: " + currentUser.username);
     }
 
-    public void logout() {
-        this.currentUser = null;
-    }
+    public void logout() { this.currentUser = null; }
 
-    public List<User1755082> getAllUsers() throws SpaceException {
-        return spaceController.readAll(new User1755082());
-    }
+    public List<User1755082> getAllUsers() throws SpaceException { return spaceController.readAll(new User1755082()); }
 
-    public String getUsername() {
-        return currentUser == null ? "anonymous" : currentUser.username;
-    }
+    public String getUsername() { return currentUser == null ? "anonymous" : currentUser.username; }
+
+    public boolean isLoggedIn() { return currentUser == null; }
 
 }
