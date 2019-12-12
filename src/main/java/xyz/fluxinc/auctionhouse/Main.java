@@ -8,6 +8,7 @@ import xyz.fluxinc.auctionhouse.exceptions.space.SpaceException;
 import xyz.fluxinc.auctionhouse.exceptions.space.SpaceNotFoundException;
 import xyz.fluxinc.auctionhouse.exceptions.authentication.UserExistsException;
 
+import javax.swing.*;
 import java.util.Arrays;
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class Main {
 
     private static final String DEFAULT_HOST = "localhost";
 
-    public static void main(String[] args) throws SpaceNotFoundException, SpaceException, UserNotFoundException, AuthenticationException, AuctionNotFoundException {
+    public static void main(String[] args) {
         List<String> arguments = Arrays.asList(args);
         boolean addRoot = arguments.contains("-add-root");
         boolean anonymous = arguments.contains("-anonymous");
@@ -35,11 +36,17 @@ public class Main {
             System.out.println("| -host (hostname) - Sets the hostname for the system to connect to. If this isn't set, then " + DEFAULT_HOST + " is used            |");
             System.out.println("---------------------------------------------------------------------------------------------------------------------------");
         } else {
-            SystemController systemController = new SystemController(hostname);
+            SystemController systemController = null;
+            try {
+                systemController = new SystemController(hostname);
+            }  catch (SpaceNotFoundException e) {
+                JOptionPane.showMessageDialog(null, "A Space was not found at the specified hostname", "An Error Occurred During Initialization", JOptionPane.ERROR_MESSAGE);
+                System.exit(0);
+            } catch (SpaceException ignored) { System.exit(0); }
 
             if (addRoot) {
                 try { systemController.getAuthenticationController().registerAdministrator("root", "root"); }
-                catch(UserExistsException ignored) {}
+                catch(UserExistsException | SpaceException ignored) {}
             }
         }
 
