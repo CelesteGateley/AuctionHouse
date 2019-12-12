@@ -1,18 +1,19 @@
-package xyz.fluxinc.auctionhouse.ui.views;
+package xyz.fluxinc.auctionhouse.ui.views.authentication;
 
 import xyz.fluxinc.auctionhouse.ui.actions.AuthenticateAction;
+import xyz.fluxinc.auctionhouse.ui.views.Screen;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class LoginScreen extends Screen {
+public class RegisterScreen extends Screen {
 
     private JTextField usernameField;
     private JPasswordField passwordField;
 
-    public LoginScreen(AuthenticateAction authenticateAction) {
+    public RegisterScreen(AuthenticateAction authenticateAction) {
         getPanel().setLayout(new GridLayout(3,1));
-        getPanel().add(new JLabel("Please Login to Continue!", SwingConstants.CENTER));
+        getPanel().add(new JLabel("Please Register to Continue!", SwingConstants.CENTER));
 
         initializeFields();
         authenticateAction.setUsernameField(usernameField);
@@ -26,10 +27,10 @@ public class LoginScreen extends Screen {
         subPanel.add(passwordField);
         getPanel().add(subPanel);
 
-        JButton submitButton = new JButton("Login");
+        JButton submitButton = new JButton("Register!");
 
         submitButton.addActionListener(authenticateAction);
-        submitButton.setActionCommand("login");
+        submitButton.setActionCommand("register");
 
         getPanel().add(submitButton);
     }
