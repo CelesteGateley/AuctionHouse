@@ -38,14 +38,13 @@ public class AuctionHouseController {
 
     public AuctionHouse getAuctionHouse() throws SpaceException {
         AuctionHouse house = spaceController.read(new AuctionHouse());
-        if (house == null) { setupAuctionHouse(); }
-
+        if (house == null) { return setupAuctionHouse(); }
         return (AuctionHouse) spaceController.read(new AuctionHouse());
     }
 
     private AuctionHouse takeAuctionHouse() throws SpaceException {
         AuctionHouse house = spaceController.read(new AuctionHouse());
-        if (house == null) { setupAuctionHouse(); }
+        if (house == null) { return setupAuctionHouse(); }
 
         return (AuctionHouse) spaceController.take(new AuctionHouse());
     }

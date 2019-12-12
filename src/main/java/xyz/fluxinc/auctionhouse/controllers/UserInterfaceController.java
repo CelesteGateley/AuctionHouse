@@ -2,8 +2,8 @@ package xyz.fluxinc.auctionhouse.controllers;
 
 import xyz.fluxinc.auctionhouse.ui.actions.AuthenticateAction;
 import xyz.fluxinc.auctionhouse.ui.actions.NavbarAction;
-import xyz.fluxinc.auctionhouse.ui.views.LoginScreen;
-import xyz.fluxinc.auctionhouse.ui.views.RegisterScreen;
+import xyz.fluxinc.auctionhouse.ui.views.authentication.LoginScreen;
+import xyz.fluxinc.auctionhouse.ui.views.authentication.RegisterScreen;
 
 import javax.swing.*;
 
