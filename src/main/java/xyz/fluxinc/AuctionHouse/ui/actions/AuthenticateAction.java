@@ -5,6 +5,7 @@ import xyz.fluxinc.AuctionHouse.exceptions.space.SpaceException;
 import xyz.fluxinc.AuctionHouse.exceptions.authentication.AuthenticationException;
 import xyz.fluxinc.AuctionHouse.exceptions.authentication.UserExistsException;
 import xyz.fluxinc.AuctionHouse.exceptions.authentication.UserNotFoundException;
+import xyz.fluxinc.AuctionHouse.exceptions.ui.EmptyFieldException;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -28,30 +29,31 @@ public class AuthenticateAction implements ActionListener {
                 authenticationController.logout();
                 break;
             case "login":
-            case "register":
-                String username = usernameField.getText();
-                String password = String.copyValueOf(passwordField.getPassword());
-                if (username.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "No username was input!");
-                    return;
-                }
-                if (password.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "No password was input!");
-                    return;
-                }
                 try {
-                    if (e.getActionCommand() == "login") {
-                        authenticationController.login(username, password);
-                        JOptionPane.showMessageDialog(null, "Logged in successfully!");
-                    } else if (e.getActionCommand() == "register") {
-                        authenticationController.register(username, password);
-                        JOptionPane.showMessageDialog(null, "Registered successfully!");
-                    }
+                    String[] values = getDetails();
+                    authenticationController.login(values[0], values[1]);
+                } catch (EmptyFieldException | AuthenticationException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage());
+                    break;
                 } catch (SpaceException ex) {
-                    JOptionPane.showMessageDialog(null, ex.getMessage());
+                    JOptionPane.showMessageDialog(null, "An error has occurred whilst interacting with the space");
                     ex.printStackTrace();
-                } catch (UserNotFoundException | UserExistsException | AuthenticationException ex) {
+                    break;
+                } catch (UserNotFoundException ex) {
+                    JOptionPane.showMessageDialog(null, "A user with that name was not found in the system");
+                    break;
+                }
+            case "register":
+                try {
+                    String[] values = getDetails();
+                    authenticationController.register(values[0], values[1]);
+                } catch (EmptyFieldException | UserExistsException ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage());
+                    break;
+                } catch (SpaceException ex) {
+                    JOptionPane.showMessageDialog(null, "An error has occurred whilst interacting with the space");
+                    ex.printStackTrace();
+                    break;
                 }
             default:
                 break;
@@ -64,5 +66,16 @@ public class AuthenticateAction implements ActionListener {
 
     public void setPasswordField(JPasswordField passwordField) {
         this.passwordField = passwordField;
+    }
+
+    private String[] getDetails() throws EmptyFieldException {
+        String username = usernameField.getText();
+        String password = String.copyValueOf(passwordField.getPassword());
+        if (username.isEmpty()) { throw new EmptyFieldException("No username was input!"); }
+        if (password.isEmpty()) { throw new EmptyFieldException("No password was input!"); }
+        String[] values = new String[2];
+        values[0] = username;
+        values[1] = password;
+        return values;
     }
 }
