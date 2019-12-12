@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 
 public class NavbarAction implements ActionListener {
 
-    UserInterfaceController uiController;
+    private UserInterfaceController uiController;
 
     public NavbarAction(UserInterfaceController uiController) {
         this.uiController = uiController;
