@@ -37,8 +37,6 @@ public class SpaceController {
         this.jsURL = "jini://" + url;
         if (System.getSecurityManager() == null) { System.setSecurityManager(new SecurityManager()); }
         initialize();
-
-
     }
 
     private void initialize() throws SpaceException, SpaceNotFoundException {
@@ -79,7 +77,7 @@ public class SpaceController {
 
     public <T extends Entry> T take(Entry template, Transaction transaction, long timeout) throws SpaceException {
         try {
-            return  (T) javaSpace.take(template, transaction, timeout);
+            return (T) javaSpace.take(template, transaction, timeout);
         } catch (UnusableEntryException | TransactionException | InterruptedException | RemoteException e) {
             throw new SpaceException(e);
         }
