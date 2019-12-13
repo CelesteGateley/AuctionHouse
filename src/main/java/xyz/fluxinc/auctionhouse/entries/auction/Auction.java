@@ -2,7 +2,7 @@ package xyz.fluxinc.auctionhouse.entries.auction;
 
 import net.jini.core.entry.Entry;
 
-public class Auction1755082 implements Entry {
+public class Auction implements Entry {
 
     public Integer auctionId;
     public String ownerName;
@@ -12,9 +12,9 @@ public class Auction1755082 implements Entry {
     public Integer bidCount;
     public Boolean isClosed;
 
-    public Auction1755082() {}
+    public Auction() {}
 
-    public Auction1755082(int auctionId, String ownerName, String name, double buyItNowPrice) {
+    public Auction(int auctionId, String ownerName, String name, double buyItNowPrice) {
         this.auctionId = auctionId;
         this.ownerName = ownerName;
         this.name = name;
@@ -23,7 +23,7 @@ public class Auction1755082 implements Entry {
         this.isClosed = false;
     }
 
-    public Auction1755082(int auctionId, String ownerName, String name, double buyItNowPrice, double currentPrice) {
+    public Auction(int auctionId, String ownerName, String name, double buyItNowPrice, double currentPrice) {
         this.auctionId = auctionId;
         this.ownerName = ownerName;
         this.name = name;

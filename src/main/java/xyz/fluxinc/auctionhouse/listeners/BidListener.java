@@ -8,8 +8,8 @@ import net.jini.jeri.BasicILFactory;
 import net.jini.jeri.BasicJeriExporter;
 import net.jini.jeri.tcp.TcpServerEndpoint;
 import xyz.fluxinc.auctionhouse.controllers.SystemController;
-import xyz.fluxinc.auctionhouse.entries.auction.Auction1755082;
-import xyz.fluxinc.auctionhouse.entries.auction.Bid1755082;
+import xyz.fluxinc.auctionhouse.entries.auction.Auction;
+import xyz.fluxinc.auctionhouse.entries.auction.Bid;
 import xyz.fluxinc.auctionhouse.entries.notifications.NotificationType;
 import xyz.fluxinc.auctionhouse.exceptions.auction.AuctionNotFoundException;
 import xyz.fluxinc.auctionhouse.exceptions.space.SpaceException;
@@ -20,9 +20,9 @@ import java.util.List;
 public class BidListener implements RemoteEventListener {
 
    private SystemController systemController;
-   private Bid1755082 template;
+   private Bid template;
 
-    public BidListener(SystemController systemController, Bid1755082 template) throws SpaceException {
+    public BidListener(SystemController systemController, Bid template) throws SpaceException {
         this.systemController = systemController;
         this.template = template;
 
@@ -34,9 +34,9 @@ public class BidListener implements RemoteEventListener {
 
     public void notify(RemoteEvent remoteEvent) throws UnknownEventException, RemoteException {
         try {
-            List<Bid1755082> bids = systemController.getAuctionHouseController().getBids(template.auctionId);
-            Bid1755082 bid = bids.get(bids.size()-1);
-            Auction1755082 auction = systemController.getAuctionHouseController().readAuction(bid.auctionId);
+            List<Bid> bids = systemController.getAuctionHouseController().getBids(template.auctionId);
+            Bid bid = bids.get(bids.size()-1);
+            Auction auction = systemController.getAuctionHouseController().readAuction(bid.auctionId);
             if (auction.ownerName.equals(systemController.getAuthenticationController().getUsername())) {
                 systemController.getAuctionHouseController().addNotification(bid, NotificationType.BID_PLACED_OWNED);
             } else if (!bid.username.equals(systemController.getAuthenticationController().getUsername())) {

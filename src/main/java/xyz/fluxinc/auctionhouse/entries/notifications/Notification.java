@@ -1,7 +1,5 @@
 package xyz.fluxinc.auctionhouse.entries.notifications;
 
-import xyz.fluxinc.auctionhouse.entries.auction.Auction1755082;
-
 public class Notification<T> {
 
     private T target;
