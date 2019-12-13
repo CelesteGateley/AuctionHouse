@@ -1,20 +1,29 @@
 package xyz.fluxinc.auctionhouse.controllers;
 
+import xyz.fluxinc.auctionhouse.entries.notifications.Notification;
 import xyz.fluxinc.auctionhouse.ui.actions.AuthenticateAction;
 import xyz.fluxinc.auctionhouse.ui.actions.NavbarAction;
 import xyz.fluxinc.auctionhouse.ui.views.authentication.LoginScreen;
 import xyz.fluxinc.auctionhouse.ui.views.authentication.RegisterScreen;
 
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import javax.swing.*;
 
 public class UserInterfaceController {
 
+    private AuctionHouseController auctionHouseController;
     private AuthenticationController authenticationController;
     private JFrame window;
     private JMenuBar navbar;
+    private JMenuItem notificationButton;
+    private Timer notificationTimer;
 
-    public UserInterfaceController(AuthenticationController authenticationController) {
+    public UserInterfaceController(AuthenticationController authenticationController, AuctionHouseController auctionHouseController) {
         this.authenticationController = authenticationController;
+        this.auctionHouseController = auctionHouseController;
         window = new JFrame();
         navbar = new JMenuBar();
         initializeNavbar();
@@ -22,6 +31,17 @@ public class UserInterfaceController {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setTitle("Welcome to my Auction House!");
         window.setSize(400, 400);
+
+        notificationTimer = new Timer();
+        notificationTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                List<Notification> notifications = auctionHouseController.getNotifications();
+                int counter = 0;
+                for (Notification notification : notifications) { if (!notification.isRead()) counter++; }
+                notificationButton.setText("Notifications (" + counter + ")");
+            }
+        }, SpaceController.ONE_SECOND, SpaceController.ONE_SECOND * 5);
     }
 
 
@@ -64,6 +84,11 @@ public class UserInterfaceController {
         authMenu.add(logoutButton);
 
         navbar.add(authMenu);
+
+        notificationButton = new JMenuItem("Notifications (0)");
+        notificationButton.addActionListener(navbarAction);
+        notificationButton.setActionCommand("view-notifications");
+        navbar.add(notificationButton);
     }
 
     private void clearScreen() {
