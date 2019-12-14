@@ -15,7 +15,7 @@ public class SystemController {
         spaceController = new SpaceController(url);
         authenticationController = new AuthenticationController(spaceController);
         auctionHouseController = new AuctionHouseController(spaceController, authenticationController);
-        //userInterfaceController = new UserInterfaceController(authenticationController);
+        userInterfaceController = new UserInterfaceController(authenticationController, auctionHouseController);
     }
 
     public UserInterfaceController getUserInterfaceController() { return userInterfaceController;}

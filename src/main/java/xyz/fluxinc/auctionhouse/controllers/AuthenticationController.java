@@ -31,16 +31,13 @@ public class AuthenticationController {
     public void register(String username, String password) throws SpaceException, UserExistsException {
         if (fetchUser(username) != null) { throw new UserExistsException("A user with that name already exists."); }
         User user = new User(username, password);
-        this.currentUser = user;
         spaceController.put(user, SpaceController.ONE_DAY * 7);
     }
 
     public void registerAdministrator(String username, String password) throws SpaceException, UserExistsException {
         if (fetchUser(username) != null) { throw new UserExistsException("A user with that name already exists."); }
         User user = new User(username, password, true);
-        this.currentUser = user;
         spaceController.put(user, Lease.FOREVER);
-        System.out.println("Successfully registered as: " + currentUser.username);
     }
 
     public void logout() { this.currentUser = null; }
@@ -49,6 +46,7 @@ public class AuthenticationController {
 
     public String getUsername() { return currentUser == null ? "anonymous" : currentUser.username; }
 
-    public boolean isLoggedIn() { return currentUser == null; }
+    public boolean isLoggedIn() { return currentUser != null; }
 
+    public User getUser() { return this.currentUser; }
 }

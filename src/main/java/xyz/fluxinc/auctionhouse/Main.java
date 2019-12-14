@@ -1,12 +1,9 @@
 package xyz.fluxinc.auctionhouse;
 
 import xyz.fluxinc.auctionhouse.controllers.SystemController;
-import xyz.fluxinc.auctionhouse.exceptions.auction.AuctionNotFoundException;
-import xyz.fluxinc.auctionhouse.exceptions.authentication.AuthenticationException;
-import xyz.fluxinc.auctionhouse.exceptions.authentication.UserNotFoundException;
+import xyz.fluxinc.auctionhouse.exceptions.authentication.UserExistsException;
 import xyz.fluxinc.auctionhouse.exceptions.space.SpaceException;
 import xyz.fluxinc.auctionhouse.exceptions.space.SpaceNotFoundException;
-import xyz.fluxinc.auctionhouse.exceptions.authentication.UserExistsException;
 
 import javax.swing.*;
 import java.util.Arrays;
@@ -44,15 +41,15 @@ public class Main {
                 System.exit(0);
             } catch (SpaceException ignored) { System.exit(0); }
 
-
-
             if (addRoot) {
                 try { systemController.getAuthenticationController().registerAdministrator("root", "root"); }
                 catch(UserExistsException | SpaceException ignored) {}
             }
+
+            systemController.getUserInterfaceController().showLoginScreen();
         }
 
-        System.exit(0);
+        //System.exit(0);
 
     }
 

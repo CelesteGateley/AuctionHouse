@@ -1,6 +1,7 @@
 package xyz.fluxinc.auctionhouse.ui.actions;
 
 import xyz.fluxinc.auctionhouse.controllers.AuthenticationController;
+import xyz.fluxinc.auctionhouse.controllers.UserInterfaceController;
 import xyz.fluxinc.auctionhouse.exceptions.space.SpaceException;
 import xyz.fluxinc.auctionhouse.exceptions.authentication.AuthenticationException;
 import xyz.fluxinc.auctionhouse.exceptions.authentication.UserExistsException;
@@ -13,25 +14,28 @@ import java.awt.event.ActionListener;
 
 public class AuthenticateAction implements ActionListener {
 
+    private UserInterfaceController uiController;
     private JTextField usernameField;
     private JPasswordField passwordField;
     private AuthenticationController authenticationController;
 
-    public AuthenticateAction(AuthenticationController authenticationController) {
+    public AuthenticateAction(UserInterfaceController uiController, AuthenticationController authenticationController) {
         this.authenticationController = authenticationController;
+        this.uiController = uiController;
     }
-
 
     @Override
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
             case "logout":
                 authenticationController.logout();
+                uiController.showLoginScreen();
                 break;
             case "login":
                 try {
                     String[] values = getDetails();
                     authenticationController.login(values[0], values[1]);
+                    uiController.showAuctions();
                 } catch (EmptyFieldException | AuthenticationException ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage());
                     break;
@@ -43,10 +47,12 @@ public class AuthenticateAction implements ActionListener {
                     JOptionPane.showMessageDialog(null, "A user with that name was not found in the system");
                     break;
                 }
+                break;
             case "register":
                 try {
                     String[] values = getDetails();
                     authenticationController.register(values[0], values[1]);
+                    uiController.showLoginScreen();
                 } catch (EmptyFieldException | UserExistsException ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage());
                     break;
@@ -55,6 +61,7 @@ public class AuthenticateAction implements ActionListener {
                     ex.printStackTrace();
                     break;
                 }
+                break;
             default:
                 break;
         }

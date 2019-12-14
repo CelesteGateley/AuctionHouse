@@ -1,5 +1,7 @@
 package xyz.fluxinc.auctionhouse.controllers;
 
+import xyz.fluxinc.auctionhouse.entries.User;
+import xyz.fluxinc.auctionhouse.entries.auction.Auction;
 import xyz.fluxinc.auctionhouse.entries.notifications.Notification;
 import xyz.fluxinc.auctionhouse.ui.actions.AuthenticateAction;
 import xyz.fluxinc.auctionhouse.ui.actions.NavbarAction;
@@ -20,6 +22,10 @@ public class UserInterfaceController {
     private JMenuBar navbar;
     private JMenuItem notificationButton;
     private Timer notificationTimer;
+
+    private JMenuItem registerButton;
+    private JMenuItem loginButton;
+    private JMenuItem logoutButton;
 
     public UserInterfaceController(AuthenticationController authenticationController, AuctionHouseController auctionHouseController) {
         this.authenticationController = authenticationController;
@@ -42,21 +48,39 @@ public class UserInterfaceController {
                 notificationButton.setText("Notifications (" + counter + ")");
             }
         }, SpaceController.ONE_SECOND, SpaceController.ONE_SECOND * 5);
+
+        window.setVisible(true);
     }
 
 
     public void showLoginScreen() {
         clearScreen();
-        LoginScreen loginScreen = new LoginScreen(new AuthenticateAction(authenticationController));
+        LoginScreen loginScreen = new LoginScreen(new AuthenticateAction(this, authenticationController));
         window.setContentPane(loginScreen.getPanel());
         window.setVisible(true);
     }
 
     public void showRegisterScreen() {
         clearScreen();
-        RegisterScreen registerScreen = new RegisterScreen(new AuthenticateAction(authenticationController));
+        RegisterScreen registerScreen = new RegisterScreen(new AuthenticateAction(this, authenticationController));
         window.setContentPane(registerScreen.getPanel());
         window.setVisible(true);
+    }
+
+    public void showAuctions() {
+        clearScreen();
+        // TODO: Implement
+    }
+
+    public void showAuction(Auction auction) {
+        clearScreen();
+        // TODO: Implement
+    }
+
+    public void showAccount() {
+        User user = authenticationController.getUser();
+        clearScreen();
+        // TODO Implement
     }
 
     private void initializeNavbar() {
@@ -65,23 +89,25 @@ public class UserInterfaceController {
 
         // Login Button
         NavbarAction navbarAction = new NavbarAction(this);
-        JMenuItem loginButton = new JMenuItem("Login");
+        loginButton = new JMenuItem("Login");
         loginButton.addActionListener(navbarAction);
         loginButton.setActionCommand("login");
         authMenu.add(loginButton);
 
         // Login Button
-        JMenuItem registerButton = new JMenuItem("Register");
+        registerButton = new JMenuItem("Register");
         registerButton.addActionListener(navbarAction);
         registerButton.setActionCommand("register");
         authMenu.add(registerButton);
 
         authMenu.add(new JSeparator());
 
-        JMenuItem logoutButton = new JMenuItem("Logout");
-        logoutButton.addActionListener(new AuthenticateAction(authenticationController));
+        logoutButton = new JMenuItem("Logout");
+        logoutButton.addActionListener(new AuthenticateAction(this, authenticationController));
         logoutButton.setActionCommand("logout");
         authMenu.add(logoutButton);
+
+        verifyAuthButtons();
 
         navbar.add(authMenu);
 
@@ -93,5 +119,12 @@ public class UserInterfaceController {
 
     private void clearScreen() {
         window.getContentPane().removeAll();
+        verifyAuthButtons();
+    }
+
+    private void verifyAuthButtons() {
+        registerButton.setEnabled(!authenticationController.isLoggedIn());
+        loginButton.setEnabled(!authenticationController.isLoggedIn());
+        logoutButton.setEnabled(authenticationController.isLoggedIn());
     }
 }

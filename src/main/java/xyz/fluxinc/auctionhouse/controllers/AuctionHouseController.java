@@ -10,8 +10,7 @@ import xyz.fluxinc.auctionhouse.exceptions.auction.AuctionNotFoundException;
 import xyz.fluxinc.auctionhouse.exceptions.authentication.AuthenticationException;
 import xyz.fluxinc.auctionhouse.exceptions.space.SpaceException;
 
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class AuctionHouseController {
 
@@ -29,6 +28,7 @@ public class AuctionHouseController {
         this.spaceController = spaceController;
         this.authenticationController = authenticationController;
         setupAuctionHouse();
+        notifications = new ArrayList<>();
     }
 
     private AuctionHouse setupAuctionHouse() throws SpaceException {
