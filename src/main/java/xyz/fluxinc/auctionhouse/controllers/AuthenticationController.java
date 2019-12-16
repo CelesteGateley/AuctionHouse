@@ -6,23 +6,33 @@ import xyz.fluxinc.auctionhouse.exceptions.authentication.AuthenticationExceptio
 import xyz.fluxinc.auctionhouse.exceptions.authentication.UserExistsException;
 import xyz.fluxinc.auctionhouse.exceptions.authentication.UserNotFoundException;
 import xyz.fluxinc.auctionhouse.exceptions.space.SpaceException;
+
+import java.rmi.server.ExportException;
 import java.util.List;
 
 public class AuthenticationController {
 
     private SpaceController spaceController;
     private User currentUser = null;
+    private AuctionHouseController auctionHouseController = null;
 
     public AuthenticationController(SpaceController spaceController) {
         this.spaceController = spaceController;
     }
 
-    public void login(String username, String password) throws SpaceException, UserNotFoundException, AuthenticationException {
+    public void login(String username, String password) throws SpaceException, UserNotFoundException, AuthenticationException, ExportException {
         User expectedUser = fetchUser(username);
         if (expectedUser == null) { throw new UserNotFoundException("A User with that name was not found on the system."); }
         if (expectedUser.checkPassword(password)) { this.currentUser = expectedUser; }
         else { throw new AuthenticationException("The password specified does not match the expected password"); }
+        if (auctionHouseController != null) {
+            for (Integer auctionId : expectedUser.watchedLots) {
+                auctionHouseController.watchAuction(auctionId);
+            }
+        }
     }
+
+    public void assignAuctionHouse(AuctionHouseController auctionHouseController) { this.auctionHouseController = auctionHouseController; }
 
     private User fetchUser(String username) throws SpaceException { return spaceController.read(new User(username)); }
 

@@ -3,6 +3,8 @@ package xyz.fluxinc.auctionhouse.controllers;
 import xyz.fluxinc.auctionhouse.exceptions.space.SpaceException;
 import xyz.fluxinc.auctionhouse.exceptions.space.SpaceNotFoundException;
 
+import java.rmi.server.ExportException;
+
 public class SystemController {
 
     private AuthenticationController authenticationController;
@@ -11,10 +13,11 @@ public class SystemController {
 
     private SpaceController spaceController;
 
-    public SystemController(String url) throws SpaceException, SpaceNotFoundException {
+    public SystemController(String url) throws SpaceException, SpaceNotFoundException, ExportException {
         spaceController = new SpaceController(url);
         authenticationController = new AuthenticationController(spaceController);
         auctionHouseController = new AuctionHouseController(spaceController, authenticationController);
+        authenticationController.assignAuctionHouse(auctionHouseController);
         userInterfaceController = new UserInterfaceController(authenticationController, auctionHouseController);
     }
 

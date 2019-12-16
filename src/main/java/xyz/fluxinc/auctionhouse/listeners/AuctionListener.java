@@ -7,7 +7,8 @@ import net.jini.export.Exporter;
 import net.jini.jeri.BasicILFactory;
 import net.jini.jeri.BasicJeriExporter;
 import net.jini.jeri.tcp.TcpServerEndpoint;
-import xyz.fluxinc.auctionhouse.controllers.SystemController;
+import xyz.fluxinc.auctionhouse.controllers.AuctionHouseController;
+import xyz.fluxinc.auctionhouse.controllers.SpaceController;
 import xyz.fluxinc.auctionhouse.entries.auction.Auction;
 import xyz.fluxinc.auctionhouse.entries.auction.Bid;
 import xyz.fluxinc.auctionhouse.entries.notifications.NotificationType;
@@ -20,43 +21,43 @@ import java.util.List;
 
 public class AuctionListener implements RemoteEventListener {
 
-   private SystemController systemController;
+   private AuctionHouseController auctionHouseController;
    private Auction template;
    private RemoteEventListener stub;
 
-    public AuctionListener(SystemController systemController, Auction template) throws SpaceException, ExportException {
-        this.systemController = systemController;
+    public AuctionListener(SpaceController spaceController, AuctionHouseController auctionHouseController, Auction template) throws SpaceException, ExportException {
+        this.auctionHouseController = auctionHouseController;
         this.template = template;
 
         Exporter defaultExporter = new BasicJeriExporter(TcpServerEndpoint.getInstance(0), new BasicILFactory(), false, true);
         this.stub = (RemoteEventListener) defaultExporter.export(this);
-        systemController.getSpaceController().notify(this.stub, template);
+        spaceController.notify(this.stub, template);
 
     }
 
     public void notify(RemoteEvent remoteEvent) throws UnknownEventException, RemoteException {
         try {
-            Auction auction = systemController.getAuctionHouseController().readAuction(template.auctionId);
+            Auction auction = auctionHouseController.readAuction(template.auctionId);
             if (auction.isClosed) {
                 boolean hasBid = false;
                 double highestBid = 0;
                 boolean hasHighestBid = false;
-                List<Bid> bids = systemController.getAuctionHouseController().getBids(auction.auctionId);
+                List<Bid> bids = auctionHouseController.getBids(auction.auctionId);
                 for (Bid bid : bids) {
-                    if (bid.username.equals(systemController.getAuthenticationController().getUsername())) { hasBid = true; }
+                    if (bid.username.equals(auctionHouseController.getCurrentUser().username)) { hasBid = true; }
                     if (bid.bidAmount > highestBid) { highestBid = bid.bidAmount; }
-                    hasHighestBid = bid.bidAmount == highestBid && bid.username.equals(systemController.getAuthenticationController().getUsername());
+                    hasHighestBid = bid.bidAmount == highestBid && bid.username.equals(auctionHouseController.getCurrentUser().username);
                 }
                 if (hasHighestBid) {
-                    systemController.getAuctionHouseController().addNotification(auction, NotificationType.AUCTION_WON);
+                    auctionHouseController.addNotification(auction, NotificationType.AUCTION_WON);
                 } else if (hasBid) {
-                    systemController.getAuctionHouseController().addNotification(auction, NotificationType.AUCTION_LOST);
+                    auctionHouseController.addNotification(auction, NotificationType.AUCTION_LOST);
                 } else {
-                    systemController.getAuctionHouseController().addNotification(auction, NotificationType.AUCTION_CLOSED);
+                    auctionHouseController.addNotification(auction, NotificationType.AUCTION_CLOSED);
                 }
 
             } else {
-                systemController.getAuctionHouseController().addNotification(auction, NotificationType.AUCTION_ADDED);
+                auctionHouseController.addNotification(auction, NotificationType.AUCTION_ADDED);
             }
 
         } catch (SpaceException | AuctionNotFoundException e) {

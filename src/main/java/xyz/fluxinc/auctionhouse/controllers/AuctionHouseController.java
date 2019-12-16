@@ -4,14 +4,19 @@ import xyz.fluxinc.auctionhouse.entries.auction.Auction;
 import xyz.fluxinc.auctionhouse.entries.auction.Bid;
 import xyz.fluxinc.auctionhouse.entries.auctionhouse.AuctionHouse;
 import xyz.fluxinc.auctionhouse.entries.auctionhouse.AuctionHouseLock;
+import xyz.fluxinc.auctionhouse.entries.authentication.User;
 import xyz.fluxinc.auctionhouse.entries.notifications.Notification;
 import xyz.fluxinc.auctionhouse.entries.notifications.NotificationType;
 import xyz.fluxinc.auctionhouse.exceptions.auction.AuctionNotFoundException;
 import xyz.fluxinc.auctionhouse.exceptions.authentication.AuthenticationException;
 import xyz.fluxinc.auctionhouse.exceptions.space.SpaceException;
+import xyz.fluxinc.auctionhouse.listeners.AuctionListener;
+import xyz.fluxinc.auctionhouse.listeners.BidListener;
 
+import java.rmi.server.ExportException;
 import java.util.*;
 
+@SuppressWarnings({"unchecked", "MismatchedQueryAndUpdateOfCollection"})
 public class AuctionHouseController {
 
     private static final long AUCTION_HOUSE_VALIDITY_PERIOD = SpaceController.ONE_DAY;
@@ -22,11 +27,18 @@ public class AuctionHouseController {
     private AuthenticationController authenticationController;
     private SpaceController spaceController;
 
-    private List<Notification> notifications;
+    private AuctionListener auctionListener;
+    private BidListener bidListener;
 
-    public AuctionHouseController(SpaceController spaceController, AuthenticationController authenticationController) throws SpaceException {
+    private List<Notification> notifications;
+    private List<AuctionListener> auctionListeners;
+    private List<BidListener> bidListeners;
+
+    public AuctionHouseController(SpaceController spaceController, AuthenticationController authenticationController) throws SpaceException, ExportException {
         this.spaceController = spaceController;
         this.authenticationController = authenticationController;
+        this.auctionListeners = new ArrayList<>();
+        this.bidListeners = new ArrayList<>();
         setupAuctionHouse();
         notifications = new ArrayList<>();
     }
@@ -93,16 +105,22 @@ public class AuctionHouseController {
         Auction templateAuction = new Auction();
         templateAuction.auctionId = auctionId;
         Auction auction = spaceController.read(templateAuction);
-        if (auction == null) { throw new AuctionNotFoundException("An Auction with the ID " + auctionId + " was not found within the system"); }
+        if (auction == null) {
+            throw new AuctionNotFoundException("An Auction with the ID " + auctionId + " was not found within the system");
+        }
         return spaceController.readAll(new Bid(auctionId), auction.bidCount);
     }
 
     public Bid placeBid(int auctionId, double amount) throws SpaceException, AuctionNotFoundException, AuthenticationException {
-        if (!authenticationController.isLoggedIn())  { throw new AuthenticationException("You must be logged in to perform this action"); }
+        if (!authenticationController.isLoggedIn())  {
+            throw new AuthenticationException("You must be logged in to perform this action");
+        }
         Auction template = new Auction();
         template.auctionId = auctionId;
         Auction auction = spaceController.take(template);
-        if (auction == null) { throw new AuctionNotFoundException("An Auction with the ID " + auctionId + " was not found within the system"); }
+        if (auction == null) {
+            throw new AuctionNotFoundException("An Auction with the ID " + auctionId + " was not found within the system");
+        }
         Bid bid = new Bid(auctionId, authenticationController.getUsername(), amount);
         spaceController.put(bid, BID_VALIDITY_PERIOD);
         auction.addBid();
@@ -110,9 +128,24 @@ public class AuctionHouseController {
         return bid;
     }
 
+    public void watchAuction(int auctionId) throws ExportException, SpaceException {
+        auctionListeners.add(new AuctionListener(spaceController, this, new Auction(auctionId)));
+        bidListeners.add(new BidListener(spaceController, this, new Bid(auctionId)));
+    }
+
     public List<Notification> getNotifications() { return notifications; }
 
-    public void addNotification(Bid bid, NotificationType type) { notifications.add(new Notification(type, bid)); }
+    public void addNotification(Bid bid, NotificationType type) {
+        notifications.add(new Notification(type, bid));
+    }
 
-    public void addNotification(Auction auction, NotificationType type) { notifications.add(new Notification(type, auction)); }
+    public void addNotification(Auction auction, NotificationType type) {
+        notifications.add(new Notification(type, auction));
+    }
+
+    public User getCurrentUser() {
+        return authenticationController.getUser();
+    }
+
+
 }

@@ -14,6 +14,8 @@ public class Auction implements Entry {
 
     public Auction() {}
 
+    public Auction(int auctionId) { this.auctionId = auctionId; }
+
     public Auction(int auctionId, String ownerName, String name, double buyItNowPrice) {
         this.auctionId = auctionId;
         this.ownerName = ownerName;
