@@ -1,16 +1,13 @@
 package xyz.fluxinc.auctionhouse.ui.actions;
 
 import xyz.fluxinc.auctionhouse.controllers.AuctionHouseController;
-import xyz.fluxinc.auctionhouse.controllers.SpaceController;
 import xyz.fluxinc.auctionhouse.controllers.UserInterfaceController;
-import xyz.fluxinc.auctionhouse.entries.auction.Bid;
-import xyz.fluxinc.auctionhouse.exceptions.auction.AuctionNotFoundException;
+import xyz.fluxinc.auctionhouse.entries.auction.AuctionU1755082;
 import xyz.fluxinc.auctionhouse.exceptions.space.SpaceException;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 
 public class AuctionAction implements ActionListener {
 
@@ -44,7 +41,10 @@ public class AuctionAction implements ActionListener {
                 // TODO: Implement
                 break;
             case "buy-it-now":
-                // TODO: Implement
+                try {
+                    AuctionU1755082 auction = auctionHouseController.buyAuction(auctionId);
+                    userInterfaceController.showAuctions();
+                } catch (SpaceException ignored) {}
                 break;
             default:
                 break;

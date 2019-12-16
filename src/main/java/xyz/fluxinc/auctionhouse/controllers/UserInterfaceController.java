@@ -1,12 +1,15 @@
 package xyz.fluxinc.auctionhouse.controllers;
 
-import xyz.fluxinc.auctionhouse.entries.authentication.User;
-import xyz.fluxinc.auctionhouse.entries.auction.Auction;
+import xyz.fluxinc.auctionhouse.entries.authentication.User1755082;
+import xyz.fluxinc.auctionhouse.entries.auction.AuctionU1755082;
 import xyz.fluxinc.auctionhouse.entries.notifications.Notification;
+import xyz.fluxinc.auctionhouse.exceptions.auction.AuctionNotFoundException;
 import xyz.fluxinc.auctionhouse.exceptions.space.SpaceException;
+import xyz.fluxinc.auctionhouse.ui.actions.AuctionAction;
 import xyz.fluxinc.auctionhouse.ui.actions.AuthenticateAction;
 import xyz.fluxinc.auctionhouse.ui.actions.NavbarAction;
 import xyz.fluxinc.auctionhouse.ui.views.auction.AllAuctionsScreen;
+import xyz.fluxinc.auctionhouse.ui.views.auction.AuctionScreen;
 import xyz.fluxinc.auctionhouse.ui.views.authentication.LoginScreen;
 import xyz.fluxinc.auctionhouse.ui.views.authentication.RegisterScreen;
 
@@ -76,13 +79,15 @@ public class UserInterfaceController {
         window.setVisible(true);
     }
 
-    public void showAuction(Auction auction) {
+    public void showAuction(AuctionU1755082 auction) throws AuctionNotFoundException, SpaceException {
         clearScreen();
-        // TODO: Implement
+        AuctionScreen auctionScreen = new AuctionScreen(auction, auctionHouseController, new AuctionAction(this, auctionHouseController, auction.auctionId));
+        window.setContentPane(auctionScreen.getPanel());
+        window.setVisible(true);
     }
 
     public void showAccount() {
-        User user = authenticationController.getUser();
+        User1755082 user = authenticationController.getUser();
         clearScreen();
         // TODO Implement
     }

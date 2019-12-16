@@ -9,8 +9,8 @@ import net.jini.jeri.BasicJeriExporter;
 import net.jini.jeri.tcp.TcpServerEndpoint;
 import xyz.fluxinc.auctionhouse.controllers.AuctionHouseController;
 import xyz.fluxinc.auctionhouse.controllers.SpaceController;
-import xyz.fluxinc.auctionhouse.entries.auction.Auction;
-import xyz.fluxinc.auctionhouse.entries.auction.Bid;
+import xyz.fluxinc.auctionhouse.entries.auction.AuctionU1755082;
+import xyz.fluxinc.auctionhouse.entries.auction.Bid1755082;
 import xyz.fluxinc.auctionhouse.entries.notifications.NotificationType;
 import xyz.fluxinc.auctionhouse.exceptions.auction.AuctionNotFoundException;
 import xyz.fluxinc.auctionhouse.exceptions.space.SpaceException;
@@ -22,10 +22,10 @@ import java.util.List;
 public class AuctionListener implements RemoteEventListener {
 
    private AuctionHouseController auctionHouseController;
-   private Auction template;
+   private AuctionU1755082 template;
    private RemoteEventListener stub;
 
-    public AuctionListener(SpaceController spaceController, AuctionHouseController auctionHouseController, Auction template) throws SpaceException, ExportException {
+    public AuctionListener(SpaceController spaceController, AuctionHouseController auctionHouseController, AuctionU1755082 template) throws SpaceException, ExportException {
         this.auctionHouseController = auctionHouseController;
         this.template = template;
 
@@ -37,13 +37,13 @@ public class AuctionListener implements RemoteEventListener {
 
     public void notify(RemoteEvent remoteEvent) throws UnknownEventException, RemoteException {
         try {
-            Auction auction = auctionHouseController.readAuction(template.auctionId);
+            AuctionU1755082 auction = auctionHouseController.readAuction(template.auctionId);
             if (auction.isClosed) {
                 boolean hasBid = false;
                 double highestBid = 0;
                 boolean hasHighestBid = false;
-                List<Bid> bids = auctionHouseController.getBids(auction.auctionId);
-                for (Bid bid : bids) {
+                List<Bid1755082> bids = auctionHouseController.getBids(auction.auctionId);
+                for (Bid1755082 bid : bids) {
                     if (bid.username.equals(auctionHouseController.getCurrentUser().username)) { hasBid = true; }
                     if (bid.bidAmount > highestBid) { highestBid = bid.bidAmount; }
                     hasHighestBid = bid.bidAmount == highestBid && bid.username.equals(auctionHouseController.getCurrentUser().username);

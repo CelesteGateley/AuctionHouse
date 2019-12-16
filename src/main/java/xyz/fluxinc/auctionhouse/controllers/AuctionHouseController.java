@@ -1,10 +1,10 @@
 package xyz.fluxinc.auctionhouse.controllers;
 
-import xyz.fluxinc.auctionhouse.entries.auction.Auction;
-import xyz.fluxinc.auctionhouse.entries.auction.Bid;
-import xyz.fluxinc.auctionhouse.entries.auctionhouse.AuctionHouse;
-import xyz.fluxinc.auctionhouse.entries.auctionhouse.AuctionHouseLock;
-import xyz.fluxinc.auctionhouse.entries.authentication.User;
+import xyz.fluxinc.auctionhouse.entries.auction.AuctionU1755082;
+import xyz.fluxinc.auctionhouse.entries.auction.Bid1755082;
+import xyz.fluxinc.auctionhouse.entries.auctionhouse.AuctionHouse1755082;
+import xyz.fluxinc.auctionhouse.entries.auctionhouse.AuctionHouseLock1755082;
+import xyz.fluxinc.auctionhouse.entries.authentication.User1755082;
 import xyz.fluxinc.auctionhouse.entries.notifications.Notification;
 import xyz.fluxinc.auctionhouse.entries.notifications.NotificationType;
 import xyz.fluxinc.auctionhouse.exceptions.auction.AuctionNotFoundException;
@@ -20,7 +20,7 @@ import java.util.*;
 public class AuctionHouseController {
 
     private static final long AUCTION_HOUSE_VALIDITY_PERIOD = SpaceController.ONE_DAY;
-    private static final long AUCTION_HOUSE_LOOKUP_TIMEOUT = SpaceController.ONE_SECOND * 30;
+    private static final long AUCTION_HOUSE_LOOKUP_TIMEOUT = SpaceController.ONE_SECOND * 10;
     private static final long AUCTION_VALIDITY_PERIOD = SpaceController.ONE_DAY;
     private static final long BID_VALIDITY_PERIOD = SpaceController.ONE_DAY;
 
@@ -43,65 +43,74 @@ public class AuctionHouseController {
         notifications = new ArrayList<>();
     }
 
-    private AuctionHouse setupAuctionHouse() throws SpaceException {
-        AuctionHouse house = null;
-        if (isHouseLocked()) { house = spaceController.read(new AuctionHouse(), AUCTION_HOUSE_LOOKUP_TIMEOUT); }
+    private AuctionHouse1755082 setupAuctionHouse() throws SpaceException {
+        AuctionHouse1755082 house = null;
+        if (isHouseLocked()) { house = spaceController.read(new AuctionHouse1755082(), AUCTION_HOUSE_LOOKUP_TIMEOUT); }
         if (house == null) {
-            spaceController.put(new AuctionHouse(0), AUCTION_HOUSE_VALIDITY_PERIOD);
-            return (AuctionHouse) spaceController.read(new AuctionHouse());
+            spaceController.put(new AuctionHouse1755082(0), AUCTION_HOUSE_VALIDITY_PERIOD);
+            return (AuctionHouse1755082) spaceController.read(new AuctionHouse1755082());
         }
         return house;
     }
 
-    public AuctionHouse getAuctionHouse() throws SpaceException {
-        AuctionHouse house = spaceController.read(new AuctionHouse());
-        if (house == null) { return setupAuctionHouse(); }
-        return (AuctionHouse) spaceController.read(new AuctionHouse());
+    public AuctionU1755082 buyAuction(int auctionId) throws SpaceException {
+        AuctionU1755082 auction = spaceController.take(new AuctionU1755082(auctionId));
+        auction.isClosed = true;
+        //auction.purchasedBy = authenticationController.getUsername();
+
+        spaceController.put(auction);
+        return auction;
     }
 
-    private AuctionHouse takeAuctionHouse() throws SpaceException {
-        AuctionHouse house = spaceController.read(new AuctionHouse());
+    public AuctionHouse1755082 getAuctionHouse() throws SpaceException {
+        AuctionHouse1755082 house = spaceController.read(new AuctionHouse1755082());
+        if (house == null) { return setupAuctionHouse(); }
+        return (AuctionHouse1755082) spaceController.read(new AuctionHouse1755082());
+    }
+
+    private AuctionHouse1755082 takeAuctionHouse() throws SpaceException {
+        AuctionHouse1755082 house = spaceController.read(new AuctionHouse1755082());
         if (house == null) { return setupAuctionHouse(); }
 
-        return (AuctionHouse) spaceController.take(new AuctionHouse());
+        return (AuctionHouse1755082) spaceController.take(new AuctionHouse1755082());
     }
     private boolean isHouseLocked() throws SpaceException {
-        return spaceController.read(new AuctionHouseLock()) == null;
+        return spaceController.read(new AuctionHouseLock1755082()) == null;
     }
 
-    public Auction placeAuction(String name, double buyItNowPrice) throws SpaceException, AuthenticationException {
+    public AuctionU1755082 placeAuction(String name, double buyItNowPrice) throws SpaceException, AuthenticationException {
         return placeAuction(name, buyItNowPrice, 1);
     }
 
-    public List<Auction> getAllAuctions() throws SpaceException {
-        return spaceController.readAll(new Auction(), 200);
+    public List<AuctionU1755082> getAllAuctions() throws SpaceException {
+        return spaceController.readAll(new AuctionU1755082(), 200);
     }
 
-    public List<Auction> getActiveAuctions() throws SpaceException {
-        Auction template = new Auction();
+    public List<AuctionU1755082> getActiveAuctions() throws SpaceException {
+        AuctionU1755082 template = new AuctionU1755082();
         template.isClosed = false;
         return spaceController.readAll(template, 200);
     }
 
-    public List<Auction> getAuctionsByUser(String username) throws SpaceException {
-        Auction template = new Auction();
+    public List<AuctionU1755082> getAuctionsByUser(String username) throws SpaceException {
+        AuctionU1755082 template = new AuctionU1755082();
         template.ownerName = username;
         return spaceController.readAll(template, 200);
     }
 
-    public Auction placeAuction(String name, double buyItNowPrice, double currentBid) throws AuthenticationException, SpaceException {
+    public AuctionU1755082 placeAuction(String name, double buyItNowPrice, double currentBid) throws AuthenticationException, SpaceException {
         if (!authenticationController.isLoggedIn())  { throw new AuthenticationException("You must be logged in to perform this action"); }
         return placeAuction(name, buyItNowPrice, currentBid, authenticationController.getUsername());
     }
 
-    public Auction placeAuction(String name, double buyItNowPrice, double currentBid, String username) throws SpaceException {
+    public AuctionU1755082 placeAuction(String name, double buyItNowPrice, double currentBid, String username) throws SpaceException {
         byte[] key = new byte[7];
         new Random().nextBytes(key);
-        AuctionHouseLock lock = new AuctionHouseLock(key);
+        AuctionHouseLock1755082 lock = new AuctionHouseLock1755082(key);
         spaceController.put(lock, SpaceController.ONE_MINUTE);
-        AuctionHouse auctionHouse = takeAuctionHouse();
+        AuctionHouse1755082 auctionHouse = takeAuctionHouse();
 
-        Auction auction = new Auction(auctionHouse.currentCount, authenticationController.getUsername(), name, buyItNowPrice, currentBid);
+        AuctionU1755082 auction = new AuctionU1755082(auctionHouse.currentCount, authenticationController.getUsername(), name, buyItNowPrice, currentBid);
         auctionHouse.addAuction();
 
         spaceController.put(auction, AUCTION_VALIDITY_PERIOD);
@@ -111,39 +120,43 @@ public class AuctionHouseController {
         return auction;
     }
 
-    public Auction readAuction(int auctionId) throws SpaceException {
-        Auction auction = new Auction();
+    public AuctionU1755082 readAuction(int auctionId) throws SpaceException {
+        AuctionU1755082 auction = new AuctionU1755082();
         auction.auctionId = auctionId;
         return spaceController.read(auction);
     }
 
-    public List<Auction> readAllAuctions() throws SpaceException {
-        return spaceController.readAll(new Auction(), 1000);
+    public List<AuctionU1755082> readAllAuctions() throws SpaceException {
+        return spaceController.readAll(new AuctionU1755082(), 1000);
     }
 
-    public List<Bid> getBids(int auctionId) throws SpaceException, AuctionNotFoundException {
-        Auction templateAuction = new Auction();
+    public List<Bid1755082> getBids(int auctionId) throws SpaceException, AuctionNotFoundException {
+        AuctionU1755082 templateAuction = new AuctionU1755082();
         templateAuction.auctionId = auctionId;
-        Auction auction = spaceController.read(templateAuction);
+        AuctionU1755082 auction = spaceController.read(templateAuction);
         if (auction == null) {
             throw new AuctionNotFoundException("An Auction with the ID " + auctionId + " was not found within the system");
         }
-        List<Bid> bids = spaceController.readAll(new Bid(auctionId), auction.bidCount);
+        List<Bid1755082> bids = spaceController.readAll(new Bid1755082(auctionId), auction.bidCount);
         Collections.sort(bids);
         return bids;
     }
 
-    public Bid placeBid(int auctionId, double amount) throws SpaceException, AuctionNotFoundException, AuthenticationException {
+    public Bid1755082 placeBid(int auctionId, double amount) throws AuthenticationException, AuctionNotFoundException, SpaceException {
         if (!authenticationController.isLoggedIn())  {
             throw new AuthenticationException("You must be logged in to perform this action");
         }
-        Auction template = new Auction();
+        return placeBid(auctionId, amount, authenticationController.getUsername());
+    }
+    public Bid1755082 placeBid(int auctionId, double amount, String username) throws SpaceException, AuctionNotFoundException {
+
+        AuctionU1755082 template = new AuctionU1755082();
         template.auctionId = auctionId;
-        Auction auction = spaceController.take(template);
+        AuctionU1755082 auction = spaceController.take(template);
         if (auction == null) {
             throw new AuctionNotFoundException("An Auction with the ID " + auctionId + " was not found within the system");
         }
-        Bid bid = new Bid(auctionId, authenticationController.getUsername(), amount);
+        Bid1755082 bid = new Bid1755082(auctionId, authenticationController.getUsername(), amount);
         spaceController.put(bid, BID_VALIDITY_PERIOD);
         auction.addBid();
         spaceController.put(auction, AUCTION_VALIDITY_PERIOD);
@@ -151,24 +164,24 @@ public class AuctionHouseController {
     }
 
     public void watchAuction(int auctionId) throws ExportException, SpaceException {
-        auctionListeners.add(new AuctionListener(spaceController, this, new Auction(auctionId)));
-        bidListeners.add(new BidListener(spaceController, this, new Bid(auctionId)));
+        auctionListeners.add(new AuctionListener(spaceController, this, new AuctionU1755082(auctionId)));
+        bidListeners.add(new BidListener(spaceController, this, new Bid1755082(auctionId)));
     }
 
     public List<Notification> getNotifications() { return notifications; }
 
-    public void addNotification(Bid bid, NotificationType type) {
+    public void addNotification(Bid1755082 bid, NotificationType type) {
         notifications.add(new Notification(type, bid));
     }
 
-    public void addNotification(Auction auction, NotificationType type) { notifications.add(new Notification(type, auction)); }
+    public void addNotification(AuctionU1755082 auction, NotificationType type) { notifications.add(new Notification(type, auction)); }
 
-    public User getCurrentUser() {
+    public User1755082 getCurrentUser() {
         return authenticationController.getUser();
     }
 
-    public Bid getHighestBid(int auctionId) throws AuctionNotFoundException, SpaceException {
-        List<Bid> bids = getBids(auctionId);
+    public Bid1755082 getHighestBid(int auctionId) throws AuctionNotFoundException, SpaceException {
+        List<Bid1755082> bids = getBids(auctionId);
         return null;
     }
 

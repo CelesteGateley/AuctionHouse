@@ -2,7 +2,8 @@ package xyz.fluxinc.auctionhouse.ui.views.auction;
 
 import xyz.fluxinc.auctionhouse.controllers.AuctionHouseController;
 import xyz.fluxinc.auctionhouse.controllers.UserInterfaceController;
-import xyz.fluxinc.auctionhouse.entries.auction.Auction;
+import xyz.fluxinc.auctionhouse.entries.auction.AuctionU1755082;
+import xyz.fluxinc.auctionhouse.exceptions.auction.AuctionNotFoundException;
 import xyz.fluxinc.auctionhouse.exceptions.space.SpaceException;
 import xyz.fluxinc.auctionhouse.ui.views.Screen;
 
@@ -18,7 +19,7 @@ public class AllAuctionsScreen extends Screen implements ListSelectionListener {
     private AuctionHouseController auctionHouseController;
     private UserInterfaceController userInterfaceController;
 
-    private JList<Auction> list;
+    private JList<AuctionU1755082> list;
 
     public AllAuctionsScreen(AuctionHouseController auctionHouseController, UserInterfaceController userInterfaceController) throws SpaceException {
         this.auctionHouseController = auctionHouseController;
@@ -28,8 +29,8 @@ public class AllAuctionsScreen extends Screen implements ListSelectionListener {
 
     private void initialize() throws SpaceException {
         DefaultListModel defaultListModel = new DefaultListModel();
-        List<Auction> auctions = auctionHouseController.getActiveAuctions();
-        for (Auction auction : auctions) { defaultListModel.addElement(auction); }
+        List<AuctionU1755082> auctions = auctionHouseController.getActiveAuctions();
+        for (AuctionU1755082 auction : auctions) { defaultListModel.addElement(auction); }
 
         list = new JList(defaultListModel);
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -42,6 +43,10 @@ public class AllAuctionsScreen extends Screen implements ListSelectionListener {
 
     @Override
     public void valueChanged(ListSelectionEvent e) {
-        userInterfaceController.showAuction(list.getSelectedValue());
+        try {
+            userInterfaceController.showAuction(list.getSelectedValue());
+        } catch (AuctionNotFoundException | SpaceException ex) {
+            ex.printStackTrace();
+        }
     }
 }
