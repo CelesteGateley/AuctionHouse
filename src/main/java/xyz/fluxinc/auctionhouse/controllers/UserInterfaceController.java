@@ -1,6 +1,6 @@
 package xyz.fluxinc.auctionhouse.controllers;
 
-import xyz.fluxinc.auctionhouse.entries.User;
+import xyz.fluxinc.auctionhouse.entries.authentication.User;
 import xyz.fluxinc.auctionhouse.entries.auction.Auction;
 import xyz.fluxinc.auctionhouse.entries.notifications.Notification;
 import xyz.fluxinc.auctionhouse.ui.actions.AuthenticateAction;

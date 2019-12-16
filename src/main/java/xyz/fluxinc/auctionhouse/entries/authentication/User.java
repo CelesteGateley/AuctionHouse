@@ -1,4 +1,4 @@
-package xyz.fluxinc.auctionhouse.entries;
+package xyz.fluxinc.auctionhouse.entries.authentication;
 
 import net.jini.core.entry.Entry;
 import org.mindrot.jbcrypt.BCrypt;

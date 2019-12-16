@@ -1,7 +1,7 @@
 package xyz.fluxinc.auctionhouse.controllers;
 
 import net.jini.core.lease.Lease;
-import xyz.fluxinc.auctionhouse.entries.User;
+import xyz.fluxinc.auctionhouse.entries.authentication.User;
 import xyz.fluxinc.auctionhouse.exceptions.authentication.AuthenticationException;
 import xyz.fluxinc.auctionhouse.exceptions.authentication.UserExistsException;
 import xyz.fluxinc.auctionhouse.exceptions.authentication.UserNotFoundException;
