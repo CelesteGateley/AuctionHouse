@@ -12,7 +12,7 @@ Requirements:
   - The owner can accept the highest bid at any time (notify should be used to alert the buyer
  
 The application must have a suitable GUI interface
-You MAY use a GUI builder, but the code must work independant of an IDE
+You MAY use a GUI builder, but the code must work independent of an IDE
 Registration is not mentioned, but will be required for functionality
 You may also add any other extensions you think would make the system more impressive.
 

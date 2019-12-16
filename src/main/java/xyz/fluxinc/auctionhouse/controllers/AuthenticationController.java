@@ -20,14 +20,16 @@ public class AuthenticationController {
         this.spaceController = spaceController;
     }
 
-    public void login(String username, String password) throws SpaceException, UserNotFoundException, AuthenticationException, ExportException {
+    public void login(String username, String password) throws SpaceException, UserNotFoundException, AuthenticationException {
         User expectedUser = fetchUser(username);
         if (expectedUser == null) { throw new UserNotFoundException("A User with that name was not found on the system."); }
         if (expectedUser.checkPassword(password)) { this.currentUser = expectedUser; }
         else { throw new AuthenticationException("The password specified does not match the expected password"); }
         if (auctionHouseController != null) {
             for (Integer auctionId : expectedUser.watchedLots) {
-                auctionHouseController.watchAuction(auctionId);
+                try {
+                    auctionHouseController.watchAuction(auctionId);
+                } catch(ExportException e) { throw new SpaceException(e); }
             }
         }
     }

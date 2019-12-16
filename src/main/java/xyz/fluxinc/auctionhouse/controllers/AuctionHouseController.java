@@ -73,8 +73,28 @@ public class AuctionHouseController {
         return placeAuction(name, buyItNowPrice, 1);
     }
 
-    public Auction placeAuction(String name, double buyItNowPrice, double currentBid) throws SpaceException, AuthenticationException {
+    public List<Auction> getAllAuctions() throws SpaceException {
+        return spaceController.readAll(new Auction(), 200);
+    }
+
+    public List<Auction> getActiveAuctions() throws SpaceException {
+        Auction template = new Auction();
+        template.isClosed = false;
+        return spaceController.readAll(template, 200);
+    }
+
+    public List<Auction> getAuctionsByUser(String username) throws SpaceException {
+        Auction template = new Auction();
+        template.ownerName = username;
+        return spaceController.readAll(template, 200);
+    }
+
+    public Auction placeAuction(String name, double buyItNowPrice, double currentBid) throws AuthenticationException, SpaceException {
         if (!authenticationController.isLoggedIn())  { throw new AuthenticationException("You must be logged in to perform this action"); }
+        return placeAuction(name, buyItNowPrice, currentBid, authenticationController.getUsername());
+    }
+
+    public Auction placeAuction(String name, double buyItNowPrice, double currentBid, String username) throws SpaceException {
         byte[] key = new byte[7];
         new Random().nextBytes(key);
         AuctionHouseLock lock = new AuctionHouseLock(key);
@@ -108,7 +128,9 @@ public class AuctionHouseController {
         if (auction == null) {
             throw new AuctionNotFoundException("An Auction with the ID " + auctionId + " was not found within the system");
         }
-        return spaceController.readAll(new Bid(auctionId), auction.bidCount);
+        List<Bid> bids = spaceController.readAll(new Bid(auctionId), auction.bidCount);
+        Collections.sort(bids);
+        return bids;
     }
 
     public Bid placeBid(int auctionId, double amount) throws SpaceException, AuctionNotFoundException, AuthenticationException {
@@ -139,13 +161,15 @@ public class AuctionHouseController {
         notifications.add(new Notification(type, bid));
     }
 
-    public void addNotification(Auction auction, NotificationType type) {
-        notifications.add(new Notification(type, auction));
-    }
+    public void addNotification(Auction auction, NotificationType type) { notifications.add(new Notification(type, auction)); }
 
     public User getCurrentUser() {
         return authenticationController.getUser();
     }
 
+    public Bid getHighestBid(int auctionId) throws AuctionNotFoundException, SpaceException {
+        List<Bid> bids = getBids(auctionId);
+        return null;
+    }
 
 }

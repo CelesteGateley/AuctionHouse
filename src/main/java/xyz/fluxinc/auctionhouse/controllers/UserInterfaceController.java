@@ -3,8 +3,10 @@ package xyz.fluxinc.auctionhouse.controllers;
 import xyz.fluxinc.auctionhouse.entries.authentication.User;
 import xyz.fluxinc.auctionhouse.entries.auction.Auction;
 import xyz.fluxinc.auctionhouse.entries.notifications.Notification;
+import xyz.fluxinc.auctionhouse.exceptions.space.SpaceException;
 import xyz.fluxinc.auctionhouse.ui.actions.AuthenticateAction;
 import xyz.fluxinc.auctionhouse.ui.actions.NavbarAction;
+import xyz.fluxinc.auctionhouse.ui.views.auction.AllAuctionsScreen;
 import xyz.fluxinc.auctionhouse.ui.views.authentication.LoginScreen;
 import xyz.fluxinc.auctionhouse.ui.views.authentication.RegisterScreen;
 
@@ -49,7 +51,7 @@ public class UserInterfaceController {
             }
         }, SpaceController.ONE_SECOND, SpaceController.ONE_SECOND * 5);
 
-        window.setVisible(true);
+        //window.setVisible(true);
     }
 
 
@@ -67,9 +69,11 @@ public class UserInterfaceController {
         window.setVisible(true);
     }
 
-    public void showAuctions() {
+    public void showAuctions() throws SpaceException {
         clearScreen();
-        // TODO: Implement
+        AllAuctionsScreen allAuctionsScreen = new AllAuctionsScreen(auctionHouseController, this);
+        window.setContentPane(allAuctionsScreen.getPanel());
+        window.setVisible(true);
     }
 
     public void showAuction(Auction auction) {
@@ -127,4 +131,6 @@ public class UserInterfaceController {
         loginButton.setEnabled(!authenticationController.isLoggedIn());
         logoutButton.setEnabled(authenticationController.isLoggedIn());
     }
+
+    public JFrame getWindow() { return window; }
 }

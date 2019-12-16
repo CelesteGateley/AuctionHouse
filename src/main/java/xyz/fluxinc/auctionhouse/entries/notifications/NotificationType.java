@@ -1,7 +1,6 @@
 package xyz.fluxinc.auctionhouse.entries.notifications;
 
 public enum NotificationType {
-
     AUCTION_CLOSED,
     AUCTION_WON,
     AUCTION_LOST,

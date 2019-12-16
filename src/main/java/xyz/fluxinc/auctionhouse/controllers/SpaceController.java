@@ -97,13 +97,13 @@ public class SpaceController {
         }
     }
 
-    public <T extends Entry> List<T> readAll(Entry template) throws SpaceException { return readAll(template, null, ONE_SECOND*5, 10); }
+    public <T extends Entry> List<T> readAll(Entry template) throws SpaceException { return readAll(template, null, ONE_SECOND*5, 100); }
 
     public <T extends Entry> List<T> readAll(Entry template, int count) throws SpaceException { return readAll(template, null, ONE_SECOND*5, count); }
 
-    public <T extends Entry> List<T> readAll(Entry template, long timeout) throws SpaceException { return readAll(template, null, timeout, 10); }
+    public <T extends Entry> List<T> readAll(Entry template, long timeout) throws SpaceException { return readAll(template, null, timeout, 100); }
 
-    public <T extends Entry> List<T> readAll(Entry template, Transaction transaction, long timeout) throws SpaceException { return readAll(template, transaction, timeout, 10); }
+    public <T extends Entry> List<T> readAll(Entry template, Transaction transaction, long timeout) throws SpaceException { return readAll(template, transaction, timeout, 100); }
 
     public <T extends Entry> List<T> readAll(Entry template, Transaction transaction, long timeout, int count) throws SpaceException {
         Collection<Entry> templates = new ArrayList<>();
@@ -121,13 +121,13 @@ public class SpaceController {
         catch (Exception e) { throw new SpaceException(e); }
     }
 
-    public <T extends Entry> List<T> takeAll(Entry template) throws SpaceException { return takeAll(template, null, ONE_SECOND*5, 10); }
+    public <T extends Entry> List<T> takeAll(Entry template) throws SpaceException { return takeAll(template, null, ONE_SECOND*5, 100); }
 
     public <T extends Entry> List<T> takeAll(Entry template, int count) throws SpaceException { return takeAll(template, null, ONE_SECOND*5, count); }
 
-    public <T extends Entry> List<T> takeAll(Entry template, long timeout) throws SpaceException { return takeAll(template, null, timeout, 10); }
+    public <T extends Entry> List<T> takeAll(Entry template, long timeout) throws SpaceException { return takeAll(template, null, timeout, 100); }
 
-    public <T extends Entry> List<T>takeAll(Entry template, Transaction transaction, long timeout) throws SpaceException { return takeAll(template, transaction, timeout, 10); }
+    public <T extends Entry> List<T>takeAll(Entry template, Transaction transaction, long timeout) throws SpaceException { return takeAll(template, transaction, timeout, 100); }
 
     public <T extends Entry> List<T> takeAll(Entry template, Transaction transaction, long timeout, int count) throws SpaceException {
         Collection<Entry> templates = new ArrayList<>();

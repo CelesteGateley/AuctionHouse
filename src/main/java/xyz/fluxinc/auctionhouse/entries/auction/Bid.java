@@ -21,6 +21,6 @@ public class Bid implements Entry, Comparable<Bid> {
 
     @Override
     public int compareTo(Bid other) {
-        return bidAmount.compareTo(other.bidAmount);
+        return bidAmount.compareTo(other.bidAmount)*-1;
     }
 }

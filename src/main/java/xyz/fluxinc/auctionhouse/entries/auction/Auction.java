@@ -32,9 +32,12 @@ public class Auction implements Entry {
         this.buyItNowPrice = buyItNowPrice;
         this.currentPrice = currentPrice;
         this.bidCount = 0;
+        this.isClosed = false;
     }
 
     public void addBid() { bidCount++; }
 
     public void close() { isClosed = false; }
+
+    public String toString() { return name; }
 }
