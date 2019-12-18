@@ -22,6 +22,9 @@ public class NavbarAction implements ActionListener {
             case "register":
                 uiController.showRegisterScreen();
                 break;
+            case "back":
+                uiController.showPreviousScreen();
+                break;
             default:
                 break;
         }

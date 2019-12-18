@@ -1,13 +1,16 @@
 package xyz.fluxinc.auctionhouse;
 
+import net.jini.core.entry.Entry;
 import xyz.fluxinc.auctionhouse.controllers.AuctionHouseController;
+import xyz.fluxinc.auctionhouse.controllers.SpaceController;
 import xyz.fluxinc.auctionhouse.controllers.SystemController;
-import xyz.fluxinc.auctionhouse.entries.auction.AuctionU1755082;
-import xyz.fluxinc.auctionhouse.entries.auction.Bid1755082;
-import xyz.fluxinc.auctionhouse.entries.auctionhouse.AuctionHouse1755082;
-import xyz.fluxinc.auctionhouse.entries.auctionhouse.AuctionHouseLock1755082;
-import xyz.fluxinc.auctionhouse.entries.authentication.User1755082;
+import xyz.fluxinc.auctionhouse.entries.auction.Auction;
+import xyz.fluxinc.auctionhouse.entries.auction.Bid;
+import xyz.fluxinc.auctionhouse.entries.auctionhouse.AuctionHouse;
+import xyz.fluxinc.auctionhouse.entries.auctionhouse.AuctionHouseLock;
+import xyz.fluxinc.auctionhouse.entries.authentication.User;
 import xyz.fluxinc.auctionhouse.exceptions.auction.AuctionNotFoundException;
+import xyz.fluxinc.auctionhouse.exceptions.auction.BidTooLowException;
 import xyz.fluxinc.auctionhouse.exceptions.authentication.AuthenticationException;
 import xyz.fluxinc.auctionhouse.exceptions.authentication.UserExistsException;
 import xyz.fluxinc.auctionhouse.exceptions.space.SpaceException;
@@ -24,12 +27,12 @@ public class Main {
 
     private static final String DEFAULT_HOST = "localhost";
 
-    public static void main(String[] args) throws SpaceException, AuctionNotFoundException, AuthenticationException {
+    public static void main(String[] args) throws SpaceException, AuctionNotFoundException, AuthenticationException, BidTooLowException {
         List<String> arguments = Arrays.asList(args);
-        boolean addRoot = arguments.contains("-add-root");
         boolean help = arguments.contains("-help");
         boolean clearData = arguments.contains("-clear");
         boolean addDemoData = arguments.contains("-add-demo-data");
+        boolean addRoot = arguments.contains("-add-root") || addDemoData;
         String hostname = getHostName(arguments);
 
         if (help) {
@@ -57,24 +60,23 @@ public class Main {
                 System.exit(-1);
             }
 
-
-            if (addRoot) {
-                try { systemController.getAuthenticationController().registerAdministrator("root", "root"); }
-                catch(UserExistsException | SpaceException ignored) {}
-            }
-
-            if (addDemoData) { registerDemoData(systemController.getAuctionHouseController(), 20); }
-
             if (clearData) {
                 System.out.println("Warning: Clearing the system may take a long time. Please Stand By");
-                systemController.getSpaceController().takeAll(new AuctionU1755082(), 1000);
-                systemController.getSpaceController().takeAll(new AuctionHouse1755082(), 1000);
-                systemController.getSpaceController().takeAll(new AuctionHouseLock1755082(), 1000);
-                systemController.getSpaceController().takeAll(new User1755082(),1000);
-                systemController.getSpaceController().takeAll(new Bid1755082(), 1000);
+                clearAll(new Auction(), "Auction", systemController.getSpaceController());
+                clearAll(new AuctionHouse(), "House", systemController.getSpaceController());
+                clearAll(new AuctionHouseLock(), "Lock", systemController.getSpaceController());
+                clearAll(new User(), "User", systemController.getSpaceController());
+                clearAll(new Bid(), "Bid", systemController.getSpaceController());
                 System.out.println("Cleared all data from system!");
                 System.exit(0);
             } else {
+                if (addRoot) {
+                    try { systemController.getAuthenticationController().registerAdministrator("root", "root"); }
+                    catch(UserExistsException | SpaceException ignored) {}
+                }
+
+                if (addDemoData) { registerDemoData(systemController.getAuctionHouseController(), 20); }
+
                 systemController.getUserInterfaceController().showLoginScreen();
             }
         }
@@ -93,13 +95,21 @@ public class Main {
         }
     }
 
-    private static void registerDemoData(AuctionHouseController aHC, int counter) throws SpaceException, AuctionNotFoundException, AuthenticationException {
+    private static void registerDemoData(AuctionHouseController aHC, int counter) throws SpaceException, AuctionNotFoundException, AuthenticationException, BidTooLowException {
         for (int i = 1; i <= counter; i++) {
-            AuctionU1755082 auction = aHC.placeAuction("Test" + i, 1, 1, "root");
+            Auction auction = aHC.placeAuction("Test" + i, 1, 1, "root");
             for (int j = 2; j <= counter+1; j++) {
-                aHC.placeBid(auction.auctionId, j, "root");
+                aHC.placeBid(auction.auctionId, j, "anon.ymous");
             }
         }
+    }
+
+    private static <T extends Entry> void clearAll(T template, String type, SpaceController sC) throws SpaceException {
+        List<T> entries;
+        do {
+            entries = sC.takeAll(template, 100);
+            System.out.println(type + ": " + entries.size());
+        } while (entries.size() > 0);
     }
 
 }

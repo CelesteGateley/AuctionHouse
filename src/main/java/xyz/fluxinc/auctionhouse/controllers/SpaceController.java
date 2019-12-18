@@ -127,7 +127,7 @@ public class SpaceController {
 
     public <T extends Entry> List<T> takeAll(Entry template, long timeout) throws SpaceException { return takeAll(template, null, timeout, 100); }
 
-    public <T extends Entry> List<T>takeAll(Entry template, Transaction transaction, long timeout) throws SpaceException { return takeAll(template, transaction, timeout, 100); }
+    public <T extends Entry> List<T> takeAll(Entry template, Transaction transaction, long timeout) throws SpaceException { return takeAll(template, transaction, timeout, 100); }
 
     public <T extends Entry> List<T> takeAll(Entry template, Transaction transaction, long timeout, int count) throws SpaceException {
         Collection<Entry> templates = new ArrayList<>();
