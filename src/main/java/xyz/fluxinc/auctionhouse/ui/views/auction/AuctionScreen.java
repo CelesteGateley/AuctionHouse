@@ -45,8 +45,12 @@ public class AuctionScreen extends Screen {
         subPanel.add(new JLabel(auction.name));
         subPanel.add(new JLabel(auction.ownerName));
         subPanel.add(new JLabel("Buy it now: " + auction.buyItNowPrice));
-        String message = auction.currentPrice < bids.get(0).bidAmount ? "" + auction.currentPrice : "" + bids.get(0).bidAmount;
-        subPanel.add(new JLabel("Current Highest Bid: " + message));
+        if (bids.size() > 0) {
+            String message = auction.currentPrice < bids.get(0).bidAmount ? "" + auction.currentPrice : "" + bids.get(0).bidAmount;
+            subPanel.add(new JLabel("Current Highest Bid: " + message));
+        } else {
+            subPanel.add(new JLabel("No Bids Have Been Placed"));
+        }
 
         if (auction.status == AuctionStatus.BID_ACCEPTED || auction.status == AuctionStatus.BOUGHT) {
             subPanel.add(new JLabel());
@@ -60,6 +64,7 @@ public class AuctionScreen extends Screen {
             JButton bidButton = new JButton("Accept Bid");
             bidButton.setActionCommand("accept-bid");
             bidButton.addActionListener(auctionAction);
+            if (bids.size() == 0) { bidButton.setEnabled(false); }
             subPanel.add(bidButton);
         } else if (auction.status == AuctionStatus.OPEN) {
             JButton bidButton = new JButton("Place Bid");

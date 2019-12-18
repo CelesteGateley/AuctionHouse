@@ -11,6 +11,7 @@ import xyz.fluxinc.auctionhouse.ui.actions.NavbarAction;
 import xyz.fluxinc.auctionhouse.ui.views.Screen;
 import xyz.fluxinc.auctionhouse.ui.views.auction.AllAuctionsScreen;
 import xyz.fluxinc.auctionhouse.ui.views.auction.AuctionScreen;
+import xyz.fluxinc.auctionhouse.ui.views.auction.PlaceAuctionScreen;
 import xyz.fluxinc.auctionhouse.ui.views.authentication.LoginScreen;
 import xyz.fluxinc.auctionhouse.ui.views.authentication.RegisterScreen;
 
@@ -31,6 +32,8 @@ public class UserInterfaceController {
     private JMenuItem registerButton;
     private JMenuItem loginButton;
     private JMenuItem logoutButton;
+    private JMenuItem showAllAuctions;
+    private JMenuItem placeAuction;
 
     public UserInterfaceController(AuthenticationController authenticationController, AuctionHouseController auctionHouseController) {
         this.authenticationController = authenticationController;
@@ -93,6 +96,14 @@ public class UserInterfaceController {
         window.setVisible(true);
     }
 
+    public void showMakeAuction() {
+        clearScreen();
+        PlaceAuctionScreen placeAuctionScreen = new PlaceAuctionScreen(auctionHouseController, this);
+        addToBacklog(placeAuctionScreen);
+        window.setContentPane(placeAuctionScreen.getPanel());
+        window.setVisible(true);
+    }
+
     public void showAccount() {
         User user = authenticationController.getUser();
         clearScreen();
@@ -133,21 +144,34 @@ public class UserInterfaceController {
         logoutButton.setActionCommand("logout");
         authMenu.add(logoutButton);
 
-        verifyAuthButtons();
-
         navbar.add(authMenu);
+
+        JMenu navigation = new JMenu("Navigation");
+
+        placeAuction = new JMenuItem("Place Auction");
+        placeAuction.setActionCommand("place-auction");
+        placeAuction.addActionListener(navbarAction);
+        navigation.add(placeAuction);
+
+        showAllAuctions = new JMenuItem("Show all Auctions");
+        showAllAuctions.setActionCommand("show-all-auctions");
+        showAllAuctions.addActionListener(navbarAction);
+        navigation.add(showAllAuctions);
 
         JMenuItem backButton = new JMenuItem("Back");
         backButton.addActionListener(navbarAction);
         backButton.setActionCommand("back");
-        backButton.setMaximumSize(backButton.getPreferredSize());
-        navbar.add(backButton);
+        navigation.add(backButton);
+
+        navbar.add(navigation);
 
         notificationButton = new JMenuItem("Notifications (0)");
         notificationButton.addActionListener(navbarAction);
         notificationButton.setActionCommand("view-notifications");
         notificationButton.setMaximumSize(notificationButton.getPreferredSize());
         navbar.add(notificationButton);
+
+        verifyAuthButtons();
     }
 
     private void clearScreen() {
@@ -158,6 +182,8 @@ public class UserInterfaceController {
     private void verifyAuthButtons() {
         registerButton.setEnabled(!authenticationController.isLoggedIn());
         loginButton.setEnabled(!authenticationController.isLoggedIn());
+        showAllAuctions.setEnabled(authenticationController.isLoggedIn());
+        placeAuction.setEnabled(authenticationController.isLoggedIn());
         logoutButton.setEnabled(authenticationController.isLoggedIn());
     }
 

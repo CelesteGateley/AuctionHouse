@@ -35,14 +35,15 @@ public class BidListener implements RemoteEventListener {
         this.stub = (RemoteEventListener) defaultExporter.export(this);
         spaceController.notify(this.stub, template);
 
-        System.out.println("Started Listening For Bids on");
+        System.out.println("Started Listening For Bids on " + template.auctionId);
 
     }
 
     public void notify(RemoteEvent remoteEvent) throws UnknownEventException, RemoteException {
+        System.out.println("Bid Placed!");
         try {
             List<Bid> bids = auctionHouseController.getBids(template.auctionId);
-            Bid bid = bids.get(bids.size()-1);
+            Bid bid = bids.get(0);
             Auction auction = auctionHouseController.readAuction(bid.auctionId);
             if (auction.ownerName.equals(auctionHouseController.getCurrentUser().username)) {
                 auctionHouseController.addNotification(bid, NotificationType.BID_PLACED_OWNED);

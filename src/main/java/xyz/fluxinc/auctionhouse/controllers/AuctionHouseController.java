@@ -143,7 +143,10 @@ public class AuctionHouseController {
         if (auction == null) {
             throw new AuctionNotFoundException("An Auction with the ID " + auctionId + " was not found within the system");
         }
-        List<Bid> bids = spaceController.readAll(new Bid(auctionId), auction.bidCount);
+        List<Bid> bids = new ArrayList<>();
+        if (auction.bidCount > 0) {
+            bids = spaceController.readAll(new Bid(auctionId), auction.bidCount);
+        }
         Collections.sort(bids);
         return bids;
     }
