@@ -22,7 +22,7 @@ public class AllAuctionsScreen extends Screen implements ListSelectionListener {
 
     private JList<Auction1755082> list;
 
-    public AllAuctionsScreen(AuctionHouseController auctionHouseController, UserInterfaceController userInterfaceController) throws SpaceException {
+    public AllAuctionsScreen(AuctionHouseController auctionHouseController, UserInterfaceController userInterfaceController) {
         this.auctionHouseController = auctionHouseController;
         this.userInterfaceController = userInterfaceController;
     }

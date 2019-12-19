@@ -11,7 +11,6 @@ import xyz.fluxinc.auctionhouse.exceptions.ui.EmptyFieldException;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.rmi.server.ExportException;
 
 public class AuthenticateAction implements ActionListener {
 

@@ -25,24 +25,23 @@ public class AuctionListener implements RemoteEventListener {
 
    private AuctionHouseController auctionHouseController;
    private Auction1755082 template;
-   private RemoteEventListener stub;
 
     public AuctionListener(SpaceController spaceController, AuctionHouseController auctionHouseController, Auction1755082 template) throws SpaceException, ExportException {
         this.auctionHouseController = auctionHouseController;
         this.template = template;
 
         Exporter defaultExporter = new BasicJeriExporter(TcpServerEndpoint.getInstance(0), new BasicILFactory(), false, true);
-        this.stub = (RemoteEventListener) defaultExporter.export(this);
-        spaceController.notify(this.stub, template);
+        RemoteEventListener stub = (RemoteEventListener) defaultExporter.export(this);
+        spaceController.notify(stub, template);
 
         System.out.println("Started Watching Auction " + template.auctionId);
 
     }
 
-    public void notify(RemoteEvent remoteEvent) throws UnknownEventException, RemoteException {
-        System.out.println("Notification Recieved!");
+    public void notify(RemoteEvent remoteEvent) throws RemoteException {
+        System.out.println("Notification Received!");
         try {
-            Auction1755082 auction = auctionHouseController.readAuction(template.auctionId);
+            Auction1755082 auction = auctionHouseController.getAuction(template.auctionId);
             if (auction.status == BID_ACCEPTED) {
                 boolean hasBid = false;
                 double highestBid = 0;

@@ -18,9 +18,8 @@ public class AuctionScreen extends Screen {
     private AuctionHouseController auctionHouseController;
     private Auction1755082 auction;
     private AuctionAction auctionAction;
-    private JList<Bid1755082> list;
 
-    public AuctionScreen(Auction1755082 auction, AuctionHouseController auctionHouseController, AuctionAction auctionAction) throws AuctionNotFoundException, SpaceException {
+    public AuctionScreen(Auction1755082 auction, AuctionHouseController auctionHouseController, AuctionAction auctionAction) {
         this.auction = auction;
         this.auctionAction = auctionAction;
         this.auctionHouseController = auctionHouseController;
@@ -41,7 +40,7 @@ public class AuctionScreen extends Screen {
             defaultListModel.addElement(bid);
         }
 
-        list = new JList<>(defaultListModel);
+        JList<Bid1755082> list = new JList<>(defaultListModel);
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         JScrollPane scrollPane = new JScrollPane(list);
 
@@ -51,8 +50,8 @@ public class AuctionScreen extends Screen {
         subPanel.add(new JLabel(auction.name));
         subPanel.add(new JLabel(auction.ownerName));
         subPanel.add(new JLabel("Buy it now: " + auction.buyItNowPrice));
-        if (bids.size() > 0) {
-            String message = auction.currentPrice < bids.get(0).bidAmount ? "" + auction.currentPrice : "" + bids.get(0).bidAmount;
+        if (!bids.isEmpty()) {
+            String message = auction.minimumBid < bids.get(0).bidAmount ? "" + auction.minimumBid : "" + bids.get(0).bidAmount;
             subPanel.add(new JLabel("Current Highest Bid: " + message));
         } else {
             subPanel.add(new JLabel("No Bids Have Been Placed"));
@@ -70,7 +69,7 @@ public class AuctionScreen extends Screen {
             JButton bidButton = new JButton("Accept Bid");
             bidButton.setActionCommand("accept-bid");
             bidButton.addActionListener(auctionAction);
-            if (bids.size() == 0) { bidButton.setEnabled(false); }
+            if (bids.isEmpty()) { bidButton.setEnabled(false); }
             subPanel.add(bidButton);
         } else if (auction.status == AuctionStatus.OPEN) {
             JButton bidButton = new JButton("Place Bid");

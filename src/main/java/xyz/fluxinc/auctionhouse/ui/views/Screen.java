@@ -1,21 +1,18 @@
 package xyz.fluxinc.auctionhouse.ui.views;
 
-import xyz.fluxinc.auctionhouse.exceptions.auction.AuctionNotFoundException;
-import xyz.fluxinc.auctionhouse.exceptions.space.SpaceException;
-
 import javax.swing.*;
 
 public abstract class Screen {
 
     private JPanel mainPanel;
 
-    public Screen() {
+    protected Screen() {
         mainPanel = new JPanel();
     }
 
-    public abstract void initialize();
+    protected abstract void initialize();
 
-    public JPanel getPanel() {
+    protected JPanel getPanel() {
         return mainPanel;
     }
 

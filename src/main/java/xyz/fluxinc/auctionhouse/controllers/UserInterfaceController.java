@@ -87,7 +87,7 @@ public class UserInterfaceController {
         window.setVisible(true);
     }
 
-    public void showAuction(Auction1755082 auction) throws AuctionNotFoundException, SpaceException {
+    public void showAuction(Auction1755082 auction) {
         clearScreen();
         AuctionScreen auctionScreen = new AuctionScreen(auction, auctionHouseController, new AuctionAction(this, auctionHouseController, auction.auctionId));
         addToBacklog(auctionScreen);
@@ -198,6 +198,6 @@ public class UserInterfaceController {
     }
 
     public void showAuction(int auctionId) throws SpaceException, AuctionNotFoundException {
-        showAuction(auctionHouseController.readAuction(auctionId));
+        showAuction(auctionHouseController.getAuction(auctionId));
     }
 }

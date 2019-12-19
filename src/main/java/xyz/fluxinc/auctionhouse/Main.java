@@ -86,7 +86,7 @@ public class Main {
         }
     }
 
-    private static void registerDemoData(AuctionHouseController aHC) throws SpaceException, AuctionNotFoundException, AuthenticationException, BidTooLowException {
+    private static void registerDemoData(AuctionHouseController aHC) throws SpaceException, AuctionNotFoundException {
         for (int i = 1; i <= 20; i++) {
             Auction1755082 auction = aHC.placeAuction("Test" + i, 1, 1, "root");
             for (int j = 2; j <= 20 +1; j++) {
@@ -111,7 +111,7 @@ public class Main {
         System.out.println("---------------------------------------------------------------------------------------------------------------------------");
         System.out.println("| -clear - Clears all class objects from the system and exits                                                             |");
         System.out.println("| -add-root - Adds the root administrator account (root, root) which can edit the entire system                           |");
-        System.out.println("| -add-demo-data - Adds some demonstration data, comprizing of bids and auctions                                          |");
+        System.out.println("| -add-demo-data - Adds some demonstration data, comprising of bids and auctions                                          |");
         System.out.println("| -host (hostname) - Sets the hostname for the system to connect to. If this isn't set, then " + DEFAULT_HOST + " is used            |");
         System.out.println("---------------------------------------------------------------------------------------------------------------------------");
     }

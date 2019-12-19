@@ -4,7 +4,6 @@ import xyz.fluxinc.auctionhouse.controllers.AuctionHouseController;
 import xyz.fluxinc.auctionhouse.controllers.UserInterfaceController;
 import xyz.fluxinc.auctionhouse.exceptions.authentication.AuthenticationException;
 import xyz.fluxinc.auctionhouse.exceptions.space.SpaceException;
-import xyz.fluxinc.auctionhouse.ui.actions.AuctionAction;
 import xyz.fluxinc.auctionhouse.ui.views.Screen;
 
 import javax.swing.*;
@@ -60,8 +59,8 @@ public class PlaceAuctionScreen extends Screen implements ActionListener {
             JOptionPane.showMessageDialog(null, "Auctions must have a Buy It Now Price");
         }
 
-        Double minBid = null;
-        Double buyItNow = null;
+        Double minBid;
+        Double buyItNow;
         try {
             buyItNow = Double.parseDouble(buyItNowField.getText());
             minBid = bidField.getText().isEmpty() ? 1.0 : Double.parseDouble(bidField.getText());

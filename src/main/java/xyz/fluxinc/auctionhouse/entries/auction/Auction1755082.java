@@ -7,7 +7,7 @@ public class Auction1755082 implements Entry, Comparable<Auction1755082> {
     public Integer auctionId;
     public String ownerName;
     public String name;
-    public Double currentPrice;
+    public Double minimumBid;
     public Double buyItNowPrice;
     public Integer bidCount;
     public AuctionStatus status;
@@ -22,16 +22,16 @@ public class Auction1755082 implements Entry, Comparable<Auction1755082> {
         this.ownerName = ownerName;
         this.name = name;
         this.buyItNowPrice = buyItNowPrice;
-        this.currentPrice = 1d;
+        this.minimumBid = 1d;
         this.status = AuctionStatus.OPEN;
     }
 
-    public Auction1755082(int auctionId, String ownerName, String name, double buyItNowPrice, double currentPrice) {
+    public Auction1755082(int auctionId, String ownerName, String name, double buyItNowPrice, double minimumBid) {
         this.auctionId = auctionId;
         this.ownerName = ownerName;
         this.name = name;
         this.buyItNowPrice = buyItNowPrice;
-        this.currentPrice = currentPrice;
+        this.minimumBid = minimumBid;
         this.bidCount = 0;
         this.status = AuctionStatus.OPEN;
     }
