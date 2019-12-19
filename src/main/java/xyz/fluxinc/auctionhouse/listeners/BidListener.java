@@ -9,8 +9,8 @@ import net.jini.jeri.BasicJeriExporter;
 import net.jini.jeri.tcp.TcpServerEndpoint;
 import xyz.fluxinc.auctionhouse.controllers.AuctionHouseController;
 import xyz.fluxinc.auctionhouse.controllers.SpaceController;
-import xyz.fluxinc.auctionhouse.entries.auction.Auction;
-import xyz.fluxinc.auctionhouse.entries.auction.Bid;
+import xyz.fluxinc.auctionhouse.entries.auction.Auction1755082;
+import xyz.fluxinc.auctionhouse.entries.auction.Bid1755082;
 import xyz.fluxinc.auctionhouse.entries.notifications.NotificationType;
 import xyz.fluxinc.auctionhouse.exceptions.auction.AuctionNotFoundException;
 import xyz.fluxinc.auctionhouse.exceptions.space.SpaceException;
@@ -24,9 +24,9 @@ public class BidListener implements RemoteEventListener {
     private RemoteEventListener stub;
     private SpaceController spaceController;
     private AuctionHouseController auctionHouseController;
-   private Bid template;
+   private Bid1755082 template;
 
-    public BidListener(SpaceController spaceController, AuctionHouseController auctionHouseController, Bid template) throws SpaceException, ExportException {
+    public BidListener(SpaceController spaceController, AuctionHouseController auctionHouseController, Bid1755082 template) throws SpaceException, ExportException {
         this.spaceController = spaceController;
         this.auctionHouseController = auctionHouseController;
         this.template = template;
@@ -42,9 +42,9 @@ public class BidListener implements RemoteEventListener {
     public void notify(RemoteEvent remoteEvent) throws UnknownEventException, RemoteException {
         System.out.println("Bid Placed!");
         try {
-            List<Bid> bids = auctionHouseController.getBids(template.auctionId);
-            Bid bid = bids.get(0);
-            Auction auction = auctionHouseController.readAuction(bid.auctionId);
+            List<Bid1755082> bids = auctionHouseController.getBids(template.auctionId);
+            Bid1755082 bid = bids.get(0);
+            Auction1755082 auction = auctionHouseController.readAuction(bid.auctionId);
             if (auction.ownerName.equals(auctionHouseController.getCurrentUser().username)) {
                 auctionHouseController.addNotification(bid, NotificationType.BID_PLACED_OWNED);
             } else if (!bid.username.equals(auctionHouseController.getCurrentUser().username)) {

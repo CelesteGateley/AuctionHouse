@@ -10,8 +10,20 @@ public class LoginScreen extends Screen {
 
     private JTextField usernameField;
     private JPasswordField passwordField;
+    private AuthenticateAction authenticateAction;
 
     public LoginScreen(AuthenticateAction authenticateAction) {
+        this.authenticateAction = authenticateAction;
+    }
+
+    private void initializeFields() {
+        usernameField = new JTextField();
+        passwordField = new JPasswordField();
+    }
+
+    @Override
+    public void initialize() {
+        getPanel().removeAll();
         getPanel().setLayout(new GridLayout(3,1));
         getPanel().add(new JLabel("Please Login to Continue!", SwingConstants.CENTER));
 
@@ -34,10 +46,4 @@ public class LoginScreen extends Screen {
 
         getPanel().add(submitButton);
     }
-
-    private void initializeFields() {
-        usernameField = new JTextField();
-        passwordField = new JPasswordField();
-    }
-
 }

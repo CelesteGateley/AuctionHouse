@@ -2,7 +2,7 @@ package xyz.fluxinc.auctionhouse.ui.views.auction;
 
 import xyz.fluxinc.auctionhouse.controllers.AuctionHouseController;
 import xyz.fluxinc.auctionhouse.controllers.UserInterfaceController;
-import xyz.fluxinc.auctionhouse.entries.auction.Auction;
+import xyz.fluxinc.auctionhouse.entries.auction.Auction1755082;
 import xyz.fluxinc.auctionhouse.exceptions.auction.AuctionNotFoundException;
 import xyz.fluxinc.auctionhouse.exceptions.space.SpaceException;
 import xyz.fluxinc.auctionhouse.ui.views.Screen;
@@ -20,20 +20,24 @@ public class AllAuctionsScreen extends Screen implements ListSelectionListener {
     private AuctionHouseController auctionHouseController;
     private UserInterfaceController userInterfaceController;
 
-    private JList<Auction> list;
+    private JList<Auction1755082> list;
 
     public AllAuctionsScreen(AuctionHouseController auctionHouseController, UserInterfaceController userInterfaceController) throws SpaceException {
         this.auctionHouseController = auctionHouseController;
         this.userInterfaceController = userInterfaceController;
-        initialize();
     }
 
-    private void initialize() throws SpaceException {
+    @Override
+    public void initialize() {
+        getPanel().removeAll();
         DefaultListModel defaultListModel = new DefaultListModel();
-        List<Auction> auctions = auctionHouseController.getAllAuctions();
+        List<Auction1755082> auctions;
+        try {
+            auctions = auctionHouseController.getAllAuctions();
+        } catch (SpaceException ignored) { return; }
         Collections.reverse(auctions);
         Collections.sort(auctions);
-        for (Auction auction : auctions) { defaultListModel.addElement(auction); }
+        for (Auction1755082 auction : auctions) { defaultListModel.addElement(auction); }
 
         list = new JList(defaultListModel);
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);

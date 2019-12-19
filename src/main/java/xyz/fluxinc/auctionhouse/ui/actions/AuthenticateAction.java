@@ -18,6 +18,7 @@ public class AuthenticateAction implements ActionListener {
     private UserInterfaceController uiController;
     private JTextField usernameField;
     private JPasswordField passwordField;
+    private JTextField contactField;
     private AuthenticationController authenticationController;
 
     public AuthenticateAction(UserInterfaceController uiController, AuthenticationController authenticationController) {
@@ -51,8 +52,9 @@ public class AuthenticateAction implements ActionListener {
                 break;
             case "register":
                 try {
+                    if (contactField.getText().isEmpty()) { throw new EmptyFieldException("No Contact Info was input!"); }
                     String[] values = getDetails();
-                    authenticationController.register(values[0], values[1]);
+                    authenticationController.register(values[0], values[1], contactField.getText());
                     uiController.showLoginScreen();
                 } catch (EmptyFieldException | UserExistsException ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage());
@@ -75,6 +77,8 @@ public class AuthenticateAction implements ActionListener {
     public void setPasswordField(JPasswordField passwordField) {
         this.passwordField = passwordField;
     }
+
+    public void setContactField(JTextField contactField) { this.contactField = contactField; }
 
     private String[] getDetails() throws EmptyFieldException {
         String username = usernameField.getText();

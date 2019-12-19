@@ -23,10 +23,11 @@ public class PlaceAuctionScreen extends Screen implements ActionListener {
     public PlaceAuctionScreen(AuctionHouseController auctionHouseController, UserInterfaceController userInterfaceController) {
         this.auctionHouseController = auctionHouseController;
         this.userInterfaceController = userInterfaceController;
-        initialize();
     }
 
-    private void initialize () {
+    @Override
+    public void initialize() {
+        getPanel().removeAll();
         getPanel().setLayout(new GridLayout(2,1));
         JPanel subPanel = new JPanel(new GridLayout(3, 2));
 

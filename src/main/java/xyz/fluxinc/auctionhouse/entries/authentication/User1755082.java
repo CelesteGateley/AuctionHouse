@@ -6,26 +6,26 @@ import org.mindrot.jbcrypt.BCrypt;
 import java.util.ArrayList;
 import java.util.List;
 
-public class User implements Entry {
+public class User1755082 implements Entry {
 
     public String username;
     public String password;
     public List<Integer> watchedLots;
     public String contactInfo;
 
-     public User() {}
+     public User1755082() {}
 
-     public User(String username) {
+     public User1755082(String username) {
          this.username = username;
      }
 
-     public User(String username, String password) {
+     public User1755082(String username, String password) {
          this.username = username;
          this.password = hashPassword(password);
          watchedLots = new ArrayList<>();
      }
 
-     public User(String username, String password, String contactInfo) {
+     public User1755082(String username, String password, String contactInfo) {
          this(username, password);
          this.contactInfo = contactInfo;
      }

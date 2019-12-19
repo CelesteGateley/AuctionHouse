@@ -1,9 +1,9 @@
 package xyz.fluxinc.auctionhouse.ui.views.auction;
 
 import xyz.fluxinc.auctionhouse.controllers.AuctionHouseController;
-import xyz.fluxinc.auctionhouse.entries.auction.Auction;
+import xyz.fluxinc.auctionhouse.entries.auction.Auction1755082;
 import xyz.fluxinc.auctionhouse.entries.auction.AuctionStatus;
-import xyz.fluxinc.auctionhouse.entries.auction.Bid;
+import xyz.fluxinc.auctionhouse.entries.auction.Bid1755082;
 import xyz.fluxinc.auctionhouse.exceptions.auction.AuctionNotFoundException;
 import xyz.fluxinc.auctionhouse.exceptions.space.SpaceException;
 import xyz.fluxinc.auctionhouse.ui.actions.AuctionAction;
@@ -16,22 +16,28 @@ import java.util.List;
 public class AuctionScreen extends Screen {
 
     private AuctionHouseController auctionHouseController;
-    private Auction auction;
+    private Auction1755082 auction;
     private AuctionAction auctionAction;
-    private JList<Bid> list;
+    private JList<Bid1755082> list;
 
-    public AuctionScreen(Auction auction, AuctionHouseController auctionHouseController, AuctionAction auctionAction) throws AuctionNotFoundException, SpaceException {
+    public AuctionScreen(Auction1755082 auction, AuctionHouseController auctionHouseController, AuctionAction auctionAction) throws AuctionNotFoundException, SpaceException {
         this.auction = auction;
         this.auctionAction = auctionAction;
         this.auctionHouseController = auctionHouseController;
-        initialize();
     }
 
-    public void initialize() throws AuctionNotFoundException, SpaceException {
+    @Override
+    public void initialize() {
+        getPanel().removeAll();
+        DefaultListModel<Bid1755082> defaultListModel = new DefaultListModel<>();
+        List<Bid1755082> bids;
+        try {
+            bids = auctionHouseController.getBids(auction.auctionId);
+        } catch (SpaceException | AuctionNotFoundException e) {
+            e.printStackTrace(); return;
+        }
 
-        DefaultListModel<Bid> defaultListModel = new DefaultListModel<>();
-        List<Bid> bids = auctionHouseController.getBids(auction.auctionId);
-        for (Bid bid : bids) {
+        for (Bid1755082 bid : bids) {
             defaultListModel.addElement(bid);
         }
 

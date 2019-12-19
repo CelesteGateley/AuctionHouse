@@ -1,7 +1,7 @@
 package xyz.fluxinc.auctionhouse.controllers;
 
-import xyz.fluxinc.auctionhouse.entries.authentication.User;
-import xyz.fluxinc.auctionhouse.entries.auction.Auction;
+import xyz.fluxinc.auctionhouse.entries.authentication.User1755082;
+import xyz.fluxinc.auctionhouse.entries.auction.Auction1755082;
 import xyz.fluxinc.auctionhouse.entries.notifications.Notification;
 import xyz.fluxinc.auctionhouse.exceptions.auction.AuctionNotFoundException;
 import xyz.fluxinc.auctionhouse.exceptions.space.SpaceException;
@@ -26,7 +26,7 @@ public class UserInterfaceController {
     private AuthenticationController authenticationController;
     private JFrame window;
     private JMenuBar navbar;
-    private List<JPanel> backLog;
+    private List<Screen> backLog;
 
     private JMenuItem registerButton;
     private JMenuItem loginButton;
@@ -67,7 +67,7 @@ public class UserInterfaceController {
         authenticationController.logout();
         LoginScreen loginScreen = new LoginScreen(new AuthenticateAction(this, authenticationController));
         addToBacklog(loginScreen);
-        window.setContentPane(loginScreen.getPanel());
+        window.setContentPane(loginScreen.showPanel());
         window.setVisible(true);
     }
 
@@ -76,7 +76,7 @@ public class UserInterfaceController {
         authenticationController.logout();
         RegisterScreen registerScreen = new RegisterScreen(new AuthenticateAction(this, authenticationController));
         addToBacklog(registerScreen);
-        window.setContentPane(registerScreen.getPanel());
+        window.setContentPane(registerScreen.showPanel());
         window.setVisible(true);
     }
 
@@ -84,15 +84,15 @@ public class UserInterfaceController {
         clearScreen();
         AllAuctionsScreen allAuctionsScreen = new AllAuctionsScreen(auctionHouseController, this);
         addToBacklog(allAuctionsScreen);
-        window.setContentPane(allAuctionsScreen.getPanel());
+        window.setContentPane(allAuctionsScreen.showPanel());
         window.setVisible(true);
     }
 
-    public void showAuction(Auction auction) throws AuctionNotFoundException, SpaceException {
+    public void showAuction(Auction1755082 auction) throws AuctionNotFoundException, SpaceException {
         clearScreen();
         AuctionScreen auctionScreen = new AuctionScreen(auction, auctionHouseController, new AuctionAction(this, auctionHouseController, auction.auctionId));
         addToBacklog(auctionScreen);
-        window.setContentPane(auctionScreen.getPanel());
+        window.setContentPane(auctionScreen.showPanel());
         window.setVisible(true);
     }
 
@@ -100,12 +100,12 @@ public class UserInterfaceController {
         clearScreen();
         PlaceAuctionScreen placeAuctionScreen = new PlaceAuctionScreen(auctionHouseController, this);
         addToBacklog(placeAuctionScreen);
-        window.setContentPane(placeAuctionScreen.getPanel());
+        window.setContentPane(placeAuctionScreen.showPanel());
         window.setVisible(true);
     }
 
     public void showAccount() {
-        User user = authenticationController.getUser();
+        User1755082 user = authenticationController.getUser();
         clearScreen();
         // TODO Implement
     }
@@ -115,8 +115,8 @@ public class UserInterfaceController {
         if (backLog.size() > 1) {
             clearScreen();
             backLog.remove(backLog.size() - 1);
-            JPanel screen = backLog.get(backLog.size()-1);
-            window.setContentPane(screen);
+            Screen screen = backLog.get(backLog.size()-1);
+            window.setContentPane(screen.showPanel());
             window.setVisible(true);
         }
     }
@@ -189,7 +189,7 @@ public class UserInterfaceController {
     }
 
     private void addToBacklog(Screen screen) {
-        backLog.add(screen.getPanel());
+        backLog.add(screen);
     }
 
     public JFrame getWindow() { return window; }

@@ -2,7 +2,7 @@ package xyz.fluxinc.auctionhouse.entries.auction;
 
 import net.jini.core.entry.Entry;
 
-public class Auction implements Entry, Comparable<Auction> {
+public class Auction1755082 implements Entry, Comparable<Auction1755082> {
 
     public Integer auctionId;
     public String ownerName;
@@ -13,11 +13,11 @@ public class Auction implements Entry, Comparable<Auction> {
     public AuctionStatus status;
     public String purchasedBy;
 
-    public Auction() {}
+    public Auction1755082() {}
 
-    public Auction(int auctionId) { this.auctionId = auctionId; }
+    public Auction1755082(int auctionId) { this.auctionId = auctionId; }
 
-    public Auction(int auctionId, String ownerName, String name, double buyItNowPrice) {
+    public Auction1755082(int auctionId, String ownerName, String name, double buyItNowPrice) {
         this.auctionId = auctionId;
         this.ownerName = ownerName;
         this.name = name;
@@ -26,7 +26,7 @@ public class Auction implements Entry, Comparable<Auction> {
         this.status = AuctionStatus.OPEN;
     }
 
-    public Auction(int auctionId, String ownerName, String name, double buyItNowPrice, double currentPrice) {
+    public Auction1755082(int auctionId, String ownerName, String name, double buyItNowPrice, double currentPrice) {
         this.auctionId = auctionId;
         this.ownerName = ownerName;
         this.name = name;
@@ -43,7 +43,7 @@ public class Auction implements Entry, Comparable<Auction> {
     public void acceptBid() { status = AuctionStatus.BID_ACCEPTED; }
 
     @Override
-    public int compareTo(Auction other) {
+    public int compareTo(Auction1755082 other) {
         if (status == other.status) {
             return 0;
         } else if (status == AuctionStatus.OPEN) {

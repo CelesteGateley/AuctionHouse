@@ -2,7 +2,7 @@ package xyz.fluxinc.auctionhouse.ui.actions;
 
 import xyz.fluxinc.auctionhouse.controllers.AuctionHouseController;
 import xyz.fluxinc.auctionhouse.controllers.UserInterfaceController;
-import xyz.fluxinc.auctionhouse.entries.auction.Auction;
+import xyz.fluxinc.auctionhouse.entries.auction.Auction1755082;
 import xyz.fluxinc.auctionhouse.exceptions.auction.AuctionNotFoundException;
 import xyz.fluxinc.auctionhouse.exceptions.auction.BidTooLowException;
 import xyz.fluxinc.auctionhouse.exceptions.authentication.AuthenticationException;
@@ -66,7 +66,7 @@ public class AuctionAction implements ActionListener {
                 break;
             case "buy-it-now":
                 try {
-                    Auction auction = auctionHouseController.buyAuction(auctionId);
+                    Auction1755082 auction = auctionHouseController.buyAuction(auctionId);
                     userInterfaceController.showAuctions();
                 } catch (SpaceException ignored) {
                 }
