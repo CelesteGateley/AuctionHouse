@@ -155,12 +155,14 @@ public class AuctionHouseController {
         if (!authenticationController.isLoggedIn())  {
             throw new AuthenticationException("You must be logged in to perform this action");
         }
+        Auction1755082 auction = readAuction(auctionId);
         Bid1755082 highestBid = getHighestBid(auctionId);
-        if (highestBid.bidAmount >= amount) { throw new BidTooLowException("The bid placed was below the highest bid"); }
+        double minBidAmount = auction.currentPrice > highestBid.bidAmount ? auction.currentPrice : highestBid.bidAmount;
+        if (minBidAmount >= amount) { throw new BidTooLowException("The bid must be greater than " + minBidAmount); }
         return placeBid(auctionId, amount, authenticationController.getUsername());
     }
 
-    public Bid1755082 placeBid(int auctionId, double amount, String username) throws SpaceException, AuctionNotFoundException, BidTooLowException {
+    public Bid1755082 placeBid(int auctionId, double amount, String username) throws SpaceException, AuctionNotFoundException {
         Auction1755082 template = new Auction1755082();
         template.auctionId = auctionId;
         Auction1755082 auction = spaceController.take(template);
@@ -172,6 +174,10 @@ public class AuctionHouseController {
         spaceController.put(bid, BID_VALIDITY_PERIOD);
         auction.addBid();
         spaceController.put(auction, AUCTION_VALIDITY_PERIOD);
+        try {
+            watchAuction(auctionId);
+            authenticationController.addWatchedAuction(auctionId);
+        } catch (ExportException e) { e.printStackTrace(); }
         return bid;
     }
 
@@ -195,6 +201,7 @@ public class AuctionHouseController {
     public Bid1755082 getHighestBid(int auctionId) throws AuctionNotFoundException, SpaceException {
         List<Bid1755082> bids = getBids(auctionId);
         Collections.sort(bids);
+        if (bids.isEmpty()) return new Bid1755082(auctionId, "", 0);
         return bids.get(0);
     }
 

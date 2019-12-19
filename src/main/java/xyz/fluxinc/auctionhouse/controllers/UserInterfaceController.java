@@ -58,7 +58,6 @@ public class UserInterfaceController {
             }
         }, SpaceController.ONE_SECOND, SpaceController.ONE_SECOND * 5);
 
-        //window.setVisible(true);
     }
 
 

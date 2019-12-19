@@ -34,6 +34,8 @@ public class User1755082 implements Entry {
          return BCrypt.hashpw(password, BCrypt.gensalt());
      }
 
+     public void setPassword(String password) { this.password = hashPassword(password); }
+
      public boolean checkPassword(String password) {
          return BCrypt.checkpw(password, this.password);
      }

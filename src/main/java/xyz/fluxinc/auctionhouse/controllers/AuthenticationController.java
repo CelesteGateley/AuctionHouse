@@ -56,4 +56,30 @@ public class AuthenticationController {
     public boolean isLoggedIn() { return currentUser != null; }
 
     public User1755082 getUser() { return this.currentUser; }
+
+    public void addWatchedAuction(int auctionId) throws SpaceException {
+        if (currentUser == null) return;
+        currentUser.watchLot(auctionId);
+        updateUser();
+    }
+
+    public void changePassword(String oldPassword, String newPassword) throws SpaceException, AuthenticationException {
+        if (currentUser == null) return;
+        if (!currentUser.checkPassword(oldPassword)) throw new AuthenticationException("Incorrect Password Entered");
+        currentUser.setPassword(newPassword);
+        updateUser();
+    }
+
+
+    public void changeContactInfo(String newContactInfo) throws SpaceException {
+        if (currentUser == null) return;
+        currentUser.contactInfo = newContactInfo;
+        updateUser();
+    }
+
+
+    public void updateUser() throws SpaceException {
+        spaceController.take(new User1755082(currentUser.username));
+        spaceController.put(currentUser, SpaceController.ONE_DAY*7);
+    }
 }
