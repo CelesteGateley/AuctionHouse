@@ -42,7 +42,4 @@ public class User1755082 implements Entry {
 
      public void watchLot(int lotId) { if (!watchedLots.contains(lotId)) { watchedLots.add(lotId); }}
 
-     public void unwatchLot(int lotId) { if (watchedLots.contains(lotId)) { watchedLots.remove(lotId); }}
-
-     public List<Integer> getWatchedLots() { return this.watchedLots; }
 }

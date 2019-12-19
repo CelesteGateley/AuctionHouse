@@ -5,7 +5,7 @@ import net.jini.core.entry.Entry;
 public class Bid1755082 implements Entry, Comparable<Bid1755082> {
 
     public Integer auctionId;
-    public String username;
+    public String placedBy;
     public Double bidAmount;
     public Boolean isAccepted;
 
@@ -13,9 +13,9 @@ public class Bid1755082 implements Entry, Comparable<Bid1755082> {
 
     public Bid1755082(int auctionId) { this.auctionId = auctionId; }
 
-    public Bid1755082(int auctionId, String username, double bidAmount) {
+    public Bid1755082(int auctionId, String placedBy, double bidAmount) {
         this.auctionId = auctionId;
-        this.username = username;
+        this.placedBy = placedBy;
         this.bidAmount = bidAmount;
     }
 
@@ -26,6 +26,6 @@ public class Bid1755082 implements Entry, Comparable<Bid1755082> {
 
     @Override
     public String toString() {
-        return "Bid for £" + bidAmount + " placed by " + username;
+        return "Bid for £" + bidAmount + " placed by " + placedBy;
     }
 }

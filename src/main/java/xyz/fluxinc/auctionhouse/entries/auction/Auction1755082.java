@@ -6,7 +6,7 @@ public class Auction1755082 implements Entry, Comparable<Auction1755082> {
 
     public Integer auctionId;
     public String ownerName;
-    public String name;
+    public String auctionName;
     public Double minimumBid;
     public Double buyItNowPrice;
     public Integer bidCount;
@@ -17,19 +17,19 @@ public class Auction1755082 implements Entry, Comparable<Auction1755082> {
 
     public Auction1755082(int auctionId) { this.auctionId = auctionId; }
 
-    public Auction1755082(int auctionId, String ownerName, String name, double buyItNowPrice) {
+    public Auction1755082(int auctionId, String ownerName, String auctionName, double buyItNowPrice) {
         this.auctionId = auctionId;
         this.ownerName = ownerName;
-        this.name = name;
+        this.auctionName = auctionName;
         this.buyItNowPrice = buyItNowPrice;
         this.minimumBid = 1d;
         this.status = AuctionStatus.OPEN;
     }
 
-    public Auction1755082(int auctionId, String ownerName, String name, double buyItNowPrice, double minimumBid) {
+    public Auction1755082(int auctionId, String ownerName, String auctionName, double buyItNowPrice, double minimumBid) {
         this.auctionId = auctionId;
         this.ownerName = ownerName;
-        this.name = name;
+        this.auctionName = auctionName;
         this.buyItNowPrice = buyItNowPrice;
         this.minimumBid = minimumBid;
         this.bidCount = 0;
@@ -37,10 +37,6 @@ public class Auction1755082 implements Entry, Comparable<Auction1755082> {
     }
 
     public void addBid() { bidCount++; }
-
-    public void buyItNow() { status = AuctionStatus.BOUGHT; }
-
-    public void acceptBid() { status = AuctionStatus.BID_ACCEPTED; }
 
     @Override
     public int compareTo(Auction1755082 other) {
@@ -54,6 +50,6 @@ public class Auction1755082 implements Entry, Comparable<Auction1755082> {
     }
 
     public String toString() {
-        return name + " (" + status + ")";
+        return auctionName + " (" + status + ")";
     }
 }

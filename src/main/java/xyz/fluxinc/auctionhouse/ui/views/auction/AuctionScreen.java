@@ -47,7 +47,7 @@ public class AuctionScreen extends Screen {
         getPanel().setLayout(new GridLayout(2, 1));
         JPanel subPanel = new JPanel(new GridLayout(3, 2));
 
-        subPanel.add(new JLabel(auction.name));
+        subPanel.add(new JLabel(auction.auctionName));
         subPanel.add(new JLabel(auction.ownerName));
         subPanel.add(new JLabel("Buy it now: " + auction.buyItNowPrice));
         if (!bids.isEmpty()) {

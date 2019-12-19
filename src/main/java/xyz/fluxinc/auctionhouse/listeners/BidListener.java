@@ -2,7 +2,6 @@ package xyz.fluxinc.auctionhouse.listeners;
 
 import net.jini.core.event.RemoteEvent;
 import net.jini.core.event.RemoteEventListener;
-import net.jini.core.event.UnknownEventException;
 import net.jini.export.Exporter;
 import net.jini.jeri.BasicILFactory;
 import net.jini.jeri.BasicJeriExporter;
@@ -44,9 +43,9 @@ public class BidListener implements RemoteEventListener {
             Auction1755082 auction = auctionHouseController.getAuction(bid.auctionId);
             if (auction.ownerName.equals(auctionHouseController.getCurrentUser().username)) {
                 auctionHouseController.addNotification(bid, NotificationType.BID_PLACED_OWNED);
-            } else if (!bid.username.equals(auctionHouseController.getCurrentUser().username)) {
+            } else if (!bid.placedBy.equals(auctionHouseController.getCurrentUser().username)) {
                 auctionHouseController.addNotification(bid, NotificationType.BID_PLACED_WATCHED);
-            } else if (bid.username.equals(auctionHouseController.getCurrentUser().username) && bid.isAccepted) {
+            } else if (bid.placedBy.equals(auctionHouseController.getCurrentUser().username) && bid.isAccepted) {
                 auctionHouseController.addNotification(bid, NotificationType.BID_ACCEPTED);
             }
         } catch (SpaceException | AuctionNotFoundException e) {

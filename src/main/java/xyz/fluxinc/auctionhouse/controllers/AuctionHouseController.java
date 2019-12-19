@@ -89,10 +89,10 @@ public class AuctionHouseController {
         spaceController.put(lock, SpaceController.ONE_MINUTE);
         AuctionHouse1755082 auctionHouse = takeAuctionHouse();
 
-        Auction1755082 auction = new Auction1755082(auctionHouse.currentCount, username, name, buyItNowPrice, currentBid);
+        Auction1755082 auction = new Auction1755082(auctionHouse.currentAuctionCounter, username, name, buyItNowPrice, currentBid);
 
         User1755082 user = spaceController.take(new User1755082(username));
-        if (user != null) { user.watchedLots.add(auctionHouse.currentCount); }
+        if (user != null) { user.watchedLots.add(auctionHouse.currentAuctionCounter); }
 
         auctionHouse.addAuction();
 
@@ -106,7 +106,7 @@ public class AuctionHouseController {
 
     public Auction1755082 buyAuction(int auctionId) throws SpaceException {
         Auction1755082 auction = spaceController.take(new Auction1755082(auctionId));
-        auction.buyItNow();
+        auction.status = BOUGHT;
         auction.purchasedBy = authenticationController.getUsername();
 
         spaceController.put(auction);
@@ -172,7 +172,7 @@ public class AuctionHouseController {
         spaceController.take(bid);
         bid.isAccepted = true;
         auction.status = BID_ACCEPTED;
-        auction.purchasedBy = bid.username;
+        auction.purchasedBy = bid.placedBy;
 
         spaceController.put(auction, AUCTION_VALIDITY_PERIOD);
         spaceController.put(bid, BID_VALIDITY_PERIOD);
