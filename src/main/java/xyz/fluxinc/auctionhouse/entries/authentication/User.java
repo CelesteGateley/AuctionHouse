@@ -11,7 +11,7 @@ public class User implements Entry {
     public String username;
     public String password;
     public List<Integer> watchedLots;
-    public Boolean isAdministrator;
+    public String contactInfo;
 
      public User() {}
 
@@ -25,16 +25,14 @@ public class User implements Entry {
          watchedLots = new ArrayList<>();
      }
 
-     public User(String username, String password, boolean isAdministrator) {
+     public User(String username, String password, String contactInfo) {
          this(username, password);
-         this.isAdministrator = isAdministrator;
+         this.contactInfo = contactInfo;
      }
 
      private String hashPassword(String password) {
          return BCrypt.hashpw(password, BCrypt.gensalt());
      }
-
-     public String getPassword() { return this.password; }
 
      public boolean checkPassword(String password) {
          return BCrypt.checkpw(password, this.password);

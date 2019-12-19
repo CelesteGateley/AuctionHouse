@@ -26,19 +26,19 @@ public class UserInterfaceController {
     private AuthenticationController authenticationController;
     private JFrame window;
     private JMenuBar navbar;
-    private JMenuItem notificationButton;
-    private Stack<JPanel> backLog;
+    private List<JPanel> backLog;
 
     private JMenuItem registerButton;
     private JMenuItem loginButton;
     private JMenuItem logoutButton;
     private JMenuItem showAllAuctions;
     private JMenuItem placeAuction;
+    private JMenuItem notificationButton;
 
     public UserInterfaceController(AuthenticationController authenticationController, AuctionHouseController auctionHouseController) {
         this.authenticationController = authenticationController;
         this.auctionHouseController = auctionHouseController;
-        backLog = new Stack<>();
+        backLog = new ArrayList<>();
         window = new JFrame();
         navbar = new JMenuBar();
         initializeNavbar();
@@ -112,9 +112,10 @@ public class UserInterfaceController {
 
     public void showPreviousScreen() {
         System.out.println(backLog.size());
-        if (backLog.size() > 0) {
+        if (backLog.size() > 1) {
             clearScreen();
-            JPanel screen = backLog.pop();
+            backLog.remove(backLog.size() - 1);
+            JPanel screen = backLog.get(backLog.size()-1);
             window.setContentPane(screen);
             window.setVisible(true);
         }
@@ -188,13 +189,13 @@ public class UserInterfaceController {
     }
 
     private void addToBacklog(Screen screen) {
-        backLog.push(screen.getPanel());
+        backLog.add(screen.getPanel());
     }
 
     public JFrame getWindow() { return window; }
 
     public void invalidateLastScreen() {
-        backLog.pop();
+        backLog.remove(backLog.size()-1);
     }
 
     public void showAuction(int auctionId) throws SpaceException, AuctionNotFoundException {
