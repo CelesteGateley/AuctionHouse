@@ -5,4 +5,5 @@ public enum AuctionStatus {
     OPEN,
     BID_ACCEPTED,
     BOUGHT,
+    CLOSED
 }

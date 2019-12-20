@@ -68,7 +68,9 @@ public class NavbarAction implements ActionListener {
                 } catch (AuthenticationException ex) {
                     JOptionPane.showMessageDialog(uiController.getWindow(), "Incorrect Password Entered");
                 } catch (SpaceException ignored) { }
-
+                break;
+            case "show-notifications":
+                uiController.showNotifications();
             default:
                 break;
         }

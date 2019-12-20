@@ -26,13 +26,6 @@ public class AuctionAction implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
-            case "back":
-                try {
-                    userInterfaceController.showAuctions();
-                } catch (SpaceException ex) {
-                    ex.printStackTrace();
-                }
-                break;
             case "place-bid":
                 String value = JOptionPane.showInputDialog(userInterfaceController.getWindow(), "How much would you like to bid?");
                 double dValue;
@@ -67,9 +60,13 @@ public class AuctionAction implements ActionListener {
                 try {
                     auctionHouseController.buyAuction(auctionId);
                     userInterfaceController.showAuctions();
-                } catch (SpaceException ignored) {
-                }
+                } catch (SpaceException ignored) { }
                 break;
+            case "close-auction":
+                try {
+                    auctionHouseController.closeAuction(auctionId);
+                    userInterfaceController.showAuctions();
+                } catch (SpaceException ignored) { }
             default:
                 break;
         }

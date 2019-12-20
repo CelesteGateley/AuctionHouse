@@ -30,23 +30,19 @@ public class BidListener implements RemoteEventListener {
         Exporter defaultExporter = new BasicJeriExporter(TcpServerEndpoint.getInstance(0), new BasicILFactory(), false, true);
         RemoteEventListener stub = (RemoteEventListener) defaultExporter.export(this);
         spaceController.notify(stub, template);
-
-        System.out.println("Started Listening For Bids on " + template.auctionId);
-
     }
 
     public void notify(RemoteEvent remoteEvent) throws RemoteException {
-        System.out.println("Bid Placed!");
         try {
             List<Bid1755082> bids = auctionHouseController.getBids(template.auctionId);
             Bid1755082 bid = bids.get(0);
-            Auction1755082 auction = auctionHouseController.getAuction(bid.auctionId);
-            if (auction.ownerName.equals(auctionHouseController.getCurrentUser().username)) {
+            System.out.println(bid);
+            Auction1755082 auction = auctionHouseController.getAuction(template.auctionId);
+
+            if (auction.ownerName.equals(auctionHouseController.getCurrentUser().username) && !bid.isAccepted) {
                 auctionHouseController.addNotification(bid, NotificationType.BID_PLACED_OWNED);
             } else if (!bid.placedBy.equals(auctionHouseController.getCurrentUser().username)) {
                 auctionHouseController.addNotification(bid, NotificationType.BID_PLACED_WATCHED);
-            } else if (bid.placedBy.equals(auctionHouseController.getCurrentUser().username) && bid.isAccepted) {
-                auctionHouseController.addNotification(bid, NotificationType.BID_ACCEPTED);
             }
         } catch (SpaceException | AuctionNotFoundException e) {
             e.printStackTrace();

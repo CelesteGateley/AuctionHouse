@@ -91,15 +91,16 @@ public class AuctionHouseController {
 
         Auction1755082 auction = new Auction1755082(auctionHouse.currentAuctionCounter, username, name, buyItNowPrice, currentBid);
 
-        User1755082 user = spaceController.take(new User1755082(username));
-        if (user != null) { user.watchedLots.add(auctionHouse.currentAuctionCounter); }
-
         auctionHouse.addAuction();
 
         spaceController.put(auction, AUCTION_VALIDITY_PERIOD);
         spaceController.put(auctionHouse, AUCTION_HOUSE_VALIDITY_PERIOD);
-        spaceController.put(user, SpaceController.ONE_DAY*7);
         spaceController.take(lock, SpaceController.ONE_SECOND*5);
+
+        try {
+            watchAuction(auction.auctionId);
+            authenticationController.addWatchedAuction(auction.auctionId);
+        } catch (ExportException e) { e.printStackTrace(); }
 
         return auction;
     }
@@ -185,10 +186,19 @@ public class AuctionHouseController {
 
     public List<Notification> getNotifications() { return notifications; }
 
-    public void addNotification(Bid1755082 bid, NotificationType type) { notifications.add(new Notification(type, bid)); }
+    public void addNotification(Bid1755082 bid, NotificationType type) {
+        try {
+            notifications.add(new Notification(type, bid.auctionId, getAuction(bid.auctionId).auctionName));
+        } catch (SpaceException ignored) { }
+    }
 
-    public void addNotification(Auction1755082 auction, NotificationType type) { notifications.add(new Notification(type, auction)); }
+    public void addNotification(Auction1755082 auction, NotificationType type) { notifications.add(new Notification(type, auction.auctionId, auction.auctionName)); }
 
     public User1755082 getCurrentUser() { return authenticationController.getUser(); }
 
+    public void closeAuction(int auctionId) throws SpaceException {
+        Auction1755082 auction = spaceController.take(new Auction1755082(auctionId));
+        auction.status = CLOSED;
+        spaceController.put(auction, AUCTION_VALIDITY_PERIOD);
+    }
 }

@@ -8,6 +8,7 @@ import xyz.fluxinc.auctionhouse.exceptions.space.SpaceException;
 import xyz.fluxinc.auctionhouse.ui.actions.AuctionAction;
 import xyz.fluxinc.auctionhouse.ui.actions.AuthenticateAction;
 import xyz.fluxinc.auctionhouse.ui.actions.NavbarAction;
+import xyz.fluxinc.auctionhouse.ui.views.NotificationScreen;
 import xyz.fluxinc.auctionhouse.ui.views.Screen;
 import xyz.fluxinc.auctionhouse.ui.views.auction.AllAuctionsScreen;
 import xyz.fluxinc.auctionhouse.ui.views.auction.AuctionScreen;
@@ -31,6 +32,8 @@ public class UserInterfaceController {
     private JMenuItem registerButton;
     private JMenuItem loginButton;
     private JMenuItem logoutButton;
+    private JMenuItem changePasswordButton;
+    private JMenuItem changeInfoButton;
     private JMenuItem showAllAuctions;
     private JMenuItem placeAuction;
     private JMenuItem notificationButton;
@@ -89,7 +92,7 @@ public class UserInterfaceController {
 
     public void showAuction(Auction1755082 auction) {
         clearScreen();
-        AuctionScreen auctionScreen = new AuctionScreen(auction, auctionHouseController, new AuctionAction(this, auctionHouseController, auction.auctionId));
+        AuctionScreen auctionScreen = new AuctionScreen(auction, authenticationController, auctionHouseController, new AuctionAction(this, auctionHouseController, auction.auctionId));
         addToBacklog(auctionScreen);
         window.setContentPane(auctionScreen.showPanel());
         window.setVisible(true);
@@ -103,14 +106,15 @@ public class UserInterfaceController {
         window.setVisible(true);
     }
 
-    public void showAccount() {
-        User1755082 user = authenticationController.getUser();
+    public void showNotifications() {
         clearScreen();
-        // TODO Implement
+        NotificationScreen notificationScreen = new NotificationScreen(auctionHouseController, this);
+        addToBacklog(notificationScreen);
+        window.setContentPane(notificationScreen.showPanel());
+        window.setVisible(true);
     }
 
     public void showPreviousScreen() {
-        System.out.println(backLog.size());
         if (backLog.size() > 1) {
             clearScreen();
             backLog.remove(backLog.size() - 1);
@@ -124,18 +128,28 @@ public class UserInterfaceController {
         // Auth Menu
         JMenu authMenu = new JMenu("Authentication");
 
-        // Login Button
-        NavbarAction navbarAction = new NavbarAction(this);
+        NavbarAction navbarAction = new NavbarAction(this, authenticationController);
         loginButton = new JMenuItem("Login");
         loginButton.addActionListener(navbarAction);
         loginButton.setActionCommand("login");
         authMenu.add(loginButton);
 
-        // Login Button
         registerButton = new JMenuItem("Register");
         registerButton.addActionListener(navbarAction);
         registerButton.setActionCommand("register");
         authMenu.add(registerButton);
+
+        authMenu.add(new JSeparator());
+
+        changeInfoButton = new JMenuItem("Change Contact Info");
+        changeInfoButton.addActionListener(navbarAction);
+        changeInfoButton.setActionCommand("change-contact-info");
+        authMenu.add(changeInfoButton);
+
+        changePasswordButton = new JMenuItem("Change Password");
+        changePasswordButton.addActionListener(navbarAction);
+        changePasswordButton.setActionCommand("change-password");
+        authMenu.add(changePasswordButton);
 
         authMenu.add(new JSeparator());
 
@@ -167,7 +181,7 @@ public class UserInterfaceController {
 
         notificationButton = new JMenuItem("Notifications (0)");
         notificationButton.addActionListener(navbarAction);
-        notificationButton.setActionCommand("view-notifications");
+        notificationButton.setActionCommand("show-notifications");
         notificationButton.setMaximumSize(notificationButton.getPreferredSize());
         navbar.add(notificationButton);
 
@@ -182,6 +196,8 @@ public class UserInterfaceController {
     private void verifyAuthButtons() {
         registerButton.setEnabled(!authenticationController.isLoggedIn());
         loginButton.setEnabled(!authenticationController.isLoggedIn());
+        changeInfoButton.setEnabled(authenticationController.isLoggedIn());
+        changePasswordButton.setEnabled(authenticationController.isLoggedIn());
         showAllAuctions.setEnabled(authenticationController.isLoggedIn());
         placeAuction.setEnabled(authenticationController.isLoggedIn());
         logoutButton.setEnabled(authenticationController.isLoggedIn());
@@ -200,4 +216,6 @@ public class UserInterfaceController {
     public void showAuction(int auctionId) throws SpaceException, AuctionNotFoundException {
         showAuction(auctionHouseController.getAuction(auctionId));
     }
+
+
 }

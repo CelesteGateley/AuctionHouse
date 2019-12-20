@@ -42,19 +42,19 @@ public class AuthenticationController {
 
     public void logout() { this.currentUser = null; }
 
-    private User1755082 getUser(String username) throws SpaceException { return spaceController.read(new User1755082(username)); }
+    public User1755082 getUser(String username) throws SpaceException { return spaceController.read(new User1755082(username)); }
 
     public boolean isLoggedIn() { return currentUser != null; }
 
     public User1755082 getUser() { return this.currentUser; }
+
+    public String getUsername() { return currentUser == null ? "anonymous" : currentUser.username; }
 
     public void addWatchedAuction(int auctionId) throws SpaceException {
         if (currentUser == null) return;
         currentUser.watchLot(auctionId);
         updateUser();
     }
-
-    public String getUsername() { return currentUser == null ? "anonymous" : currentUser.username; }
 
     public void changePassword(String oldPassword, String newPassword) throws SpaceException, AuthenticationException {
         if (currentUser == null) return;

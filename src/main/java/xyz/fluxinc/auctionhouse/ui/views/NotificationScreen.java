@@ -1,11 +1,9 @@
-package xyz.fluxinc.auctionhouse.ui.views.auction;
+package xyz.fluxinc.auctionhouse.ui.views;
 
 import xyz.fluxinc.auctionhouse.controllers.AuctionHouseController;
 import xyz.fluxinc.auctionhouse.controllers.UserInterfaceController;
-import xyz.fluxinc.auctionhouse.entries.auction.Auction1755082;
-import xyz.fluxinc.auctionhouse.exceptions.auction.AuctionNotFoundException;
+import xyz.fluxinc.auctionhouse.entries.notifications.Notification;
 import xyz.fluxinc.auctionhouse.exceptions.space.SpaceException;
-import xyz.fluxinc.auctionhouse.ui.views.Screen;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -15,14 +13,14 @@ import java.util.Collections;
 import java.util.List;
 
 @SuppressWarnings("unchecked")
-public class AllAuctionsScreen extends Screen implements ListSelectionListener {
+public class NotificationScreen extends Screen implements ListSelectionListener {
 
     private AuctionHouseController auctionHouseController;
     private UserInterfaceController userInterfaceController;
 
-    private JList<Auction1755082> list;
+    private JList<Notification> list;
 
-    public AllAuctionsScreen(AuctionHouseController auctionHouseController, UserInterfaceController userInterfaceController) {
+    public NotificationScreen(AuctionHouseController auctionHouseController, UserInterfaceController userInterfaceController) {
         this.auctionHouseController = auctionHouseController;
         this.userInterfaceController = userInterfaceController;
     }
@@ -31,13 +29,9 @@ public class AllAuctionsScreen extends Screen implements ListSelectionListener {
     public void initialize() {
         getPanel().removeAll();
         DefaultListModel defaultListModel = new DefaultListModel();
-        List<Auction1755082> auctions;
-        try {
-            auctions = auctionHouseController.getAllAuctions();
-        } catch (SpaceException ignored) { return; }
-        Collections.reverse(auctions);
-        Collections.sort(auctions);
-        for (Auction1755082 auction : auctions) { defaultListModel.addElement(auction); }
+        List<Notification> notifications = auctionHouseController.getNotifications();
+        Collections.reverse(notifications);
+        for (Notification notification : notifications) { defaultListModel.addElement(notification); }
 
         list = new JList(defaultListModel);
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -50,6 +44,8 @@ public class AllAuctionsScreen extends Screen implements ListSelectionListener {
 
     @Override
     public void valueChanged(ListSelectionEvent e) {
-        userInterfaceController.showAuction(list.getSelectedValue());
+        try {
+            userInterfaceController.showAuction(auctionHouseController.getAuction(list.getSelectedValue().getAuctionId()));
+        } catch (SpaceException ignored) {}
     }
 }
