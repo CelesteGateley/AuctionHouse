@@ -8,7 +8,8 @@ import xyz.fluxinc.auctionhouse.entries.authentication.User1755082;
 import xyz.fluxinc.auctionhouse.entries.notifications.Notification;
 import xyz.fluxinc.auctionhouse.entries.notifications.NotificationType;
 import xyz.fluxinc.auctionhouse.exceptions.auction.AuctionNotFoundException;
-import xyz.fluxinc.auctionhouse.exceptions.auction.BidTooLowException;
+import xyz.fluxinc.auctionhouse.exceptions.bid.BidBySameUserException;
+import xyz.fluxinc.auctionhouse.exceptions.bid.BidTooLowException;
 import xyz.fluxinc.auctionhouse.exceptions.authentication.AuthenticationException;
 import xyz.fluxinc.auctionhouse.exceptions.space.SpaceException;
 import xyz.fluxinc.auctionhouse.listeners.AuctionListener;
@@ -129,12 +130,14 @@ public class AuctionHouseController {
         return bids;
     }
 
-    public Bid1755082 placeBid(int auctionId, double amount) throws AuthenticationException, AuctionNotFoundException, SpaceException, BidTooLowException {
+    public Bid1755082 placeBid(int auctionId, double amount) throws AuthenticationException, AuctionNotFoundException, SpaceException, BidTooLowException, BidBySameUserException {
         if (!authenticationController.isLoggedIn())  {
             throw new AuthenticationException("You must be logged in to perform this action");
         }
+
         Auction1755082 auction = getAuction(auctionId);
         Bid1755082 highestBid = getHighestBid(auctionId);
+        if (highestBid.placedBy.equals(authenticationController.getUsername())) { throw new BidBySameUserException("You cannot bid over yourself"); }
         double minBidAmount = auction.minimumBid > highestBid.bidAmount ? auction.minimumBid : highestBid.bidAmount;
         if (minBidAmount >= amount) { throw new BidTooLowException("The bid must be greater than " + minBidAmount); }
         return placeBid(auctionId, amount, authenticationController.getUsername());

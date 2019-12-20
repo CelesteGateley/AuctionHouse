@@ -10,7 +10,7 @@ import xyz.fluxinc.auctionhouse.entries.auctionhouse.AuctionHouse1755082;
 import xyz.fluxinc.auctionhouse.entries.auctionhouse.AuctionHouseLock1755082;
 import xyz.fluxinc.auctionhouse.entries.authentication.User1755082;
 import xyz.fluxinc.auctionhouse.exceptions.auction.AuctionNotFoundException;
-import xyz.fluxinc.auctionhouse.exceptions.auction.BidTooLowException;
+import xyz.fluxinc.auctionhouse.exceptions.bid.BidTooLowException;
 import xyz.fluxinc.auctionhouse.exceptions.authentication.AuthenticationException;
 import xyz.fluxinc.auctionhouse.exceptions.authentication.UserExistsException;
 import xyz.fluxinc.auctionhouse.exceptions.space.SpaceException;

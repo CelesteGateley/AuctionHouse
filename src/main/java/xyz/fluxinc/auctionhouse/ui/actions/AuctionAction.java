@@ -3,7 +3,8 @@ package xyz.fluxinc.auctionhouse.ui.actions;
 import xyz.fluxinc.auctionhouse.controllers.AuctionHouseController;
 import xyz.fluxinc.auctionhouse.controllers.UserInterfaceController;
 import xyz.fluxinc.auctionhouse.exceptions.auction.AuctionNotFoundException;
-import xyz.fluxinc.auctionhouse.exceptions.auction.BidTooLowException;
+import xyz.fluxinc.auctionhouse.exceptions.bid.BidBySameUserException;
+import xyz.fluxinc.auctionhouse.exceptions.bid.BidTooLowException;
 import xyz.fluxinc.auctionhouse.exceptions.authentication.AuthenticationException;
 import xyz.fluxinc.auctionhouse.exceptions.space.SpaceException;
 
@@ -45,6 +46,8 @@ public class AuctionAction implements ActionListener {
                     ex.printStackTrace();
                 } catch (AuthenticationException ex) {
                     JOptionPane.showMessageDialog(userInterfaceController.getWindow(), "You must be logged in to perform this action!");
+                } catch (BidBySameUserException ex) {
+                    JOptionPane.showMessageDialog(userInterfaceController.getWindow(), "You cannot out-bid yourself!");
                 }
                 break;
             case "accept-bid":
